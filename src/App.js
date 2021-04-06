@@ -1,11 +1,11 @@
 import './App.css';
 import Search from './components/Search/Search.js'
+import NavBar from './components/NavBar/NavBar.js'
 
 function App() {
-  const hello = 'Hello, World!'
   return (
     <div className="App">
-      <h1>{ hello }</h1>
+      <NavBar />
       <Search />
     </div>
   );
