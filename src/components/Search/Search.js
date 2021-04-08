@@ -3,7 +3,7 @@ import SearchIcon from '@material-ui/icons/Search'
 import { makeStyles } from '@material-ui/core/styles'
 import googleImg from './images/google-attribution.png'
 import axios from 'axios'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SearchResult from './SearchResult.js'
 
 const useStyles = makeStyles((theme) => ({
@@ -56,18 +56,9 @@ const Search = () => {
     })
   }
 
-  //useEffect(() => {
-  //  console.log(query)
-  //  const apiUrl = `http://localhost:8080/api/v1/search`
-  //  axios.get(apiUrl, {
-  //    body: JSON.stringify(query)
-  //  }).then(res => {
-  //    const books = res.data
-  //    console.log(books)
-  //  }).catch((error) => {
-  //    console.log(error.message)
-  //  })
-  //})
+  // useEffect(() => {
+  //   console.log('Use effect')
+  // })
 
   return (
     <div className="container">
@@ -83,9 +74,11 @@ const Search = () => {
       <Button type="submit"><SearchIcon/></Button>
       </FormControl>
       </form>
-      <div className="result-container">
-        <SearchResult />
-      </div>
+      {searchResult !== null && searchResult.length > 0 &&
+        <div className="result-container">
+          <SearchResult result = { searchResult }/>
+        </div>
+      }
     </div>
   )
 }
