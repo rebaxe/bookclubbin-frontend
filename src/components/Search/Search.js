@@ -1,4 +1,6 @@
 import { TextField, Button, FormHelperText } from '@material-ui/core'
+import ToggleButton from '@material-ui/lab/ToggleButton'
+import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import SearchIcon from '@material-ui/icons/Search'
 import { makeStyles } from '@material-ui/core/styles'
 import googleImg from './images/google-attribution.png'
@@ -14,7 +16,8 @@ const useStyles = makeStyles((theme) => ({
   },
   helperText: {
     display: 'flex',
-    justifyContent: 'space-between'
+    justifyContent: 'flex-start',
+    gap: theme.spacing(2)
   },
   image: {
     height: '10px',
@@ -22,57 +25,88 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     margin: 30
+  },
+  searchContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    gap: theme.spacing(1)
+  },
+  searchOptions: {
+    padding: '10px 5px',
+    fontSize: '0.8rem',
+    color: '#333'
   }
 }))
 
 const Search = () => {
   const classes = useStyles()
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(null)
+  const [searchPreferences, setSearchPreferences] = useState('title')
   const [searchResult, setSearchResult] = useState(null)
   
-  const handleSearch = (e) => {
-    e.preventDefault()
-    console.log(query)
-    const URL = process.env.REACT_APP_SEARCH_URL
-    axios.get(URL, { 
-      params: { query: query }
-    }, {
-      headers: {
-        Accept: 'application/json',
-       'Content-Type': 'application/json'
-      }
-    }, {
-      body: JSON.stringify(query)
-    }).then(res => {
-      const books = res.data
-      setSearchResult(books)
-      console.log(searchResult)
-    }).catch((error) => {
-      console.log(error.message)
-    })
+  const handleChange = (e, newSearchPreferences) => {
+    setSearchPreferences(newSearchPreferences)
   }
 
-  // useEffect(() => {
-  //   console.log('Use effect')
-  // })
+  const handleSearch = (e) => {
+    e.preventDefault()
+    if (query) {
+      console.log(query)
+      const URL = process.env.REACT_APP_SEARCH_URL
+      axios.get(URL, { 
+        params: { query: `${query}+${searchPreferences}:${query}` }
+      }, {
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }, {
+        body: JSON.stringify(query)
+      }).then(res => {
+        const books = res.data
+        setSearchResult(books)
+        console.log(searchResult)
+      }).catch((error) => {
+        console.log(error.message)
+      })
+    } else {
+      console.log('Enter a query')
+    }
+  }
 
   return (
     <div className={classes.container}>
-      <form autoComplete="off" onSubmit={handleSearch}>
-        <TextField
+      <div className={classes.searchOptions}>
+          <span>Search by </span>          
+            <ToggleButtonGroup 
+            value={searchPreferences}
+            onChange={handleChange}
+            exclusive
+            size="small">
+              <ToggleButton value="intitle">
+                Title
+              </ToggleButton>
+              <ToggleButton value="inauthor">
+                Author
+              </ToggleButton>
+             </ToggleButtonGroup>
+          </div>
+        <form autoComplete="off" onSubmit={handleSearch}>
+        <div className={classes.searchContainer}>
+          <TextField
           label="Search books"
           id="search-books"
           variant="outlined"
-          //helperText="*Search by title or author."
           fullWidth
           onChange={(e) => setQuery(e.target.value)}
         />
-        <FormHelperText className={classes.helperText}>*Search by title or author.<img className={classes.image} src={googleImg} alt="Powered by Google"></img></FormHelperText>
         <Button type="submit"><SearchIcon/></Button>
+        </div>
+        <FormHelperText className={classes.helperText}>*Search by title or author.<img className={classes.image} src={googleImg} alt="Powered by Google"></img></FormHelperText>
       </form>
       
       {searchResult !== null && searchResult.length > 0 &&
-        <div className="result-container">
+        <div>
           <SearchResult result = { searchResult }/>
         </div>
       }

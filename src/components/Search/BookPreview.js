@@ -1,6 +1,6 @@
 import { Card, CardContent, CardMedia, IconButton, Typography } from "@material-ui/core";
 import { makeStyles } from '@material-ui/core/styles'
-import Visibility from '@material-ui/icons/Visibility'
+import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import { useState } from 'react'
 import BookModal from './BookModal.js'
 
@@ -69,12 +69,11 @@ const BookPreview = (props) => {
             gap: 10,
             marginTop: 15
           }}>
-            {/*{ book.googleRating !== undefined && <Typography variant="subtitle2">Rating: { book.googleRating } </Typography> }
-            { book.pages !== undefined && <Typography variant="subtitle2">Pages: { book.pages }</Typography> }*/}
           </div>
           <div className={classes.view}>
             <IconButton className={classes.btn} onClick={handleViewBook}>
-              <Visibility />
+              {/*<Visibility />*/}
+              <ArrowForwardIcon/>
             </IconButton>
           </div>
         </CardContent>
