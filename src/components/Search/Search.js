@@ -45,6 +45,8 @@ const Search = () => {
   const [searchResult, setSearchResult] = useState(null)
   
   const handleChange = (e, newSearchPreferences) => {
+    setQuery('')
+    setSearchResult(null)
     setSearchPreferences(newSearchPreferences)
   }
 
@@ -98,6 +100,7 @@ const Search = () => {
           id="search-books"
           variant="outlined"
           fullWidth
+          value={query}
           onChange={(e) => setQuery(e.target.value)}
         />
         <Button type="submit"><SearchIcon/></Button>
