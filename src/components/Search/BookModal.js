@@ -1,6 +1,6 @@
-import { Modal, Fade, Button } from "@material-ui/core"
+import { Modal, Fade, Button, Box, Typography } from "@material-ui/core"
+import Rating from '@material-ui/lab/Rating'
 import { makeStyles } from "@material-ui/core/styles"
-import { ClassSharp } from "@material-ui/icons"
 import CloseIcon from '@material-ui/icons/Close'
 import googleImg from './images/google-attribution.png'
 
@@ -29,6 +29,8 @@ const useStyles = makeStyles((theme) => ({
   bookInfoContainer: {
     display: 'flex',
     flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
     color: '#333',
     fontSize: '0.8rem',
     gap: theme.spacing(2)
@@ -40,6 +42,10 @@ const useStyles = makeStyles((theme) => ({
     bottom: 10,
     right: 10
   },
+  rating: {
+    color: '#333',
+    fontSize: '0.8rem',
+  }
 }))
 
 const BookModal = (props) => {
@@ -65,7 +71,11 @@ const BookModal = (props) => {
           <p id="transition-modal-description">{book.description}</p>
           <div className={classes.bookInfoContainer}>
             {book.pages && <span>Pages: {book.pages}</span>}
-            {book.googleRating && <span>Google Rating: {book.googleRating}</span>}
+            {book.googleRating && 
+              <Box component="fieldset" mb={3} borderColor="transparent">
+              <Typography className={classes.rating} component="legend">Google Rating</Typography>
+              <Rating name="disabled" value={book.googleRating} disabled />
+            </Box>}
             <img className={classes.googleImage} src={googleImg} alt="Google Attribution"/>
           </div>
         </div>

@@ -9,14 +9,17 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 350,
     height: 500,
     margin: 20,
-    padding: '10px'
+    padding: '10px',
+    position: 'relative',
   },
   view: {
-    width: '100%',
+    width: '90%',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    alignItems: 'flex-end'
+    alignItems: 'flex-end',
+    position: 'absolute',
+    bottom: 5
   },
   btn: {
     padding: 5
@@ -58,7 +61,7 @@ const BookPreview = (props) => {
         <CardContent>
           <Typography variant="h6">{ book.title }</Typography>
           { book.authors !== undefined && <Typography variant="h6">by { book.authors }</Typography> }
-          <Typography variant="body2">{ book?.description?.substring(0, 200) }...</Typography>
+          <Typography variant="body2">{ book?.description?.substring(0, 100) }...</Typography>
           <div style={{
             display: 'flex',
             flexDirection: 'row',
@@ -66,8 +69,8 @@ const BookPreview = (props) => {
             gap: 10,
             marginTop: 15
           }}>
-            { book.googleRating !== undefined && <Typography variant="subtitle2">Rating: { book.googleRating } </Typography> }
-            { book.pages !== undefined && <Typography variant="subtitle2">Pages: { book.pages }</Typography> }
+            {/*{ book.googleRating !== undefined && <Typography variant="subtitle2">Rating: { book.googleRating } </Typography> }
+            { book.pages !== undefined && <Typography variant="subtitle2">Pages: { book.pages }</Typography> }*/}
           </div>
           <div className={classes.view}>
             <IconButton className={classes.btn} onClick={handleViewBook}>
