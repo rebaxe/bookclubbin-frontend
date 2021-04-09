@@ -1,16 +1,16 @@
-import { Button, FormControl, FormHelperText, InputLabel, OutlinedInput } from '@material-ui/core'
+import { TextField, Button, FormHelperText } from '@material-ui/core'
 import SearchIcon from '@material-ui/icons/Search'
 import { makeStyles } from '@material-ui/core/styles'
 import googleImg from './images/google-attribution.png'
 import axios from 'axios'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import SearchResult from './SearchResult.js'
 
 const useStyles = makeStyles((theme) => ({
-  searchField: {
-    marginTop: '30px',
-    margin: theme.spacing(1),
-    width: '50%'
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+    },
   },
   helperText: {
     display: 'flex',
@@ -21,11 +21,7 @@ const useStyles = makeStyles((theme) => ({
     padding: '3px 0px'
   },
   container: {
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center'
+    margin: 30
   }
 }))
 
@@ -61,19 +57,20 @@ const Search = () => {
   // })
 
   return (
-    <div className="container">
-      <form onSubmit={handleSearch}>
-        <FormControl className={classes.searchField}>
-        <InputLabel htmlFor="search-books">Search books</InputLabel>
-          <OutlinedInput
-            id="search-books"
-            labelWidth={100}
-            onChange={(e) => setQuery(e.target.value)}
-          />
+    <div className={classes.container}>
+      <form autoComplete="off" onSubmit={handleSearch}>
+        <TextField
+          label="Search books"
+          id="search-books"
+          variant="outlined"
+          //helperText="*Search by title or author."
+          fullWidth
+          onChange={(e) => setQuery(e.target.value)}
+        />
         <FormHelperText className={classes.helperText}>*Search by title or author.<img className={classes.image} src={googleImg} alt="Powered by Google"></img></FormHelperText>
-      <Button type="submit"><SearchIcon/></Button>
-      </FormControl>
+        <Button type="submit"><SearchIcon/></Button>
       </form>
+      
       {searchResult !== null && searchResult.length > 0 &&
         <div className="result-container">
           <SearchResult result = { searchResult }/>
