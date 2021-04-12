@@ -1,7 +1,8 @@
-import { TextField, Button, FormHelperText } from '@material-ui/core'
+import { TextField, Button, FormHelperText, InputAdornment } from '@material-ui/core'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import SearchIcon from '@material-ui/icons/Search'
+import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core/styles'
 import googleImg from './images/google-attribution.png'
 import axios from 'axios'
@@ -102,12 +103,15 @@ const Search = () => {
           fullWidth
           value={query}
           onChange={(e) => setQuery(e.target.value)}
+          
+          InputProps={{
+            endAdornment: <InputAdornment position="end">{query !== '' && <Button onClick={() => setQuery('')}><CloseIcon/></Button>}</InputAdornment>,
+          }}
         />
         <Button type="submit"><SearchIcon/></Button>
         </div>
         <FormHelperText className={classes.helperText}>*Search by title or author.<img className={classes.image} src={googleImg} alt="Powered by Google"></img></FormHelperText>
       </form>
-      
       {searchResult !== null && searchResult.length > 0 &&
         <div>
           <SearchResult result = { searchResult }/>

@@ -16,7 +16,7 @@ const SearchResult = (props) => {
   const classes = useStyles()
   return (
     <div>
-    <Grid className={classes.container} container /*alignItems="stretch" */spacing={2} alignItems="stretch" justify="center" >
+    <Grid className={classes.container} container spacing={2} alignItems="stretch" justify="center" >
         {books.map((book) => (
           <Grid key={book.googleId} item xs={12} sm={6} md={3}>
             <BookPreview book = {book}/>

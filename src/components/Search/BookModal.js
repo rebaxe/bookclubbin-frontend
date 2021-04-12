@@ -70,6 +70,7 @@ const BookModal = (props) => {
           {book.authors && <h2 id="transition-modal-title"> by {book.authors} </h2>}
           <p id="transition-modal-description">{book.description}</p>
           <div className={classes.bookInfoContainer}>
+            {book.publishedDate && <span>Published: {book.publishedDate}</span>}
             {book.pages && <span>Pages: {book.pages}</span>}
             {book.googleRating && 
               <Box component="fieldset" mb={3} borderColor="transparent">
