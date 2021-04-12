@@ -101,6 +101,7 @@ const Search = () => {
           id="search-books"
           variant="outlined"
           fullWidth
+          required
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           
