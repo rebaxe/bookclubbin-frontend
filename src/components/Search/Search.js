@@ -63,8 +63,6 @@ const Search = () => {
           Accept: 'application/json',
           'Content-Type': 'application/json'
         }
-      }, {
-        body: JSON.stringify(query)
       }).then(res => {
         const books = res.data
         setSearchResult(books)
@@ -106,7 +104,7 @@ const Search = () => {
           onChange={(e) => setQuery(e.target.value)}
           
           InputProps={{
-            endAdornment: <InputAdornment position="end">{query !== '' && <Button onClick={() => setQuery('')}><CloseIcon/></Button>}</InputAdornment>,
+            endAdornment: <InputAdornment position="end">{query && <Button onClick={() => setQuery('')}><CloseIcon/></Button>}</InputAdornment>,
           }}
         />
         <Button type="submit"><SearchIcon/></Button>
