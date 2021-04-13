@@ -41,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Search = () => {
   const classes = useStyles()
-  const [query, setQuery] = useState(null)
+  const [query, setQuery] = useState('')
   const [searchPreferences, setSearchPreferences] = useState('title')
   const [searchResult, setSearchResult] = useState(null)
   
