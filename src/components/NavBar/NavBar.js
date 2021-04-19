@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -9,6 +9,7 @@ import MenuIcon from '@material-ui/icons/Menu'
 import MenuBookIcon from '@material-ui/icons/MenuBook'
 import { UserContext } from '../../UserContext'
 import { useHistory } from 'react-router'
+import Menu from './Menu'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,14 +32,22 @@ const NavBar = () => {
   const classes = useStyles()
   const [user] = useContext(UserContext)
   const history = useHistory()
+  const [open, setOpen] = useState(false)
+
+  const toggleMenu = () => {
+    open ? setOpen(false) : setOpen(true)
+  }
 
   return (
     <div className={classes.root}>
       <AppBar position="static" color="primary">
         <Toolbar>
-          <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-            <MenuIcon />
-          </IconButton>
+          { user &&
+            <IconButton onClick={toggleMenu} edge="start" className={classes.menuButton} color="inherit">
+              <MenuIcon />
+            </IconButton>
+          }
+          
           <Typography variant="h6" className={classes.title} onClick={() => {history.push('/')}}>
             <MenuBookIcon/>  BookClubbin'
           </Typography>
@@ -48,6 +57,7 @@ const NavBar = () => {
           }
         </Toolbar>
       </AppBar>
+      <Menu open={open} toggleMenu={toggleMenu}/>
     </div>
   )
 }

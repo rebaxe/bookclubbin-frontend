@@ -21,17 +21,13 @@ function App() {
               <Home />
             </Route>
             <ProtectedRoute exact path="/search" component={Search} />
-              {/* <Search />
-            </ProtectedRoute> */}
             <Route exact path="/login">
               <Login />
             </Route>
             <Route exact path="/logout">
               <Logout />
             </Route>
-            <Route exact path="/dashboard">
-              <Dashboard />
-            </Route>
+            <ProtectedRoute exact path="/dashboard" component={Dashboard} />
             </Switch>
           </div>
         </UserProvider>

@@ -5,9 +5,9 @@ import { useHistory } from 'react-router';
 import { UserContext } from '../../UserContext.js'
 
 const Login = () => {
+  const [user, setUser] = useContext(UserContext)
   const history = useHistory()
-  const [setUser] = useContext(UserContext)
-
+  
   const handleLogin = async googleData => {
     const res = await axios({
       method: 'post',
