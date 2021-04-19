@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    gap: '5px'
+    gap: '5px',
+    cursor: 'pointer',
   },
 }))
 
@@ -38,7 +39,7 @@ const NavBar = () => {
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" className={classes.title}>
+          <Typography variant="h6" className={classes.title} onClick={() => {history.push('/')}}>
             <MenuBookIcon/>  BookClubbin'
           </Typography>
           {!user

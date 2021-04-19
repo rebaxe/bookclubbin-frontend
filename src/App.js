@@ -7,6 +7,7 @@ import Dashboard from './components/Dashboard/Dashboard.js'
 import { UserProvider } from './UserContext.js'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Logout from './components/Logout/Logout';
+import ProtectedRoute from './Routes/ProtectedRoute';
 
 
 function App() {
@@ -19,9 +20,9 @@ function App() {
             <Route exact path="/">
               <Home />
             </Route>
-            <Route exact path="/search">
-              <Search />
-            </Route>
+            <ProtectedRoute exact path="/search" component={Search} />
+              {/* <Search />
+            </ProtectedRoute> */}
             <Route exact path="/login">
               <Login />
             </Route>

@@ -1,17 +1,12 @@
 import axios from 'axios';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import GoogleLogin from 'react-google-login'
 import { useHistory } from 'react-router';
 import { UserContext } from '../../UserContext.js'
 
 const Login = () => {
   const history = useHistory()
-  const [user, setUser] = useContext(UserContext)
-
-  //useEffect(()=> {
-  //  //window.location.replace('/dashboard')
-  //  history.push('/dashboard')
-  //}, [user, history])
+  const [setUser] = useContext(UserContext)
 
   const handleLogin = async googleData => {
     const res = await axios({
