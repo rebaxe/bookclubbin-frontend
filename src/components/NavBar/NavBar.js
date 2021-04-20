@@ -12,8 +12,9 @@ import { useHistory } from 'react-router'
 import Menu from './Menu'
 
 const useStyles = makeStyles((theme) => ({
-  root: {
+  bar: {
     flexGrow: 1,
+    backgroundColor: 'black'
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -40,14 +41,13 @@ const NavBar = () => {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" color="primary">
+      <AppBar className={classes.bar} position="static" style={{ background: 'transparent', boxShadow: 'none'}}>
         <Toolbar>
           { user &&
             <IconButton onClick={toggleMenu} edge="start" className={classes.menuButton} color="inherit">
               <MenuIcon />
             </IconButton>
           }
-          
           <Typography variant="h6" className={classes.title} onClick={() => {history.push('/')}}>
             <MenuBookIcon/>  BookClubbin'
           </Typography>
