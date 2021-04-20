@@ -1,4 +1,4 @@
-import { TextField, Button, FormHelperText, InputAdornment } from '@material-ui/core'
+import { TextField, Button, FormHelperText, InputAdornment, Typography } from '@material-ui/core'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import SearchIcon from '@material-ui/icons/Search'
@@ -25,7 +25,10 @@ const useStyles = makeStyles((theme) => ({
     padding: '3px 0px'
   },
   container: {
-    margin: 30
+    backgroundColor: '#f4f4f4',
+    margin: 30,
+    padding: '2rem',
+    borderRadius: 20,
   },
   searchContainer: {
     display: 'flex',
@@ -33,7 +36,11 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(1)
   },
   searchOptions: {
-    padding: '10px 5px',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+    padding: '0px 5px 10px',
     fontSize: '0.8rem',
     color: '#333'
   }
@@ -42,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 const Search = () => {
   const classes = useStyles()
   const [query, setQuery] = useState('')
-  const [searchPreferences, setSearchPreferences] = useState('title')
+  const [searchPreferences, setSearchPreferences] = useState('intitle')
   const [searchResult, setSearchResult] = useState(null)
   
   const handleChange = (e, newSearchPreferences) => {
@@ -78,7 +85,7 @@ const Search = () => {
   return (
     <div className={classes.container}>
       <div className={classes.searchOptions}>
-          <span>Search by </span>          
+            <Typography variant="subtitle2">Search by </Typography>        
             <ToggleButtonGroup 
             value={searchPreferences}
             onChange={handleChange}
