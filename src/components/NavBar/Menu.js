@@ -1,4 +1,4 @@
-import { Avatar, Drawer, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText, Typography } from "@material-ui/core"
+import { Avatar, Drawer, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from "@material-ui/core"
 import { makeStyles } from '@material-ui/core/styles'
 import { Dashboard, Search } from "@material-ui/icons"
 import { useContext } from "react"

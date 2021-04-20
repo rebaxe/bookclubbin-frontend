@@ -1,12 +1,14 @@
 import axios from 'axios';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import GoogleLogin from 'react-google-login'
 import { useHistory } from 'react-router';
 import { UserContext } from '../../UserContext.js'
+import Error from '../FlashMessages/Error.js';
 
 const Login = () => {
   const [user, setUser] = useContext(UserContext)
   const history = useHistory()
+  const [openError, setOpenError] = useState(false)
   
   const handleLogin = async googleData => {
     const res = await axios({
@@ -22,17 +24,24 @@ const Login = () => {
   }
 
   const handleFailedLogin = () => {
-    console.log('Login failed!')
+    toggleError()
+  }
+
+  const toggleError = () => {
+    openError ? setOpenError(false) : setOpenError(true)
   }
   
   return ( 
-    <GoogleLogin
-      clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-      buttonText="Log in with Google"
-      onSuccess={handleLogin}
-      onFailure={handleFailedLogin}
-      cookiePolicy={'single_host_origin'}
-    />
+    <div>
+      <Error open={openError} toggleError={toggleError} />
+      <GoogleLogin
+        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+        buttonText="Log in with Google"
+        onSuccess={handleLogin}
+        onFailure={handleFailedLogin}
+        cookiePolicy={'single_host_origin'}
+      />
+    </div>
    )
 }
  
