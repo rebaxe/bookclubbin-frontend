@@ -10,21 +10,46 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  italic: {
+    fontStyle: 'italic',
+  },
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #000',
     borderRadius: 5,
+    maxHeight: '80%',
     boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
+    padding: theme.spacing(3, 4),
     margin: theme.spacing(2),
     position: 'relative',
-    width: '80%'
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: theme.spacing(2),
+    //overflow: 'scroll',
+    [theme.breakpoints.down('sm')]: {
+      flexDirection: 'column',
+      maxHeight: '90%'
+    },
   },
   closeBtn: {
     position: 'absolute',
     top: 10,
     right: 10,
     padding: 5,
+  },
+  book: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    gap: theme.spacing(2),
+    flexShrink: 1,
+  },
+  description: {
+    maxHeight: '20rem',
+    overflow: 'scroll',
+    flexShrink: 1,
   },
   bookInfoContainer: {
     display: 'flex',
@@ -34,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
     color: '#333',
     fontSize: '0.8rem',
     gap: theme.spacing(2)
+  },
+  image: {
+    minHeight: '100%',
   },
   googleImage: {
     height: '10px',
@@ -65,20 +93,24 @@ const BookModal = (props) => {
           <Button className={classes.closeBtn} onClick={() => {handleClose()}}>
             <CloseIcon />
           </Button>
-          {book.image && <img src={book.image} alt={`Cover for ${book.title}`}/>}
-          <h2 id="transition-modal-title">{book.title}</h2>
-          {book.authors && <h2 id="transition-modal-title"> by {book.authors} </h2>}
-          <p id="transition-modal-description">{book.description}</p>
-          <div className={classes.bookInfoContainer}>
-            {book.publishedDate && <span>Published: {book.publishedDate}</span>}
-            {book.pages && <span>Pages: {book.pages}</span>}
-            {book.googleRating && 
-              <Box component="fieldset" mb={3} borderColor="transparent">
-              <Typography className={classes.rating} component="legend">Google Rating</Typography>
-              <Rating name="disabled" value={book.googleRating} disabled />
-            </Box>}
-            <img className={classes.googleImage} src={googleImg} alt="Google Attribution"/>
+          {book.image && <img className={classes.image} src={book.image} alt={`Cover for ${book.title}`}/>}
+          <div className={classes.book}>
+            <Typography variant="h4">{book.title}</Typography>
+            {book.authors && <Typography className={classes.italic} variant="h4"> by {book.authors} </Typography>}
+            <div className={classes.description}>
+              <Typography variant="body2">{book.description}</Typography>
+            </div>
+            <div className={classes.bookInfoContainer}>
+              {book.publishedDate && <Typography variant="subtitle2">Published: {book.publishedDate}</Typography>}
+              {book.pages && <Typography variant="subtitle2">Pages: {book.pages}</Typography>}
+              {book.googleRating && 
+                <Box component="fieldset" mb={3} borderColor="transparent">
+                <Typography className={classes.rating} component="legend">Google Rating</Typography>
+                <Rating name="disabled" value={book.googleRating} disabled />
+              </Box>}
+            </div>
           </div>
+          <img className={classes.googleImage} src={googleImg} alt="Google Attribution"/>
         </div>
       </Fade>
     </Modal>

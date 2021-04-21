@@ -1,18 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Orelega+One&display=swap');
+
 body {
   margin: 0;
   padding: 0;
-  /* background-color: #303847; */
-  background-image: linear-gradient(to right top, #71778a, #606779, #4f5768, #3f4757, #303847);
+  background-color: #939AAD;
+  /* background: linear-gradient(to right bottom, #27282c, #35373e, #434651, #515665, #606779) fixed; */
 }
 
 .homePage {
   width: 100%;
-  /* height: 70vh; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-
-
-

@@ -1,11 +1,62 @@
+import { Grid, Paper, Typography } from '@material-ui/core';
 import axios from 'axios';
 import { useContext, useState } from 'react';
 import GoogleLogin from 'react-google-login'
 import { useHistory } from 'react-router';
 import { UserContext } from '../../UserContext.js'
 import Error from '../FlashMessages/Error.js';
+import { makeStyles } from '@material-ui/core/styles'
+
+// const useStyles = makeStyles((theme) => ({
+//   container: {
+//     width: '100%',
+//     height: '100%',
+//     display: 'flex',
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   paper: {
+//     display: 'flex',
+//     flexDirection: 'column',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     gap: theme.spacing(2),
+//     margin: theme.spacing(2),
+//     padding: theme.spacing(2),
+//   }
+// }))
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+    height: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  paper: {
+    backgroundColor: 'rgba(39, 40, 44, 0.5)',
+    color: '#f4f4f4',
+    padding: theme.spacing(2),
+    paddingTop: theme.spacing(6),
+    paddingBottom: theme.spacing(6),
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing(2),
+  },
+  wrapper: {
+    height: '80%',
+  },
+  title: {
+    fontFamily: 'Orelega One',
+  },
+}))
 
 const Login = () => {
+  const classes = useStyles()
   const [user, setUser] = useContext(UserContext)
   const history = useHistory()
   const [openError, setOpenError] = useState(false)
@@ -32,15 +83,25 @@ const Login = () => {
   }
   
   return ( 
-    <div>
+    <div className={classes.wrapper}>
       <Error open={openError} toggleError={toggleError} />
-      <GoogleLogin
-        clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
-        buttonText="Log in with Google"
-        onSuccess={handleLogin}
-        onFailure={handleFailedLogin}
-        cookiePolicy={'single_host_origin'}
-      />
+      <div className={classes.root}>
+        <Grid className={classes.container} container justify="center" align="center" > 
+          <Grid item xs={12} sm={8} md={6}>
+            <Paper className={classes.paper} variant="outlined">
+              <Typography className={classes.title} variant="h4">Let's go Clubbin'!</Typography>
+              <Typography variant="body1">Sign in with your Google account and join the club.</Typography>
+              <GoogleLogin
+                clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
+                buttonText="Log in with Google"
+                onSuccess={handleLogin}
+                onFailure={handleFailedLogin}
+                cookiePolicy={'single_host_origin'}
+              />
+            </Paper>
+          </Grid>
+        </Grid>
+      </div>
     </div>
    )
 }

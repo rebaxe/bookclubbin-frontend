@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   helperText: {
     display: 'flex',
     justifyContent: 'flex-start',
-    gap: theme.spacing(2)
+    gap: theme.spacing(2),
   },
   image: {
     height: '10px',
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   searchContainer: {
     display: 'flex',
     flexDirection: 'row',
-    gap: theme.spacing(1)
+    gap: theme.spacing(1),
   },
   searchOptions: {
     display: 'flex',
@@ -42,7 +42,17 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(1),
     padding: '0px 5px 10px',
     fontSize: '0.8rem',
-    color: '#333'
+  },
+  searchField: {
+    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "green"
+    },
+    "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
+      borderColor: "red"
+    },
+    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
+      borderColor: "purple"
+    }
   }
 }))
 
@@ -102,18 +112,19 @@ const Search = () => {
         <form autoComplete="off" onSubmit={handleSearch}>
         <div className={classes.searchContainer}>
           <TextField
-          label="Search books"
-          id="search-books"
-          variant="outlined"
-          fullWidth
-          required
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          
-          InputProps={{
-            endAdornment: <InputAdornment position="end">{query && <Button onClick={() => setQuery('')}><CloseIcon/></Button>}</InputAdornment>,
-          }}
-        />
+            className={classes.searcField}
+            label="Search books"
+            id="search-books"
+            variant="outlined"
+            fullWidth
+            required
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+
+            InputProps={{
+              endAdornment: <InputAdornment position="end">{query && <Button onClick={() => setQuery('')}><CloseIcon/></Button>}</InputAdornment>,
+            }}
+          />
         <Button type="submit"><SearchIcon/></Button>
         </div>
         <FormHelperText className={classes.helperText}>*Search by title or author.<img className={classes.image} src={googleImg} alt="Powered by Google"></img></FormHelperText>

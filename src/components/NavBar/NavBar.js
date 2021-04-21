@@ -18,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
+    color: '#606779'
   },
   title: {
     flexGrow: 1,
@@ -26,7 +27,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'flex-start',
     gap: '5px',
     cursor: 'pointer',
+    fontFamily: 'Orelega One',
+    color: '#D8A31A'
   },
+  btn: {
+    color: '#606779',
+    transition: 'color 0.2s ease-out',
+    "&:hover": {
+      color: '#D8A31A'
+    }
+  }
 }))
 
 const NavBar = () => {
@@ -44,16 +54,16 @@ const NavBar = () => {
       <AppBar className={classes.bar} position="static" style={{ background: 'transparent', boxShadow: 'none'}}>
         <Toolbar>
           { user &&
-            <IconButton onClick={toggleMenu} edge="start" className={classes.menuButton} color="inherit">
+            <IconButton onClick={toggleMenu} edge="start" className={classes.menuButton}>
               <MenuIcon />
             </IconButton>
           }
-          <Typography variant="h6" className={classes.title} onClick={() => {history.push('/')}}>
+          <Typography variant="h5" className={classes.title} onClick={() => {history.push('/')}}>
             <MenuBookIcon/>  BookClubbin'
           </Typography>
           {!user
-            ? <Button color="inherit" onClick={() => {history.push('/login')}}>Login</Button>
-            : <Button color="inherit" onClick={() => {history.push('/logout')}}>Logout</Button>
+            ? <Button className={classes.btn} onClick={() => {history.push('/login')}}>Login</Button>
+            : <Button className={classes.btn} onClick={() => {history.push('/logout')}}>Logout</Button>
           }
         </Toolbar>
       </AppBar>
