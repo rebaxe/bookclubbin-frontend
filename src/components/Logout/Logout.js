@@ -9,6 +9,7 @@ const Logout = () => {
   console.log(user)
 
   const handleLogout = () => {
+    // localStorage.removeItem('accessToken')
     setUser(null)
     history.push('/')
   }

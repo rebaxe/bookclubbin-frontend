@@ -62,6 +62,7 @@ const Login = () => {
   const [openError, setOpenError] = useState(false)
   
   const handleLogin = async googleData => {
+    // localStorage.setItem('accessToken', googleData.tokenId)
     const res = await axios({
       method: 'post',
       url: process.env.REACT_APP_AUTH_GOOGLE_URL,
@@ -90,7 +91,7 @@ const Login = () => {
           <Grid item xs={12} sm={8} md={6}>
             <Paper className={classes.paper} variant="outlined">
               <Typography className={classes.title} variant="h4">Let's go Clubbin'!</Typography>
-              <Typography variant="body1">Sign in with your Google account and join the club.</Typography>
+              <Typography variant="body1">Sign in with your Google account to enter the club.</Typography>
               <GoogleLogin
                 clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
                 buttonText="Log in with Google"

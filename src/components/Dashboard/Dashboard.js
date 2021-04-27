@@ -6,6 +6,10 @@ import CreateClub from '../Club/CreateClub'
 
 const useStyles = makeStyles((theme) => ({
   container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
     margin: 10,
   },
   userInfo: {
@@ -44,6 +48,25 @@ const useStyles = makeStyles((theme) => ({
     "&:hover": {
       color: '#D8A31A'
     }
+  },
+  meeting: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    margin: 10,
+    gap: theme.spacing(2),
+  },
+  calendar: {
+    border: '1px solid black',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 10,
+    margin: 10,
+    gap: theme.spacing(1),
   }
 }))
 
@@ -85,13 +108,18 @@ const Dashboard = () => {
     <div>
       <Box className={classes.container} width={1}>
         <Box width={0.5}>
-          <Paper className={classes.userInfo} variant="outlined">
+          <Paper className={classes.userInfo}>
             <Avatar src={user.image}></Avatar>
             <Typography variant="h5">{user.username}</Typography>
           </Paper>
         </Box>
         <Box width={0.5}>
-          <Paper className={classes.club}>
+        {user.bookClubRequests &&
+         <Paper className={classes.club}>
+          <Typography>You have been invited to a bookclub!</Typography>
+        </Paper>
+        }
+        <Paper className={classes.club}>
             {!club 
             ? <Box className={classes.startClub}>
                 <Typography>Looks like you're not in a book club yet &#128546;</Typography>
@@ -101,6 +129,16 @@ const Dashboard = () => {
             }
           </Paper>
         </Box>
+        {/* <Box width={0.5}>
+            <Paper className={classes.meeting} >
+              <Typography>Your next meeting will be displayed here.</Typography>
+              <Box className={classes.calendar} width={0.5}>
+                  <Typography variant="h2">23</Typography>
+                  <Typography variant="h4">May</Typography>
+                  <Typography variant="body1">@ 19.00</Typography>
+              </Box>
+            </Paper>
+        </Box> */}
       </Box>
       <CreateClub open={openCreateClub} handleClose={handleCloseCreateClub} />
     </div>

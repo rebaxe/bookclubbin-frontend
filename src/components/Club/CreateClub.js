@@ -31,7 +31,7 @@ const CreateClub = (props) => {
           id="member-input"
           disableClearable
           options={users.map((user) => user.name )}
-          noOptionsText={'Your friend is not on BookClubbin\' :('}
+          noOptionsText={'Your friend is not on BookClubbin\'.'}
           renderInput={(params) => (
             <TextField
               {...params}
@@ -64,5 +64,5 @@ const users = [
   { name: 'Joel' },
   { name: 'Katta' }
 ]
- 
+
 export default CreateClub
