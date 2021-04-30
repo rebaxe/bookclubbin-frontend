@@ -1,68 +1,172 @@
-import { Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions, Button } from '@material-ui/core'
-import { Autocomplete } from '@material-ui/lab'
-import { useState } from 'react'
+import {
+  Box, Paper, TextField, Typography, Stepper, Step, StepLabel, Button, Chip,
+} from '@material-ui/core'
+import { React, useEffect, useState } from 'react'
+import { makeStyles } from '@material-ui/core/styles'
+import { Face } from '@material-ui/icons'
 
-const CreateClub = (props) => {
-  const { open, handleClose } = props
-  const [member, setMember] = useState('')
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10,
+  },
+  formContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: theme.spacing(2),
+    gap: theme.spacing(2),
+  },
+  clubContainer: {
+    border: '2px solid #D8A327',
+    borderRadius: '20px',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: theme.spacing(2),
+    gap: theme.spacing(2),
+  },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: '1',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+  },
+}))
 
-  const handleInput = (e) => {
-    console.log(e.target.value)
+function getSteps() {
+  return ['Name the club', 'Add some friends', 'Confirm']
+}
+
+const CreateClub = () => {
+  const classes = useStyles()
+  const [members, setMembers] = useState([])
+  const [newMember, setNewMember] = useState('')
+  const [clubName, setClubName] = useState('')
+  const [activeStep, setActiveStep] = useState(0)
+  const steps = getSteps()
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1)
   }
 
-  return ( 
-    <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-      <DialogTitle id="form-dialog-title">Start a book club</DialogTitle>
-      <DialogContent>
-        <DialogContentText>
-          To start bookclubbin' - give your club a punchy name and add some book loving friends!
-        </DialogContentText>
-        <TextField
-          autoComplete="off"
-          variant="outlined"
-          margin="dense"
-          id="name"
-          label="The name of the club"
-          fullWidth
-          required
-        />
-        <Autocomplete
-          //freeSolo
-          id="member-input"
-          disableClearable
-          options={users.map((user) => user.name )}
-          noOptionsText={'Your friend is not on BookClubbin\'.'}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              value={member}
-              margin="dense"
-              variant="outlined"
-              label="Friend you want to add"
-              fullWidth
-              required
-              InputProps={{...params.InputProps, type: 'search'}}
-              //onChange={(e) => {handleInput(e.target.value)}}
-            />
-          )}
-        />
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">
-          Cancel
-        </Button>
-        <Button onClick={handleClose} color="primary">
-          Submit
-        </Button>
-      </DialogActions>
-    </Dialog> 
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1)
+  }
+
+  const handleReset = () => {
+    setActiveStep(0)
+  }
+
+  const addNewMember = () => {
+    setMembers([...members, newMember])
+    setNewMember('')
+  }
+
+  const getStepContent = (stepIndex) => {
+    switch (stepIndex) {
+      case 0:
+        return (
+          <Box className={classes.formContainer}>
+            <Typography variant="body1">First - what&apos;s the name of your brand new amazingly cool club?</Typography>
+            <TextField variant="outlined" size="small" fullWidth value={clubName} onChange={((e) => { setClubName(e.target.value) })} />
+          </Box>
+        )
+      case 1:
+        return (
+          <Box className={classes.formContainer}>
+            <Typography variant="body1">Now - invite some booklovin&apos; friends to join the club.</Typography>
+            <Box className={classes.flexRow} width={1}>
+              <TextField variant="outlined" size="small" fullWidth value={newMember} onChange={((e) => { setNewMember(e.target.value) })} />
+              <Button onClick={addNewMember}>Add</Button>
+            </Box>
+            <Box className={classes.flexRow}>
+              {members.map((member) => (
+                <Chip
+                  icon={<Face />}
+                  label={member}
+                // onDelete={handleDelete}
+                  variant="outlined"
+                />
+              ))}
+            </Box>
+          </Box>
+        )
+      case 2:
+        return (
+          <Box className={classes.formContainer}>
+            <Typography variant="body1">Just a double check - is this the right name and the friends you want to invite?</Typography>
+            <Box className={classes.clubContainer} width={1}>
+              <Typography variant="subtitle1">{clubName}</Typography>
+              <Box className={classes.flexRow}>
+                {members.map((member) => (
+                  <Chip
+                    icon={<Face />}
+                    label={member}
+                // onDelete={handleDelete}
+                    variant="outlined"
+                  />
+                ))}
+              </Box>
+            </Box>
+          </Box>
+        )
+      default:
+        return 'Unknown stepIndex'
+    }
+  }
+
+  return (
+    <Box className={classes.container} width={1}>
+      <Box width={0.5}>
+        <Paper className={classes.formContainer}>
+          <Typography variant="h5">Start a new book club</Typography>
+          <div>
+            {activeStep === steps.length ? (
+              <div>
+                <Typography className={classes.instructions}>All steps completed</Typography>
+                <Button onClick={handleReset}>Reset</Button>
+              </div>
+            ) : (
+              <div className={classes.formContainer}>
+                <Typography className={classes.instructions}>
+                  {getStepContent(activeStep)}
+                </Typography>
+                <div className={classes.flexRow}>
+                  <Button
+                    disabled={activeStep === 0}
+                    onClick={handleBack}
+                    className={classes.backButton}
+                  >
+                    Back
+                  </Button>
+                  <Button variant="contained" color="primary" onClick={handleNext}>
+                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+        </Paper>
+      </Box>
+    </Box>
   )
 }
 
-const users = [
-  { name: 'Rebecca' },
-  { name: 'Joel' },
-  { name: 'Katta' }
-]
+const users = [{ name: 'Rebecca' }, { name: 'Joel' }, { name: 'Katta' }]
 
 export default CreateClub

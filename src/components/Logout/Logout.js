@@ -1,6 +1,6 @@
-import { useContext } from 'react'
+import { React, useContext } from 'react'
 import { GoogleLogout } from 'react-google-login'
-import { useHistory } from 'react-router'
+import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../UserContext'
 
 const Logout = () => {
@@ -13,13 +13,13 @@ const Logout = () => {
     setUser(null)
     history.push('/')
   }
-  return ( 
-    <GoogleLogout 
+  return (
+    <GoogleLogout
       clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}
       buttonText="Logout"
       onLogoutSuccess={handleLogout}
     />
-   )
+  )
 }
- 
+
 export default Logout

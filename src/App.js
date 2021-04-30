@@ -1,22 +1,22 @@
 import './App.css'
-import Search from './components/Search/Search.js'
-import NavBar from './components/NavBar/NavBar.js'
-import Home from './components/Home/Home.js'
-import Login from './components/Login/Login.js'
-import Dashboard from './components/Dashboard/Dashboard.js'
-import { UserProvider } from './UserContext.js'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Search from './components/Search/Search'
+import NavBar from './components/NavBar/NavBar'
+import Home from './components/Home/Home'
+import Login from './components/Login/Login'
+import Dashboard from './components/Dashboard/Dashboard'
+import { UserProvider } from './UserContext'
 import Logout from './components/Logout/Logout'
 import ProtectedRoute from './Routes/ProtectedRoute'
+import CreateClub from './components/Club/CreateClub'
 
 function App() {
-
   return (
-      <Router>
-        <UserProvider>
-          <div className="App">
-            <NavBar />
-            <Switch>
+    <Router>
+      <UserProvider>
+        <div className="App">
+          <NavBar />
+          <Switch>
             <Route exact path="/">
               <Home />
             </Route>
@@ -28,12 +28,13 @@ function App() {
               <Logout />
             </Route>
             <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-            </Switch>
-          </div>
-        </UserProvider>
-      </Router>
-    
+            <ProtectedRoute exact path="/create-club" component={CreateClub} />
+          </Switch>
+        </div>
+      </UserProvider>
+    </Router>
+
   )
 }
 
-export default App;
+export default App

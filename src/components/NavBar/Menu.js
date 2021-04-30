@@ -1,9 +1,11 @@
-import { Avatar, Drawer, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText } from "@material-ui/core"
+import {
+  Avatar, Drawer, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText,
+} from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
-import { Dashboard, Search } from "@material-ui/icons"
-import { useContext } from "react"
-import { useHistory } from "react-router"
-import { UserContext } from "../../UserContext"
+import { Dashboard, Search } from '@material-ui/icons'
+import { useContext } from 'react'
+import { useHistory } from 'react-router-dom'
+import { UserContext } from '../../UserContext'
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -21,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     padding: 5,
     margin: 0,
-  }
+  },
 }))
 
 const Menu = (props) => {
@@ -30,49 +32,58 @@ const Menu = (props) => {
   const history = useHistory()
   const { open, toggleMenu } = props
 
-  return ( 
+  return (
     <div>
-      <Drawer 
+      <Drawer
         className={classes.menu}
-        open={open} 
+        open={open}
         onClose={toggleMenu}
-        anchor='left'
+        anchor="left"
       >
         <List className={classes.list}>
-          { user &&
+          { user
+          && (
           <div className="loggedInList">
-          <ListItem className={classes.userInfo}>  
-            <div className={classes.userInfo}>
-              <ListItemAvatar>
-                <Avatar src={user.image}/>
-              </ListItemAvatar>
-              <ListItemText 
-                primary={user.username}
-              />
-          </div>
-          </ListItem>
-          <ListItem button onClick={() => {
-            history.push('/dashboard')
-            toggleMenu()}}>
+            <ListItem className={classes.userInfo}>
+              <div className={classes.userInfo}>
+                <ListItemAvatar>
+                  <Avatar src={user.image} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={user.username}
+                />
+              </div>
+            </ListItem>
+            <ListItem
+              button
+              onClick={() => {
+                history.push('/dashboard')
+                toggleMenu()
+              }}
+            >
               <ListItemIcon>
                 <Dashboard />
               </ListItemIcon>
               <ListItemText primary="Dashboard" />
-          </ListItem>
-          <ListItem button onClick={() => {
-            history.push('/search')
-            toggleMenu()}}>
+            </ListItem>
+            <ListItem
+              button
+              onClick={() => {
+                history.push('/search')
+                toggleMenu()
+              }}
+            >
               <ListItemIcon>
                 <Search />
               </ListItemIcon>
               <ListItemText primary="Search books" />
-          </ListItem>
+            </ListItem>
           </div>
-          }
+          )}
         </List>
       </Drawer>
     </div>
-   )
+  )
 }
- 
-export default Menu;
+
+export default Menu

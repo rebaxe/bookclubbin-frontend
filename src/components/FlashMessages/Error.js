@@ -22,7 +22,7 @@ const Error = (props) => {
       <Collapse in={open}>
         <Alert
           severity="error"
-          action={
+          action={(
             <IconButton
               aria-label="close"
               color="inherit"
@@ -33,9 +33,9 @@ const Error = (props) => {
             >
               <CloseIcon fontSize="inherit" />
             </IconButton>
-          }
+          )}
         >
-          Log in with Google failed. 
+          Log in with Google failed.
         </Alert>
       </Collapse>
     </div>

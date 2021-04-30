@@ -1,7 +1,10 @@
-import { Modal, Fade, Button, Box, Typography } from "@material-ui/core"
+import {
+  Modal, Fade, Button, Box, Typography,
+} from '@material-ui/core'
 import Rating from '@material-ui/lab/Rating'
-import { makeStyles } from "@material-ui/core/styles"
+import { makeStyles } from '@material-ui/core/styles'
 import CloseIcon from '@material-ui/icons/Close'
+import { React } from 'react'
 import googleImg from './images/google-attribution.png'
 
 const useStyles = makeStyles((theme) => ({
@@ -27,10 +30,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     gap: theme.spacing(2),
-    //overflow: 'scroll',
+    // overflow: 'scroll',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
-      maxHeight: '90%'
+      maxHeight: '90%',
     },
   },
   closeBtn: {
@@ -58,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'flex-start',
     color: '#333',
     fontSize: '0.8rem',
-    gap: theme.spacing(2)
+    gap: theme.spacing(2),
   },
   image: {
     minHeight: '100%',
@@ -68,53 +71,86 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px',
     position: 'absolute',
     bottom: 10,
-    right: 10
+    right: 10,
   },
   rating: {
     color: '#333',
     fontSize: '0.8rem',
-  }
+  },
 }))
 
 const BookModal = (props) => {
-  const view = props.open
-  const book = props.book
-  const handleClose = props.handleClose
+  const { open: view } = props
+  const { book } = props
+  const { handleClose } = props
   const classes = useStyles()
-  return ( 
+  return (
     <Modal
-        open={view}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-        className={classes.modal}
-      >
-      <Fade in={view} >
+      open={view}
+      aria-labelledby="simple-modal-title"
+      aria-describedby="simple-modal-description"
+      className={classes.modal}
+    >
+      <Fade in={view}>
         <div className={classes.paper}>
-          <Button className={classes.closeBtn} onClick={() => {handleClose()}}>
+          <Button
+            className={classes.closeBtn}
+            onClick={() => {
+              handleClose()
+            }}
+          >
             <CloseIcon />
           </Button>
-          {book.image && <img className={classes.image} src={book.image} alt={`Cover for ${book.title}`}/>}
+          {book.image && (
+          <img
+            className={classes.image}
+            src={book.image}
+            alt={`Cover for ${book.title}`}
+          />
+          )}
           <div className={classes.book}>
             <Typography variant="h4">{book.title}</Typography>
-            {book.authors && <Typography className={classes.italic} variant="h4"> by {book.authors} </Typography>}
+            {book.authors && (
+            <Typography className={classes.italic} variant="h4">
+              {' '}
+              by
+              {' '}
+              {book.authors}
+              {' '}
+            </Typography>
+            )}
             <div className={classes.description}>
               <Typography variant="body2">{book.description}</Typography>
             </div>
             <div className={classes.bookInfoContainer}>
-              {book.publishedDate && <Typography variant="subtitle2">Published: {book.publishedDate}</Typography>}
-              {book.pages && <Typography variant="subtitle2">Pages: {book.pages}</Typography>}
-              {book.googleRating && 
-                <Box component="fieldset" mb={3} borderColor="transparent">
-                <Typography className={classes.rating} component="legend">Google Rating</Typography>
+              {book.publishedDate && (
+              <Typography variant="subtitle2">
+                Published:
+                {' '}
+                {book.publishedDate}
+              </Typography>
+              )}
+              {book.pages && (
+              <Typography variant="subtitle2">
+                Pages:
+                {book.pages}
+              </Typography>
+              )}
+              {book.googleRating && (
+              <Box component="fieldset" mb={3} borderColor="transparent">
+                <Typography className={classes.rating} component="legend">
+                  Google Rating
+                </Typography>
                 <Rating name="disabled" value={book.googleRating} disabled />
-              </Box>}
+              </Box>
+              )}
             </div>
           </div>
-          <img className={classes.googleImage} src={googleImg} alt="Google Attribution"/>
+          <img className={classes.googleImage} src={googleImg} alt="Google Attribution" />
         </div>
       </Fade>
     </Modal>
-   );
+  )
 }
- 
-export default BookModal;
+
+export default BookModal

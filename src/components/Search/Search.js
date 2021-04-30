@@ -1,13 +1,15 @@
-import { TextField, Button, FormHelperText, InputAdornment, Typography } from '@material-ui/core'
+import {
+  TextField, Button, FormHelperText, InputAdornment, Typography,
+} from '@material-ui/core'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import SearchIcon from '@material-ui/icons/Search'
 import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core/styles'
-import googleImg from './images/google-attribution.png'
 import axios from 'axios'
 import { useState } from 'react'
-import SearchResult from './SearchResult.js'
+import googleImg from './images/google-attribution.png'
+import SearchResult from './SearchResult'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     height: '10px',
-    padding: '3px 0px'
+    padding: '3px 0px',
   },
   container: {
     backgroundColor: '#f4f4f4',
@@ -44,16 +46,16 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '0.8rem',
   },
   searchField: {
-    "& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderColor: "green"
+    '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'green',
     },
-    "&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline": {
-      borderColor: "red"
+    '&:hover .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'red',
     },
-    "& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "purple"
-    }
-  }
+    '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
+      borderColor: 'purple',
+    },
+  },
 }))
 
 const Search = () => {
@@ -61,7 +63,7 @@ const Search = () => {
   const [query, setQuery] = useState('')
   const [searchPreferences, setSearchPreferences] = useState('intitle')
   const [searchResult, setSearchResult] = useState(null)
-  
+
   const handleChange = (e, newSearchPreferences) => {
     setQuery('')
     setSearchResult(null)
@@ -73,14 +75,14 @@ const Search = () => {
     if (query) {
       console.log(query)
       const URL = process.env.REACT_APP_SEARCH_URL
-      axios.get(URL, { 
-        params: { query: `${query}+${searchPreferences}:${query}` }
+      axios.get(URL, {
+        params: { query: `${query}+${searchPreferences}:${query}` },
       }, {
         headers: {
           Accept: 'application/json',
-          'Content-Type': 'application/json'
-        }
-      }).then(res => {
+          'Content-Type': 'application/json',
+        },
+      }).then((res) => {
         const books = res.data
         setSearchResult(books)
         console.log(searchResult)
@@ -95,21 +97,22 @@ const Search = () => {
   return (
     <div className={classes.container}>
       <div className={classes.searchOptions}>
-            <Typography variant="subtitle2">Search by </Typography>        
-            <ToggleButtonGroup 
-            value={searchPreferences}
-            onChange={handleChange}
-            exclusive
-            size="small">
-              <ToggleButton value="intitle">
-                Title
-              </ToggleButton>
-              <ToggleButton value="inauthor">
-                Author
-              </ToggleButton>
-             </ToggleButtonGroup>
-          </div>
-        <form autoComplete="off" onSubmit={handleSearch}>
+        <Typography variant="subtitle2">Search by </Typography>
+        <ToggleButtonGroup
+          value={searchPreferences}
+          onChange={handleChange}
+          exclusive
+          size="small"
+        >
+          <ToggleButton value="intitle">
+            Title
+          </ToggleButton>
+          <ToggleButton value="inauthor">
+            Author
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </div>
+      <form autoComplete="off" onSubmit={handleSearch}>
         <div className={classes.searchContainer}>
           <TextField
             className={classes.searcField}
@@ -120,20 +123,23 @@ const Search = () => {
             required
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-
             InputProps={{
-              endAdornment: <InputAdornment position="end">{query && <Button onClick={() => setQuery('')}><CloseIcon/></Button>}</InputAdornment>,
+              endAdornment: <InputAdornment position="end">{query && <Button onClick={() => setQuery('')}><CloseIcon /></Button>}</InputAdornment>,
             }}
           />
-        <Button type="submit"><SearchIcon/></Button>
+          <Button type="submit"><SearchIcon /></Button>
         </div>
-        <FormHelperText className={classes.helperText}>*Search by title or author.<img className={classes.image} src={googleImg} alt="Powered by Google"></img></FormHelperText>
+        <FormHelperText className={classes.helperText}>
+          *Search by title or author.
+          <img className={classes.image} src={googleImg} alt="Powered by Google" />
+        </FormHelperText>
       </form>
-      {searchResult !== null && searchResult.length > 0 &&
+      {searchResult !== null && searchResult.length > 0
+        && (
         <div>
-          <SearchResult result = { searchResult }/>
+          <SearchResult result={searchResult} />
         </div>
-      }
+        )}
     </div>
   )
 }

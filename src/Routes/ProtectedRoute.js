@@ -6,22 +6,27 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   const [user] = useContext(UserContext)
   console.log(user)
   return (
-    <Route {...rest} render={
-      props => {
+    <Route
+      {...rest}
+      render={
+      (props) => {
         if (user) {
           return <Component {...rest} {...props} />
-        } else {
-          return <Redirect to={
+        }
+        return (
+          <Redirect to={
             {
               pathname: '/login',
               state: {
-                from: props.location
-              }
+                from: props.location,
+              },
             }
-          } />
-        }
+          }
+          />
+        )
       }
-    } />
+    }
+    />
   )
 }
 
