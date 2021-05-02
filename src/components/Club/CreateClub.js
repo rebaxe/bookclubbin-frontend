@@ -1,9 +1,11 @@
 import {
-  Box, Paper, TextField, Typography, Stepper, Step, StepLabel, Button, Chip,
+  Box, Paper, TextField, Typography, Stepper, Step, StepLabel, Button, Chip, InputAdornment,
 } from '@material-ui/core'
-import { React, useEffect, useState } from 'react'
+import { React, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
-import { Face } from '@material-ui/icons'
+import {
+  Face, ArrowForward, ArrowBack, PersonAdd,
+} from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -13,12 +15,19 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     margin: 10,
   },
+  paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing(2),
+    padding: theme.spacing(3, 2),
+  },
   formContainer: {
     display: 'flex',
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: theme.spacing(2),
     gap: theme.spacing(2),
   },
   clubContainer: {
@@ -65,6 +74,10 @@ const CreateClub = () => {
     setActiveStep(0)
   }
 
+  const handleDelete = (memberToRemove) => {
+    setMembers(members.filter((member) => member !== memberToRemove))
+  }
+
   const addNewMember = () => {
     setMembers([...members, newMember])
     setNewMember('')
@@ -84,15 +97,30 @@ const CreateClub = () => {
           <Box className={classes.formContainer}>
             <Typography variant="body1">Now - invite some booklovin&apos; friends to join the club.</Typography>
             <Box className={classes.flexRow} width={1}>
-              <TextField variant="outlined" size="small" fullWidth value={newMember} onChange={((e) => { setNewMember(e.target.value) })} />
-              <Button onClick={addNewMember}>Add</Button>
+              <TextField
+                variant="outlined"
+                size="small"
+                fullWidth
+                value={newMember}
+                onChange={((e) => { setNewMember(e.target.value) })}
+                // InputProps={{
+                //   startAdornment: (
+                //     <InputAdornment position="start">
+                //       <PersonAdd />
+                //     </InputAdornment>
+                //   ),
+                // }}
+              />
+              <Button variant="contained" color="primary" onClick={addNewMember}>
+                <PersonAdd />
+              </Button>
             </Box>
             <Box className={classes.flexRow}>
               {members.map((member) => (
                 <Chip
                   icon={<Face />}
                   label={member}
-                // onDelete={handleDelete}
+                  onDelete={(() => { handleDelete(member) })}
                   variant="outlined"
                 />
               ))}
@@ -110,7 +138,7 @@ const CreateClub = () => {
                   <Chip
                     icon={<Face />}
                     label={member}
-                // onDelete={handleDelete}
+                    // onDelete={handleDelete}
                     variant="outlined"
                   />
                 ))}
@@ -126,7 +154,7 @@ const CreateClub = () => {
   return (
     <Box className={classes.container} width={1}>
       <Box width={0.5}>
-        <Paper className={classes.formContainer}>
+        <Paper className={classes.paper}>
           <Typography variant="h5">Start a new book club</Typography>
           <div>
             {activeStep === steps.length ? (
@@ -145,10 +173,10 @@ const CreateClub = () => {
                     onClick={handleBack}
                     className={classes.backButton}
                   >
-                    Back
+                    <ArrowBack />
                   </Button>
                   <Button variant="contained" color="primary" onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? 'Finish' : 'Next'}
+                    {activeStep === steps.length - 1 ? 'Finish' : <ArrowForward />}
                   </Button>
                 </div>
               </div>
@@ -166,7 +194,5 @@ const CreateClub = () => {
     </Box>
   )
 }
-
-const users = [{ name: 'Rebecca' }, { name: 'Joel' }, { name: 'Katta' }]
 
 export default CreateClub

@@ -83,7 +83,6 @@ const Dashboard = () => {
   const [user] = useContext(UserContext)
   const classes = useStyles()
   const [club, setClub] = useState(null)
-  const [openCreateClub, setOpenCreateClub] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
@@ -115,10 +114,6 @@ const Dashboard = () => {
 
   const handleCreateClub = () => {
     history.push('/create-club')
-  }
-
-  const handleCloseCreateClub = () => {
-    setOpenCreateClub(false)
   }
 
   return (
