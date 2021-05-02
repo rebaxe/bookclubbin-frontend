@@ -1,10 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Orelega+One&display=swap');
 
+* {
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   padding: 0;
   background-color: #939AAD;
-  /* background: linear-gradient(to right bottom, #27282c, #35373e, #434651, #515665, #606779) fixed; */
 }
 
 .homePage {

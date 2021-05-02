@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     padding: theme.spacing(2),
+    margin: theme.spacing(2),
     gap: theme.spacing(2),
   },
   flexRow: {
@@ -89,7 +90,7 @@ const CreateClub = () => {
         return (
           <Box className={classes.formContainer}>
             <Typography variant="body1">First - what&apos;s the name of your brand new amazingly cool club?</Typography>
-            <TextField variant="outlined" size="small" fullWidth value={clubName} onChange={((e) => { setClubName(e.target.value) })} />
+            <TextField variant="outlined" size="small" fullWidth required value={clubName} onChange={((e) => { setClubName(e.target.value) })} />
           </Box>
         )
       case 1:
@@ -103,13 +104,6 @@ const CreateClub = () => {
                 fullWidth
                 value={newMember}
                 onChange={((e) => { setNewMember(e.target.value) })}
-                // InputProps={{
-                //   startAdornment: (
-                //     <InputAdornment position="start">
-                //       <PersonAdd />
-                //     </InputAdornment>
-                //   ),
-                // }}
               />
               <Button variant="contained" color="primary" onClick={addNewMember}>
                 <PersonAdd />
@@ -138,7 +132,6 @@ const CreateClub = () => {
                   <Chip
                     icon={<Face />}
                     label={member}
-                    // onDelete={handleDelete}
                     variant="outlined"
                   />
                 ))}
@@ -175,7 +168,7 @@ const CreateClub = () => {
                   >
                     <ArrowBack />
                   </Button>
-                  <Button variant="contained" color="primary" onClick={handleNext}>
+                  <Button variant="contained" color="primary" onClick={handleNext} disabled={(activeStep === 1 && members.length === 0) || (activeStep === 0 && clubName === '')}>
                     {activeStep === steps.length - 1 ? 'Finish' : <ArrowForward />}
                   </Button>
                 </div>
