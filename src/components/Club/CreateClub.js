@@ -1,11 +1,13 @@
 import {
-  Box, Paper, TextField, Typography, Stepper, Step, StepLabel, Button, Chip, InputAdornment,
+  Box, Paper, TextField, Typography, Stepper, Step, StepLabel, Button, Chip, Avatar,
 } from '@material-ui/core'
-import { React, useState } from 'react'
+import { React, useState, Fragment } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
-  Face, ArrowForward, ArrowBack, PersonAdd,
+  ArrowForward, ArrowBack, PersonAdd,
 } from '@material-ui/icons'
+import axios from 'axios'
+import { Autocomplete } from '@material-ui/lab'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -49,6 +51,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     gap: theme.spacing(1),
   },
+  optionContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: '1',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+  },
 }))
 
 function getSteps() {
@@ -61,27 +71,63 @@ const CreateClub = () => {
   const [newMember, setNewMember] = useState('')
   const [clubName, setClubName] = useState('')
   const [activeStep, setActiveStep] = useState(0)
+  const [matchingUsers, setMatchingUsers] = useState([])
   const steps = getSteps()
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
+    if (activeStep === 2) {
+      createClub()
+    }
   }
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
-  const handleReset = () => {
-    setActiveStep(0)
+  const createClub = () => {
+    console.log('Create a new club')
   }
 
   const handleDelete = (memberToRemove) => {
     setMembers(members.filter((member) => member !== memberToRemove))
   }
 
+  const searchForMatchingUsers = async (string) => {
+    if (string !== '' || !string) {
+      const URL = process.env.REACT_APP_SEARCH_USERS
+      const response = await axios.get(URL, {
+        params: { searchString: string },
+      })
+      const users = []
+      let isMember = false
+      response.data.forEach((user) => {
+        isMember = false
+        if (members.length < 1) {
+          users.push(user)
+        } else {
+          members.forEach((member) => {
+            console.log(member)
+            console.log(user)
+            if (member.id === user.id) {
+              isMember = true
+            }
+          })
+          if (!isMember) {
+            users.push(user)
+          }
+        }
+      })
+      setMatchingUsers(users)
+    } else {
+      setMatchingUsers([])
+    }
+  }
+
   const addNewMember = () => {
     setMembers([...members, newMember])
-    setNewMember('')
+    setNewMember(null)
+    setMatchingUsers([])
   }
 
   const getStepContent = (stepIndex) => {
@@ -90,7 +136,7 @@ const CreateClub = () => {
         return (
           <Box className={classes.formContainer}>
             <Typography variant="body1">First - what&apos;s the name of your brand new amazingly cool club?</Typography>
-            <TextField variant="outlined" size="small" fullWidth required value={clubName} onChange={((e) => { setClubName(e.target.value) })} />
+            <TextField variant="outlined" size="small" fullWidth value={clubName} onChange={((e) => { setClubName(e.target.value) })} />
           </Box>
         )
       case 1:
@@ -98,22 +144,47 @@ const CreateClub = () => {
           <Box className={classes.formContainer}>
             <Typography variant="body1">Now - invite some booklovin&apos; friends to join the club.</Typography>
             <Box className={classes.flexRow} width={1}>
-              <TextField
-                variant="outlined"
-                size="small"
+              <Autocomplete
                 fullWidth
+                freeSolo
+                autoComplete
+                autoHighlight
+                options={matchingUsers}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    onChange={((e) => {
+                      searchForMatchingUsers(e.target.value)
+                    })}
+                    variant="outlined"
+                    size="small"
+                    fullWidth
+                  />
+                )}
+                getOptionLabel={(option) => (option.username ? option.username : '')}
+                renderOption={(option) => (
+                  <>
+                    <div className={classes.optionContainer}>
+                      <Avatar src={option.image} />
+                      {option.username}
+                    </div>
+                  </>
+                )}
                 value={newMember}
-                onChange={((e) => { setNewMember(e.target.value) })}
+                onChange={((e, value) => {
+                  setNewMember(value)
+                })}
               />
-              <Button variant="contained" color="primary" onClick={addNewMember}>
+              <Button variant="contained" color="primary" disabled={!newMember} onClick={addNewMember}>
                 <PersonAdd />
               </Button>
             </Box>
             <Box className={classes.flexRow}>
               {members.map((member) => (
                 <Chip
-                  icon={<Face />}
-                  label={member}
+                  key={member.id}
+                  avatar={<Avatar src={member.image} />}
+                  label={member.username}
                   onDelete={(() => { handleDelete(member) })}
                   variant="outlined"
                 />
@@ -130,8 +201,9 @@ const CreateClub = () => {
               <Box className={classes.flexRow}>
                 {members.map((member) => (
                   <Chip
-                    icon={<Face />}
-                    label={member}
+                    key={member.id}
+                    avatar={<Avatar src={member.image} />}
+                    label={member.username}
                     variant="outlined"
                   />
                 ))}
@@ -153,7 +225,7 @@ const CreateClub = () => {
             {activeStep === steps.length ? (
               <div>
                 <Typography className={classes.instructions}>All steps completed</Typography>
-                <Button onClick={handleReset}>Reset</Button>
+                {/* <Button onClick={handleReset}>Reset</Button> */}
               </div>
             ) : (
               <div className={classes.formContainer}>
