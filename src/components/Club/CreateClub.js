@@ -1,13 +1,14 @@
 import {
   Box, Paper, TextField, Typography, Stepper, Step, StepLabel, Button, Chip, Avatar,
 } from '@material-ui/core'
-import { React, useState, Fragment } from 'react'
+import { React, useState, useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   ArrowForward, ArrowBack, PersonAdd,
 } from '@material-ui/icons'
 import axios from 'axios'
 import { Autocomplete } from '@material-ui/lab'
+import { UserContext } from '../../UserContext'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -67,7 +68,8 @@ function getSteps() {
 
 const CreateClub = () => {
   const classes = useStyles()
-  const [members, setMembers] = useState([])
+  const [user] = useContext(UserContext)
+  const [members, setMembers] = useState([user])
   const [newMember, setNewMember] = useState('')
   const [clubName, setClubName] = useState('')
   const [activeStep, setActiveStep] = useState(0)
@@ -101,20 +103,23 @@ const CreateClub = () => {
       })
       const users = []
       let isMember = false
-      response.data.forEach((user) => {
+      response.data.forEach((resUser) => {
         isMember = false
-        if (members.length < 1) {
-          users.push(user)
+        if (resUser.id === user.id) {
+          isMember = true
+        } else if (members.length < 1) {
+          users.push(resUser)
         } else {
           members.forEach((member) => {
             console.log(member)
+            console.log(resUser)
             console.log(user)
-            if (member.id === user.id) {
+            if (member.id === resUser.id) {
               isMember = true
             }
           })
           if (!isMember) {
-            users.push(user)
+            users.push(resUser)
           }
         }
       })
@@ -181,13 +186,26 @@ const CreateClub = () => {
             </Box>
             <Box className={classes.flexRow}>
               {members.map((member) => (
-                <Chip
-                  key={member.id}
-                  avatar={<Avatar src={member.image} />}
-                  label={member.username}
-                  onDelete={(() => { handleDelete(member) })}
-                  variant="outlined"
-                />
+                (member.id === user.id
+                  ? (
+                    <Chip
+                      key={member.id}
+                      avatar={<Avatar src={member.image} />}
+                      label="You"
+                      // label={member.username}
+                      // onDelete={(() => { handleDelete(member) })}
+                      variant="outlined"
+                    />
+                  ) : (
+                    <Chip
+                      key={member.id}
+                      avatar={<Avatar src={member.image} />}
+                      label={member.username}
+                      onDelete={(() => { handleDelete(member) })}
+                      variant="outlined"
+                    />
+                  )
+                )
               ))}
             </Box>
           </Box>
