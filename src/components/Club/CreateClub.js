@@ -1,5 +1,6 @@
 import {
-  Box, Paper, TextField, Typography, Stepper, Step, StepLabel, Button, Chip, Avatar,
+  Box, Paper, TextField, Typography, Stepper, Step,
+  StepLabel, Button, Chip, Avatar, CircularProgress,
 } from '@material-ui/core'
 import { React, useState, useContext } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     padding: theme.spacing(2),
     margin: theme.spacing(2),
-    gap: theme.spacing(2),
+    gap: theme.spacing(1),
   },
   flexRow: {
     display: 'flex',
@@ -74,6 +75,7 @@ const CreateClub = () => {
   const [clubName, setClubName] = useState('')
   const [activeStep, setActiveStep] = useState(0)
   const [matchingUsers, setMatchingUsers] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   const steps = getSteps()
 
   const handleNext = () => {
@@ -87,8 +89,24 @@ const CreateClub = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1)
   }
 
-  const createClub = () => {
-    console.log('Create a new club')
+  const createClub = async () => {
+    setIsLoading(true)
+    const URL = process.env.REACT_APP_REGISTER_CLUB
+    const invitedMemberIDs = []
+    const invitedMembers = members.filter((member) => member.id !== user.id)
+    invitedMembers.forEach((member) => invitedMemberIDs.push(member.id))
+    const res = await axios({
+      method: 'post',
+      url: URL,
+      data: {
+        clubname: clubName,
+        firstMember: user.id,
+        invitedMembers: invitedMemberIDs,
+        members: user.id,
+      },
+    })
+    console.log(res.status)
+    setIsLoading(false)
   }
 
   const handleDelete = (memberToRemove) => {
@@ -193,7 +211,6 @@ const CreateClub = () => {
                       avatar={<Avatar src={member.image} />}
                       label="You"
                       // label={member.username}
-                      // onDelete={(() => { handleDelete(member) })}
                       variant="outlined"
                     />
                   ) : (
@@ -215,15 +232,28 @@ const CreateClub = () => {
           <Box className={classes.formContainer}>
             <Typography variant="body1">Just a double check - is this the right name and the friends you want to invite?</Typography>
             <Box className={classes.clubContainer} width={1}>
-              <Typography variant="subtitle1">{clubName}</Typography>
+              <Typography variant="h6">{clubName}</Typography>
+              <Typography variant="body2">with</Typography>
               <Box className={classes.flexRow}>
                 {members.map((member) => (
-                  <Chip
-                    key={member.id}
-                    avatar={<Avatar src={member.image} />}
-                    label={member.username}
-                    variant="outlined"
-                  />
+                  (member.id === user.id
+                    ? (
+                      <Chip
+                        key={member.id}
+                        avatar={<Avatar src={member.image} />}
+                        label="You"
+                        // label={member.username}
+                        variant="outlined"
+                      />
+                    ) : (
+                      <Chip
+                        key={member.id}
+                        avatar={<Avatar src={member.image} />}
+                        label={member.username}
+                        variant="outlined"
+                      />
+                    )
+                  )
                 ))}
               </Box>
             </Box>
@@ -242,7 +272,13 @@ const CreateClub = () => {
           <div>
             {activeStep === steps.length ? (
               <div>
-                <Typography className={classes.instructions}>All steps completed</Typography>
+                {isLoading
+                  ? <CircularProgress color="primary" />
+                  : (
+                    <Typography className={classes.instructions}>
+                      You&apos;ve just started a book club!
+                    </Typography>
+                  )}
                 {/* <Button onClick={handleReset}>Reset</Button> */}
               </div>
             ) : (
@@ -259,7 +295,7 @@ const CreateClub = () => {
                     <ArrowBack />
                   </Button>
                   <Button variant="contained" color="primary" onClick={handleNext} disabled={(activeStep === 1 && members.length === 0) || (activeStep === 0 && clubName === '')}>
-                    {activeStep === steps.length - 1 ? 'Finish' : <ArrowForward />}
+                    {activeStep === steps.length - 1 ? 'Submit' : <ArrowForward />}
                   </Button>
                 </div>
               </div>
