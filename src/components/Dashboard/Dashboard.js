@@ -2,7 +2,6 @@ import {
   Avatar,
   Box,
   Button,
-  Chip,
   CircularProgress,
   makeStyles,
   Paper,
@@ -14,6 +13,8 @@ import {
 import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../UserContext'
+import Invitation from './Invitation'
+import ClubContainer from './ClubContainer'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -114,6 +115,7 @@ const Dashboard = () => {
   const [user] = useContext(UserContext)
   const classes = useStyles()
   const [club, setClub] = useState(null)
+  const [members, setMembers] = useState([])
   const [invites, setInvites] = useState(null)
   const [invitingUser, setInvitingUser] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -122,10 +124,7 @@ const Dashboard = () => {
   useEffect(() => {
     axios
       .get(
-        process.env.REACT_APP_GET_CLUB,
-        {
-          params: { id: user.id },
-        },
+        `${process.env.REACT_APP_GET_CLUB}/${user.id}`,
         {
           headers: {
             Accept: 'application/json',
@@ -136,7 +135,8 @@ const Dashboard = () => {
       .then((res) => {
         if (res.status === 200) {
           setClub(res.data)
-          console.log(club)
+          console.log(res.data)
+          getMembers(res.data.members)
         } else if (res.status === 404) {
           setClub(null)
         }
@@ -162,6 +162,7 @@ const Dashboard = () => {
           setIsLoading(true)
           setInvites(res.data)
           getInvitingUser(res.data.firstMember)
+          setIsLoading(true)
         } else if (res.status === 404) {
           setInvites(null)
         }
@@ -187,6 +188,37 @@ const Dashboard = () => {
     // setIsLoading(false)
   }
 
+  const getMembers = async (memberIds) => {
+    console.log(memberIds)
+    const URL = process.env.REACT_APP_GET_USER
+    if (memberIds.length > 1) {
+      memberIds.forEach(async (memberId) => {
+        const res = await axios.get(`${URL}/${memberId}`)
+        console.log(res.data)
+        setMembers(...members, res.data)
+      })
+    } else {
+      const res = await axios.get(`${URL}/${memberIds}`)
+      console.log(res.data)
+      setMembers(res.data)
+    }
+  }
+
+  // useEffect(() => {
+  //   console.log(club)
+  //   setIsLoading(true)
+  //   getMembers(club.members)
+  // }, [club])
+
+  useEffect(() => {
+    if (club) {
+      if (members.length === club.members.length) {
+        setIsLoading(false)
+        console.log(members)
+      }
+    }
+  }, [members.length])
+
   return (
     <div>
       <Box className={classes.container} width={1}>
@@ -197,27 +229,16 @@ const Dashboard = () => {
           </Paper>
         </Box>
         <Box width={0.5}>
-          <Paper className={classes.club}>
-            {invites && !isLoading && (
-              <div className={classes.inviteContainer}>
-                <Typography variant="h6">You&apos;ve been invited to a book club!</Typography>
-                <div className={classes.flexRow}>
-                  <Chip
-                    label={invitingUser.username}
-                    avatar={<Avatar src={invitingUser.image} />}
-                  />
-                  <Typography>invites you to join
-                    <span className={classes.boldText}> {invites.clubname}</span>.
-                  </Typography>
-                </div>
-                <div className={classes.flexRow}>
-                  <Button className={classes.btn}>Accept</Button>
-                  <Button className={classes.lighterBtn}>Reject</Button>
-                </div>
-              </div>
-            )}
-            {isLoading && <CircularProgress />}
-          </Paper>
+          {invites && !isLoading && (
+            <div>
+              <Invitation invitingUser={invitingUser} invites={invites} />
+            </div>
+          )}
+          {isLoading && (
+            <Paper className={classes.club}>
+              <CircularProgress />
+            </Paper>
+          )}
           {!club && !invites && (
             <Paper className={classes.club}>
               <Box className={classes.startClub}>
@@ -230,10 +251,8 @@ const Dashboard = () => {
               </Box>
             </Paper>
           )}
-          { club && (
-            <Paper className={classes.club}>
-              <Typography>{club.name}</Typography>
-            </Paper>
+          { club && !isLoading && (
+            <ClubContainer members={members} club={club} />
           )}
         </Box>
         {/* <Box width={0.5}>
