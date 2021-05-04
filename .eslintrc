@@ -21,7 +21,8 @@
       "react/jsx-props-no-spreading": "off",
       "no-unused-vars": "warn",
       "no-unused-expressions": [2, { "allowTernary": true }],
-      "no-use-before-define": "off"
+      "no-use-before-define": "off",
+      "react/jsx-one-expression-per-line": "off"
   },
   "parserOptions": {
     "sourceType": "module",

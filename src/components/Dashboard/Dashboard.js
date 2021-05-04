@@ -2,6 +2,8 @@ import {
   Avatar,
   Box,
   Button,
+  Chip,
+  CircularProgress,
   makeStyles,
   Paper,
   Typography,
@@ -58,6 +60,16 @@ const useStyles = makeStyles((theme) => ({
       color: '#D8A31A',
     },
   },
+  lighterBtn: {
+    backgroundColor: '#D8A31A65',
+    color: 'white',
+    padding: theme.spacing(1, 2),
+    borderRadius: 20,
+    transition: '0.3s ease-in-out',
+    '&:hover': {
+      color: '#D8A31A',
+    },
+  },
   meeting: {
     display: 'flex',
     flexDirection: 'column',
@@ -77,12 +89,34 @@ const useStyles = makeStyles((theme) => ({
     margin: 10,
     gap: theme.spacing(1),
   },
+  flexRow: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+  },
+  inviteContainer: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing(2),
+    padding: theme.spacing(2),
+  },
+  boldText: {
+    fontWeight: theme.typography.fontWeightBold,
+    textTransform: 'capitalize',
+  },
 }))
 
 const Dashboard = () => {
   const [user] = useContext(UserContext)
   const classes = useStyles()
   const [club, setClub] = useState(null)
+  const [invites, setInvites] = useState(null)
+  const [invitingUser, setInvitingUser] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
   const history = useHistory()
 
   useEffect(() => {
@@ -110,10 +144,47 @@ const Dashboard = () => {
       .catch((error) => {
         console.log(error.message)
       })
-  })
+    axios
+      .get(
+        process.env.REACT_APP_GET_INVITE,
+        {
+          params: { id: user.id },
+        },
+        {
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+        },
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          setIsLoading(true)
+          setInvites(res.data)
+          getInvitingUser(res.data.firstMember)
+        } else if (res.status === 404) {
+          setInvites(null)
+        }
+      })
+      .catch((error) => {
+        console.log(error.message)
+      })
+  }, [])
+
+  useEffect(() => {
+    setIsLoading(false)
+  }, [invitingUser])
 
   const handleCreateClub = () => {
     history.push('/create-club')
+  }
+
+  const getInvitingUser = async (userId) => {
+    const URL = process.env.REACT_APP_GET_USER
+    const res = await axios.get(`${URL}/${userId}`)
+    console.log(res.data)
+    setInvitingUser(res.data)
+    // setIsLoading(false)
   }
 
   return (
@@ -126,13 +197,29 @@ const Dashboard = () => {
           </Paper>
         </Box>
         <Box width={0.5}>
-          {user.bookClubRequests && (
-            <Paper className={classes.club}>
-              <Typography>You have been invited to a bookclub!</Typography>
-            </Paper>
-          )}
           <Paper className={classes.club}>
-            {!club ? (
+            {invites && !isLoading && (
+              <div className={classes.inviteContainer}>
+                <Typography variant="h6">You&apos;ve been invited to a book club!</Typography>
+                <div className={classes.flexRow}>
+                  <Chip
+                    label={invitingUser.username}
+                    avatar={<Avatar src={invitingUser.image} />}
+                  />
+                  <Typography>invites you to join
+                    <span className={classes.boldText}> {invites.clubname}</span>.
+                  </Typography>
+                </div>
+                <div className={classes.flexRow}>
+                  <Button className={classes.btn}>Accept</Button>
+                  <Button className={classes.lighterBtn}>Reject</Button>
+                </div>
+              </div>
+            )}
+            {isLoading && <CircularProgress />}
+          </Paper>
+          {!club && !invites && (
+            <Paper className={classes.club}>
               <Box className={classes.startClub}>
                 <Typography>
                   Looks like you&apos;re not in a book club yet &#128546;
@@ -141,10 +228,13 @@ const Dashboard = () => {
                   Start book club
                 </Button>
               </Box>
-            ) : (
+            </Paper>
+          )}
+          { club && (
+            <Paper className={classes.club}>
               <Typography>{club.name}</Typography>
-            )}
-          </Paper>
+            </Paper>
+          )}
         </Box>
         {/* <Box width={0.5}>
             <Paper className={classes.meeting} >
