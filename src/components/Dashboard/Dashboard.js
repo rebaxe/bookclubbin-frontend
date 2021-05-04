@@ -1,5 +1,4 @@
 import {
-  Avatar,
   Box,
   Button,
   CircularProgress,
@@ -15,6 +14,8 @@ import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../UserContext'
 import Invitation from './Invitation'
 import ClubContainer from './ClubContainer'
+import UserContainer from './UserContainer'
+import NoClubContainer from './NoClubContainer'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,15 +25,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     margin: 10,
   },
-  userInfo: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    margin: 10,
-    gap: theme.spacing(2),
-  },
   club: {
     display: 'flex',
     flexDirection: 'column',
@@ -41,35 +33,6 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     margin: 10,
     gap: theme.spacing(2),
-  },
-  startClub: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    margin: 10,
-    gap: theme.spacing(2),
-  },
-  btn: {
-    backgroundColor: '#D8A31A',
-    color: 'white',
-    padding: theme.spacing(1, 2),
-    borderRadius: 20,
-    transition: '0.3s ease-in-out',
-    '&:hover': {
-      color: '#D8A31A',
-    },
-  },
-  lighterBtn: {
-    backgroundColor: '#D8A31A65',
-    color: 'white',
-    padding: theme.spacing(1, 2),
-    borderRadius: 20,
-    transition: '0.3s ease-in-out',
-    '&:hover': {
-      color: '#D8A31A',
-    },
   },
   meeting: {
     display: 'flex',
@@ -89,25 +52,6 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     margin: 10,
     gap: theme.spacing(1),
-  },
-  flexRow: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: theme.spacing(1),
-  },
-  inviteContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: theme.spacing(2),
-    padding: theme.spacing(2),
-  },
-  boldText: {
-    fontWeight: theme.typography.fontWeightBold,
-    textTransform: 'capitalize',
   },
 }))
 
@@ -222,12 +166,7 @@ const Dashboard = () => {
   return (
     <div>
       <Box className={classes.container} width={1}>
-        <Box width={0.5}>
-          <Paper className={classes.userInfo}>
-            <Avatar src={user.image} />
-            <Typography variant="h5">{user.username}</Typography>
-          </Paper>
-        </Box>
+        <UserContainer />
         <Box width={0.5}>
           {invites && !isLoading && (
             <div>
@@ -240,16 +179,7 @@ const Dashboard = () => {
             </Paper>
           )}
           {!club && !invites && (
-            <Paper className={classes.club}>
-              <Box className={classes.startClub}>
-                <Typography>
-                  Looks like you&apos;re not in a book club yet &#128546;
-                </Typography>
-                <Button className={classes.btn} onClick={handleCreateClub}>
-                  Start book club
-                </Button>
-              </Box>
-            </Paper>
+            <NoClubContainer handleCreateClub={handleCreateClub} />
           )}
           { club && !isLoading && (
             <ClubContainer members={members} club={club} />
@@ -266,7 +196,6 @@ const Dashboard = () => {
             </Paper>
         </Box> */}
       </Box>
-      {/* <CreateClub open={openCreateClub} handleClose={handleCloseCreateClub} /> */}
     </div>
   )
 }
