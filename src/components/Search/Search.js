@@ -1,5 +1,5 @@
 import {
-  TextField, Button, FormHelperText, InputAdornment, Typography,
+  TextField, Button, FormHelperText, InputAdornment, Typography, CircularProgress,
 } from '@material-ui/core'
 import ToggleButton from '@material-ui/lab/ToggleButton'
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
@@ -10,6 +10,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import googleImg from './images/google-attribution.png'
 import SearchResult from './SearchResult'
+import Error from '../FlashMessages/Error'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,6 +64,8 @@ const Search = () => {
   const [query, setQuery] = useState('')
   const [searchPreferences, setSearchPreferences] = useState('intitle')
   const [searchResult, setSearchResult] = useState(null)
+  const [openError, setOpenError] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleChange = (e, newSearchPreferences) => {
     setQuery('')
@@ -71,9 +74,10 @@ const Search = () => {
   }
 
   const handleSearch = (e) => {
+    setIsLoading(true)
+    setOpenError(false)
     e.preventDefault()
     if (query) {
-      console.log(query)
       const URL = process.env.REACT_APP_SEARCH_URL
       axios.get(URL, {
         params: { query: `${query}+${searchPreferences}:${query}` },
@@ -84,14 +88,21 @@ const Search = () => {
         },
       }).then((res) => {
         const books = res.data
+        if (JSON.stringify(books) === '{}') {
+          toggleError()
+        }
         setSearchResult(books)
-        console.log(searchResult)
+        setIsLoading(false)
       }).catch((error) => {
         console.log(error.message)
       })
     } else {
       console.log('Enter a query')
     }
+  }
+
+  const toggleError = () => {
+    openError ? setOpenError(false) : setOpenError(true)
   }
 
   return (
@@ -140,6 +151,8 @@ const Search = () => {
           <SearchResult result={searchResult} />
         </div>
         )}
+      {openError && <Error open={openError} toggleError={toggleError} message="No results found." />}
+      {isLoading && <CircularProgress />}
     </div>
   )
 }

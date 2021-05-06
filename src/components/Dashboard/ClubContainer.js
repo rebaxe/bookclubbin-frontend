@@ -77,9 +77,9 @@ const ClubContainer = (props) => {
     const memberPromises = memberIds.map((memberId) => axios.get(`${URL}/${memberId}`))
     Promise.all(memberPromises)
       .then((result) => setMembers(result.map((res) => res.data)))
-      .catch((e) => setError(true))
+      .catch(() => setError(true))
     setIsLoading(false)
-  }, [])
+  }, [club.members])
 
   return (
     <Paper className={classes.club}>

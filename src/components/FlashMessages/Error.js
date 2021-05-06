@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Error = (props) => {
   const classes = useStyles()
-  const { open, toggleError } = props
+  const { open, toggleError, message } = props
 
   return (
     <div className={classes.root}>
@@ -35,7 +35,7 @@ const Error = (props) => {
             </IconButton>
           )}
         >
-          Log in with Google failed.
+          {message}
         </Alert>
       </Collapse>
     </div>

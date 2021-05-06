@@ -62,7 +62,7 @@ const Dashboard = () => {
   // const [members, setMembers] = useState([])
   const [invites, setInvites] = useState(null)
   const [invitingUser, setInvitingUser] = useState(null)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const history = useHistory()
 
   useEffect(() => {
@@ -80,10 +80,10 @@ const Dashboard = () => {
         if (res.status === 200) {
           setClub(res.data)
           console.log(res.data)
-          // getMembers(res.data.members)
         } else if (res.status === 404) {
           setClub(null)
         }
+        setIsLoading(false)
       })
       .catch((error) => {
         console.log(error.message)
@@ -103,22 +103,17 @@ const Dashboard = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          setIsLoading(true)
           setInvites(res.data)
           getInvitingUser(res.data.firstMember)
-          setIsLoading(true)
         } else if (res.status === 404) {
           setInvites(null)
         }
+        setIsLoading(false)
       })
       .catch((error) => {
         console.log(error.message)
       })
   }, [])
-
-  useEffect(() => {
-    setIsLoading(false)
-  }, [invitingUser])
 
   const handleCreateClub = () => {
     history.push('/create-club')
@@ -129,41 +124,7 @@ const Dashboard = () => {
     const res = await axios.get(`${URL}/${userId}`)
     console.log(res.data)
     setInvitingUser(res.data)
-    // setIsLoading(false)
   }
-
-  // const getMembers = async (memberIds) => {
-  //   console.log(memberIds)
-  //   const URL = process.env.REACT_APP_GET_USER
-  //   if (memberIds.length > 1) {
-  //     memberIds.forEach(async (memberId) => {
-  //       const res = await axios.get(`${URL}/${memberId}`)
-  //       console.log(res.data)
-  //       setMembers([...members, res.data])
-  //     })
-  //   } else {
-  //     const res = await axios.get(`${URL}/${memberIds}`)
-  //     console.log(res.data)
-  //     setMembers(res.data)
-  //   }
-  // }
-
-  // useEffect(() => {
-  //   console.log(club)
-  //   setIsLoading(true)
-  //   getMembers(club.members)
-  // }, [club])
-
-  // useEffect(() => {
-  //   if (club) {
-  //     if (members.length === club.members.length) {
-  //       console.log(members.length)
-  //       console.log(club.members.length)
-  //       setIsLoading(false)
-  //       console.log(members)
-  //     }
-  //   }
-  // }, [members])
 
   return (
     <div>

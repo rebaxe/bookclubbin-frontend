@@ -7,25 +7,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import { UserContext } from '../../UserContext'
 import Error from '../FlashMessages/Error'
 
-// const useStyles = makeStyles((theme) => ({
-//   container: {
-//     width: '100%',
-//     height: '100%',
-//     display: 'flex',
-//     flexDirection: 'column',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//   },
-//   paper: {
-//     display: 'flex',
-//     flexDirection: 'column',
-//     justifyContent: 'center',
-//     alignItems: 'center',
-//     gap: theme.spacing(2),
-//     margin: theme.spacing(2),
-//     padding: theme.spacing(2),
-//   }
-// }))
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -89,7 +70,7 @@ const Login = () => {
 
   return (
     <div className={classes.wrapper}>
-      <Error open={openError} toggleError={toggleError} />
+      <Error open={openError} toggleError={toggleError} message="Log in with Google failed." />
       <div className={classes.root}>
         <Grid
           className={classes.container}
