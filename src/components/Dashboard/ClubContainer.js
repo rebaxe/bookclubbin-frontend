@@ -3,6 +3,7 @@ import {
   CircularProgress,
   makeStyles,
   Paper,
+  Tooltip,
   Typography,
 } from '@material-ui/core'
 import {
@@ -94,11 +95,13 @@ const ClubContainer = (props) => {
         <Typography className={classes.boldText}>{club.clubname}</Typography>
         <AvatarGroup>
           {members.map((member) => (
-            <Avatar
-              key={member.id}
-              src={member.image}
-              alt={member.username}
-            />
+            <Tooltip key={member.id} title={member.username} arrow>
+              <Avatar
+                key={member.id}
+                src={member.image}
+                alt={member.username}
+              />
+            </Tooltip>
           ))}
         </AvatarGroup>
       </div>
