@@ -129,9 +129,9 @@ const CreateClub = () => {
           users.push(resUser)
         } else {
           members.forEach((member) => {
-            console.log(member)
-            console.log(resUser)
-            console.log(user)
+            // console.log(member)
+            // console.log(resUser)
+            // console.log(user)
             if (member.id === resUser.id) {
               isMember = true
             }

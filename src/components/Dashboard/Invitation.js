@@ -7,8 +7,10 @@ import {
   Typography,
 } from '@material-ui/core'
 import {
-  React,
+  React, useContext,
 } from 'react'
+import axios from 'axios'
+import { UserContext } from '../../UserContext'
 
 const useStyles = makeStyles((theme) => ({
   club: {
@@ -63,7 +65,24 @@ const useStyles = makeStyles((theme) => ({
 
 const Invitation = (props) => {
   const { invitingUser, invites } = props
+  const [user] = useContext(UserContext)
   const classes = useStyles()
+
+  const handleAccept = async () => {
+    console.log(invites)
+    console.log(user)
+    const URL = 'http://localhost:8081/api/v1/bookclubs/accept'
+    const res = await axios({
+      method: 'patch',
+      url: URL,
+      data: {
+        clubId: invites.clubId,
+        userId: user.id,
+      },
+    })
+    console.log(res)
+  }
+
   return (
     <Paper className={classes.club}>
       <div className={classes.inviteContainer}>
@@ -78,7 +97,7 @@ const Invitation = (props) => {
           </Typography>
         </div>
         <div className={classes.flexRow}>
-          <Button className={classes.btn}>Accept</Button>
+          <Button className={classes.btn} onClick={handleAccept}>Accept</Button>
           <Button className={classes.lighterBtn}>Reject</Button>
         </div>
       </div>

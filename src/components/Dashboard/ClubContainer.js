@@ -1,12 +1,14 @@
 import {
   Avatar,
+  CircularProgress,
   makeStyles,
   Paper,
   Typography,
 } from '@material-ui/core'
 import {
-  React,
+  React, useState, useEffect,
 } from 'react'
+import axios from 'axios'
 import { AvatarGroup } from '@material-ui/lab'
 
 const useStyles = makeStyles((theme) => ({
@@ -61,27 +63,46 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const ClubContainer = (props) => {
-  const { members, club } = props
+  const { club } = props
   const classes = useStyles()
+  const [members, setMembers] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    setIsLoading(true)
+    const memberIds = club.members
+    const URL = process.env.REACT_APP_GET_USER
+    const memberPromises = memberIds.map((memberId) => axios.get(`${URL}/${memberId}`))
+    Promise.all(memberPromises)
+      .then((result) => setMembers(result.map((res) => res.data)))
+      .catch((e) => setError(true))
+    setIsLoading(false)
+  }, [])
+
   return (
     <Paper className={classes.club}>
-      <Typography className={classes.boldText}>{club.clubname}</Typography>
-      {members.length > 0
-        ? (
-          <AvatarGroup>
-            {members.map((member) => (
-              <Avatar
-                src={member.image}
-                alt={member.username}
-              />
-            ))}
-          </AvatarGroup>
-        ) : (
-          <Avatar
-            src={members.image}
-            alt={members.username}
-          />
-        )}
+      {error && (
+        <div>
+          <Typography variant="h6">Sorry!</Typography>
+          <Typography>Something went wrong... &#128546;</Typography>
+        </div>
+      )}
+      {(isLoading || (!members.length && !error)) && <CircularProgress /> }
+      {members.length !== 0 && !error && !isLoading && (
+      <div>
+        <Typography className={classes.boldText}>{club.clubname}</Typography>
+        <AvatarGroup>
+          {members.map((member) => (
+            <Avatar
+              key={member.id}
+              src={member.image}
+              alt={member.username}
+            />
+          ))}
+        </AvatarGroup>
+      </div>
+      )}
     </Paper>
   )
 }

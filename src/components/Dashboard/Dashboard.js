@@ -59,7 +59,7 @@ const Dashboard = () => {
   const [user] = useContext(UserContext)
   const classes = useStyles()
   const [club, setClub] = useState(null)
-  const [members, setMembers] = useState([])
+  // const [members, setMembers] = useState([])
   const [invites, setInvites] = useState(null)
   const [invitingUser, setInvitingUser] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
@@ -80,7 +80,7 @@ const Dashboard = () => {
         if (res.status === 200) {
           setClub(res.data)
           console.log(res.data)
-          getMembers(res.data.members)
+          // getMembers(res.data.members)
         } else if (res.status === 404) {
           setClub(null)
         }
@@ -132,21 +132,21 @@ const Dashboard = () => {
     // setIsLoading(false)
   }
 
-  const getMembers = async (memberIds) => {
-    console.log(memberIds)
-    const URL = process.env.REACT_APP_GET_USER
-    if (memberIds.length > 1) {
-      memberIds.forEach(async (memberId) => {
-        const res = await axios.get(`${URL}/${memberId}`)
-        console.log(res.data)
-        setMembers(...members, res.data)
-      })
-    } else {
-      const res = await axios.get(`${URL}/${memberIds}`)
-      console.log(res.data)
-      setMembers(res.data)
-    }
-  }
+  // const getMembers = async (memberIds) => {
+  //   console.log(memberIds)
+  //   const URL = process.env.REACT_APP_GET_USER
+  //   if (memberIds.length > 1) {
+  //     memberIds.forEach(async (memberId) => {
+  //       const res = await axios.get(`${URL}/${memberId}`)
+  //       console.log(res.data)
+  //       setMembers([...members, res.data])
+  //     })
+  //   } else {
+  //     const res = await axios.get(`${URL}/${memberIds}`)
+  //     console.log(res.data)
+  //     setMembers(res.data)
+  //   }
+  // }
 
   // useEffect(() => {
   //   console.log(club)
@@ -154,14 +154,16 @@ const Dashboard = () => {
   //   getMembers(club.members)
   // }, [club])
 
-  useEffect(() => {
-    if (club) {
-      if (members.length === club.members.length) {
-        setIsLoading(false)
-        console.log(members)
-      }
-    }
-  }, [members.length])
+  // useEffect(() => {
+  //   if (club) {
+  //     if (members.length === club.members.length) {
+  //       console.log(members.length)
+  //       console.log(club.members.length)
+  //       setIsLoading(false)
+  //       console.log(members)
+  //     }
+  //   }
+  // }, [members])
 
   return (
     <div>
@@ -178,11 +180,11 @@ const Dashboard = () => {
               <CircularProgress />
             </Paper>
           )}
-          {!club && !invites && (
+          {!club && !invites && !isLoading && (
             <NoClubContainer handleCreateClub={handleCreateClub} />
           )}
           { club && !isLoading && (
-            <ClubContainer members={members} club={club} />
+            <ClubContainer club={club} />
           )}
         </Box>
         {/* <Box width={0.5}>
