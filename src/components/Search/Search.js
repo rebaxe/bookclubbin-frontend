@@ -57,6 +57,13 @@ const useStyles = makeStyles((theme) => ({
       borderColor: 'purple',
     },
   },
+  loading: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 }))
 
 const Search = () => {
@@ -69,6 +76,7 @@ const Search = () => {
 
   const handleChange = (e, newSearchPreferences) => {
     setQuery('')
+    setOpenError(false)
     setSearchResult(null)
     setSearchPreferences(newSearchPreferences)
   }
@@ -94,10 +102,8 @@ const Search = () => {
         setSearchResult(books)
         setIsLoading(false)
       }).catch((error) => {
-        console.log(error.message)
+        toggleError()
       })
-    } else {
-      console.log('Enter a query')
     }
   }
 
@@ -152,7 +158,11 @@ const Search = () => {
         </div>
         )}
       {openError && <Error open={openError} toggleError={toggleError} message="No results found." />}
-      {isLoading && <CircularProgress />}
+      {isLoading && (
+        <div className={classes.loading}>
+          <CircularProgress />
+        </div>
+      )}
     </div>
   )
 }

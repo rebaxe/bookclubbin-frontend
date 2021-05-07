@@ -1,10 +1,8 @@
 import {
   Box,
-  Button,
   CircularProgress,
   makeStyles,
   Paper,
-  Typography,
 } from '@material-ui/core'
 import {
   React, useContext, useEffect, useState,
