@@ -53,6 +53,7 @@ const Login = () => {
         },
       })
       const data = await res.data
+      console.log(data)
       setUser(data)
       history.push('/dashboard')
     } catch (error) {
