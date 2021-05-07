@@ -77,7 +77,6 @@ const Dashboard = () => {
       .then((res) => {
         if (res.status === 200) {
           setClub(res.data)
-          console.log(res.data)
         } else if (res.status === 404) {
           setClub(null)
         }
@@ -120,7 +119,6 @@ const Dashboard = () => {
   const getInvitingUser = async (userId) => {
     const URL = process.env.REACT_APP_GET_USER
     const res = await axios.get(`${URL}/${userId}`)
-    console.log(res.data)
     setInvitingUser(res.data)
   }
 
