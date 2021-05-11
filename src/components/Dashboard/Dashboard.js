@@ -103,7 +103,8 @@ const Dashboard = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          getInvitingUser(res.data.firstMember)
+          console.log(res.data)
+          // getInvitingUser(res.data.firstMember)
           setInvites(res.data)
         } else if (res.status === 204) {
           setInvites(null)
@@ -119,21 +120,22 @@ const Dashboard = () => {
     history.push('/create-club')
   }
 
-  const getInvitingUser = async (userId) => {
-    const URL = process.env.REACT_APP_GET_USER
-    const res = await axios.get(`${URL}/${userId}`)
-    setInvitingUser(res.data)
-  }
+  // const getInvitingUser = async (userId) => {
+  //   const URL = process.env.REACT_APP_GET_USER
+  //   const res = await axios.get(`${URL}/${userId}`)
+  //   setInvitingUser(res.data)
+  // }
 
   return (
     <div>
       <Box className={classes.container} width={1}>
         <UserContainer />
         <Box width={0.5}>
-          {invitingUser && invites && !isLoading && (
-            <div>
-              <Invitation invitingUser={invitingUser} invites={invites} setInvites={setInvites} />
-            </div>
+          {invites && !isLoading && (
+            invites.map((invite) => <Invitation key={invite.id} invite={invite} />)
+            // <div>
+            //   <Invitation invitingUser={invitingUser} invites={invites} />
+            // </div>
           )}
           {isLoading && (
             <Paper className={classes.club}>
