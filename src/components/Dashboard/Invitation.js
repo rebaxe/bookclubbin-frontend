@@ -10,6 +10,7 @@ import {
   React, useContext,
 } from 'react'
 import axios from 'axios'
+import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../UserContext'
 
 const useStyles = makeStyles((theme) => ({
@@ -64,9 +65,10 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const Invitation = (props) => {
-  const { invitingUser, invites } = props
+  const { invitingUser, invites, setInvites } = props
   const [user] = useContext(UserContext)
   const classes = useStyles()
+  const history = useHistory()
 
   const handleAccept = async () => {
     console.log(invites)
@@ -80,7 +82,21 @@ const Invitation = (props) => {
         userId: user.id,
       },
     })
-    console.log(res)
+    history.push(`/bookclubs/${invites.clubId}`)
+  }
+
+  const handleReject = async () => {
+    const URL = 'http://localhost:8081/api/v1/bookclubs/reject'
+    const res = await axios({
+      method: 'patch',
+      url: URL,
+      data: {
+        clubId: invites.clubId,
+        userId: user.id,
+      },
+    })
+    history.push('/')
+    history.push('/dashboard')
   }
 
   return (
@@ -98,7 +114,7 @@ const Invitation = (props) => {
         </div>
         <div className={classes.flexRow}>
           <Button className={classes.btn} onClick={handleAccept}>Accept</Button>
-          <Button className={classes.lighterBtn}>Reject</Button>
+          <Button className={classes.lighterBtn} onClick={handleReject}>Reject</Button>
         </div>
       </div>
     </Paper>

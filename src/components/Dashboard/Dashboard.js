@@ -79,7 +79,6 @@ const Dashboard = () => {
         if (res.status === 200) {
           setBookClubs(res.data)
           const clubData = res.data.map((r) => ({ id: r.id, clubname: r.clubname }))
-          console.log(clubData)
           setClubs(clubData)
         } else if (res.status === 204) {
           setBookClubs(null)
@@ -104,8 +103,8 @@ const Dashboard = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          setInvites(res.data)
           getInvitingUser(res.data.firstMember)
+          setInvites(res.data)
         } else if (res.status === 204) {
           setInvites(null)
         }
@@ -131,9 +130,9 @@ const Dashboard = () => {
       <Box className={classes.container} width={1}>
         <UserContainer />
         <Box width={0.5}>
-          {invites && !isLoading && (
+          {invitingUser && invites && !isLoading && (
             <div>
-              <Invitation invitingUser={invitingUser} invites={invites} />
+              <Invitation invitingUser={invitingUser} invites={invites} setInvites={setInvites} />
             </div>
           )}
           {isLoading && (
