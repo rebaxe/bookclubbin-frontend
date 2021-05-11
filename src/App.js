@@ -9,28 +9,31 @@ import { UserProvider } from './UserContext'
 import Logout from './components/Logout/Logout'
 import ProtectedRoute from './Routes/ProtectedRoute'
 import CreateClub from './components/Club/CreateClub'
+import { ClubsProvider } from './ClubsContext'
 
 function App() {
   return (
     <Router>
       <UserProvider>
-        <div className="App">
-          <NavBar />
-          <Switch>
-            <Route exact path="/">
-              <Home />
-            </Route>
-            <ProtectedRoute exact path="/search" component={Search} />
-            <Route exact path="/login">
-              <Login />
-            </Route>
-            <Route exact path="/logout">
-              <Logout />
-            </Route>
-            <ProtectedRoute exact path="/dashboard" component={Dashboard} />
-            <ProtectedRoute exact path="/create-club" component={CreateClub} />
-          </Switch>
-        </div>
+        <ClubsProvider>
+          <div className="App">
+            <NavBar />
+            <Switch>
+              <Route exact path="/">
+                <Home />
+              </Route>
+              <ProtectedRoute exact path="/search" component={Search} />
+              <Route exact path="/login">
+                <Login />
+              </Route>
+              <Route exact path="/logout">
+                <Logout />
+              </Route>
+              <ProtectedRoute exact path="/dashboard" component={Dashboard} />
+              <ProtectedRoute exact path="/create-club" component={CreateClub} />
+            </Switch>
+          </div>
+        </ClubsProvider>
       </UserProvider>
     </Router>
   )
