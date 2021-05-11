@@ -22,6 +22,13 @@ const useStyles = makeStyles((theme) => ({
     margin: 10,
     gap: theme.spacing(2),
   },
+  clubInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+  },
   btn: {
     backgroundColor: '#D8A31A',
     color: 'white',
@@ -91,7 +98,7 @@ const ClubContainer = (props) => {
       )}
       {(isLoading || (!members.length && !error)) && <CircularProgress /> }
       {members.length !== 0 && !error && !isLoading && (
-      <div>
+      <div className={classes.clubInfo}>
         <Typography className={classes.boldText}>{club.clubname}</Typography>
         <AvatarGroup>
           {members.map((member) => (

@@ -14,6 +14,7 @@ import Invitation from './Invitation'
 import ClubContainer from './ClubContainer'
 import UserContainer from './UserContainer'
 import NoClubContainer from './NoClubContainer'
+import { ClubsContext } from '../../ClubsContext'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -56,8 +57,8 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
   const [user] = useContext(UserContext)
   const classes = useStyles()
-  const [club, setClub] = useState(null)
-  // const [members, setMembers] = useState([])
+  const [bookClubs, setBookClubs] = useState(null)
+  const [clubs, setClubs] = useContext(ClubsContext)
   const [invites, setInvites] = useState(null)
   const [invitingUser, setInvitingUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
@@ -76,9 +77,11 @@ const Dashboard = () => {
       )
       .then((res) => {
         if (res.status === 200) {
-          setClub(res.data)
-        } else if (res.status === 404) {
-          setClub(null)
+          setBookClubs(res.data)
+          const clubData = res.data.map((r) => ({ id: r.id, clubname: r.clubname }))
+          setClubs(clubData)
+        } else if (res.status === 204) {
+          setBookClubs(null)
         }
         setIsLoading(false)
       })
@@ -100,9 +103,10 @@ const Dashboard = () => {
       )
       .then((res) => {
         if (res.status === 200) {
+          console.log(res.data)
+          // getInvitingUser(res.data.firstMember)
           setInvites(res.data)
-          getInvitingUser(res.data.firstMember)
-        } else if (res.status === 404) {
+        } else if (res.status === 204) {
           setInvites(null)
         }
         setIsLoading(false)
@@ -116,11 +120,11 @@ const Dashboard = () => {
     history.push('/create-club')
   }
 
-  const getInvitingUser = async (userId) => {
-    const URL = process.env.REACT_APP_GET_USER
-    const res = await axios.get(`${URL}/${userId}`)
-    setInvitingUser(res.data)
-  }
+  // const getInvitingUser = async (userId) => {
+  //   const URL = process.env.REACT_APP_GET_USER
+  //   const res = await axios.get(`${URL}/${userId}`)
+  //   setInvitingUser(res.data)
+  // }
 
   return (
     <div>
@@ -128,32 +132,25 @@ const Dashboard = () => {
         <UserContainer />
         <Box width={0.5}>
           {invites && !isLoading && (
-            <div>
-              <Invitation invitingUser={invitingUser} invites={invites} />
-            </div>
+            invites.map((invite) => <Invitation key={invite.id} invite={invite} />)
+            // <div>
+            //   <Invitation invitingUser={invitingUser} invites={invites} />
+            // </div>
           )}
           {isLoading && (
             <Paper className={classes.club}>
               <CircularProgress />
             </Paper>
           )}
-          {!club && !invites && !isLoading && (
+          {!bookClubs && !invites && !isLoading && (
             <NoClubContainer handleCreateClub={handleCreateClub} />
           )}
-          { club && !isLoading && (
-            <ClubContainer club={club} />
+          { bookClubs && !isLoading && (
+            bookClubs.map((bookClub) => (
+              <ClubContainer key={bookClub.id} club={bookClub} />
+            ))
           )}
         </Box>
-        {/* <Box width={0.5}>
-            <Paper className={classes.meeting} >
-              <Typography>Your next meeting will be displayed here.</Typography>
-              <Box className={classes.calendar} width={0.5}>
-                  <Typography variant="h2">23</Typography>
-                  <Typography variant="h4">May</Typography>
-                  <Typography variant="body1">@ 19.00</Typography>
-              </Box>
-            </Paper>
-        </Box> */}
       </Box>
     </div>
   )
