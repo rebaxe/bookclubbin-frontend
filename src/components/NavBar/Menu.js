@@ -1,9 +1,9 @@
 import {
-  Avatar, Drawer, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText,
+  Avatar, Divider, Drawer, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import {
-  Dashboard, Group, GroupAdd, Search,
+  Dashboard, Delete, Group, GroupAdd, Search,
 } from '@material-ui/icons'
 import { useContext, useEffect } from 'react'
 import { useHistory } from 'react-router-dom'
@@ -35,6 +35,11 @@ const useStyles = makeStyles((theme) => ({
   },
   clubContainer: {
     border: '1px solid black',
+  },
+  delete: {
+    '&:hover': {
+      backgroundColor: '#FDECEA',
+    },
   },
 }))
 
@@ -71,18 +76,6 @@ const Menu = (props) => {
                 />
               </div>
             </ListItem>
-            <ListItem
-              button
-              onClick={() => {
-                history.push('/dashboard')
-                toggleMenu()
-              }}
-            >
-              <ListItemIcon>
-                <Dashboard />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItem>
             {clubs && (
               clubs.map((club) => (
                 <ListItem
@@ -100,6 +93,19 @@ const Menu = (props) => {
                 </ListItem>
               ))
             )}
+            <Divider />
+            <ListItem
+              button
+              onClick={() => {
+                history.push('/dashboard')
+                toggleMenu()
+              }}
+            >
+              <ListItemIcon>
+                <Dashboard />
+              </ListItemIcon>
+              <ListItemText primary="Dashboard" />
+            </ListItem>
             <ListItem
               button
               onClick={() => {
@@ -123,6 +129,20 @@ const Menu = (props) => {
                 <GroupAdd />
               </ListItemIcon>
               <ListItemText primary="Start book club" />
+            </ListItem>
+            <Divider />
+            <ListItem
+              className={classes.delete}
+              button
+              onClick={() => {
+                history.push('/user/delete')
+                toggleMenu()
+              }}
+            >
+              <ListItemIcon>
+                <Delete />
+              </ListItemIcon>
+              <ListItemText primary="Delete account" />
             </ListItem>
           </div>
           )}

@@ -33,6 +33,7 @@ function App() {
               <ProtectedRoute exact path="/dashboard" component={Dashboard} />
               <ProtectedRoute exact path="/create-club" component={CreateClub} />
               <ProtectedRoute exact path="/bookclubs/:id" />
+              <ProtectedRoute exact path="/user/delete" />
               <Route component={NotFound} />
             </Switch>
           </div>
