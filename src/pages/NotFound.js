@@ -1,5 +1,5 @@
-import { makeStyles } from '@material-ui/core'
-import { ReactComponent as Reader } from './images/reader.svg'
+import { makeStyles, Typography } from '@material-ui/core'
+import { ReactComponent as NotFoundImg } from './images/404.svg'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,14 +17,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
-const Home = () => {
+const NotFound = () => {
   const classes = useStyles()
 
   return (
-    <div className={classes.container}>
-      <Reader />
+    <div width={1} className={classes.container}>
+      <NotFoundImg />
+      <Typography className={classes.text}>404 - Not Found</Typography>
     </div>
   )
 }
 
-export default Home
+export default NotFound
