@@ -10,6 +10,7 @@ import Logout from './components/Logout/Logout'
 import ProtectedRoute from './Routes/ProtectedRoute'
 import CreateClub from './components/Club/CreateClub'
 import { ClubsProvider } from './ClubsContext'
+import NotFound from './pages/NotFound'
 
 function App() {
   return (
@@ -31,6 +32,8 @@ function App() {
               </Route>
               <ProtectedRoute exact path="/dashboard" component={Dashboard} />
               <ProtectedRoute exact path="/create-club" component={CreateClub} />
+              <ProtectedRoute exact path="/bookclubs/:id" />
+              <Route component={NotFound} />
             </Switch>
           </div>
         </ClubsProvider>
