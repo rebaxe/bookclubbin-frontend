@@ -3,6 +3,9 @@
     "browser": true,
     "node": true
   },
+  "globals": {
+    "cy": true
+  },
   "extends": [
     "airbnb",
     "airbnb/hooks",
