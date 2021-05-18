@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import axios from 'axios'
 import {
-  Box, CircularProgress, makeStyles, Paper, Typography,
+  Box, CircularProgress, Divider, makeStyles, Paper, Typography,
 } from '@material-ui/core'
 import ClubMembers from './ClubMembers'
+import BookShelf from './BookShelf'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -26,10 +27,11 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: theme.spacing(1),
   },
   clubname: {
+    fontFamily: 'Orelega One',
     textTransform: 'capitalize',
     padding: theme.spacing(1),
   },
@@ -59,9 +61,7 @@ const BookClub = () => {
                 <ClubMembers memberIds={club.members} />
               </Box>
               <Box width={0.5}>
-                <Paper className={classes.flexCol}>
-                  <Typography>With</Typography>
-                </Paper>
+                <BookShelf booksToRead={club.booksSaved} readBooks={club.booksRead} />
               </Box>
             </Box>
           </Box>

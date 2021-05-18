@@ -1,6 +1,6 @@
 import {
-  Avatar, Button, CircularProgress, List, ListItem, ListItemAvatar, ListItemText, makeStyles,
-  Paper, Typography,
+  Avatar, Button, CircularProgress, Divider, List, ListItem,
+  ListItemAvatar, ListItemText, makeStyles, Paper, Typography,
 } from '@material-ui/core'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     '&:hover': {
       color: '#D8A31A',
     },
+  },
+  divider: {
+    width: '100%',
   },
 }))
 
@@ -60,7 +63,8 @@ const ClubMembers = (props) => {
       {(isLoading || (!members.length && !error)) && <CircularProgress /> }
       {members.length !== 0 && !error && !isLoading && (
       <div className={classes.membersContainer}>
-        <Typography className={classes.boldText}>The Bookworms 🐛</Typography>
+        <Typography variant="h6" className={classes.boldText}>The Bookworms 🐛</Typography>
+        <Divider className={classes.divider} />
         <List className={classes.memberList}>
           {members.map((member) => (
             <ListItem>

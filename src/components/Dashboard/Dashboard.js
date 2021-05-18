@@ -78,8 +78,9 @@ const Dashboard = () => {
       .then((res) => {
         if (res.status === 200) {
           setBookClubs(res.data)
-          const clubData = res.data.map((r) => ({ id: r.id, clubname: r.clubname }))
-          setClubs(clubData)
+          // const clubData = res.data.map((r) => ({ id: r.id, clubname: r.clubname }))
+          // setClubs(clubData)
+          setClubs(res.data)
         } else if (res.status === 204) {
           setBookClubs(null)
         }
