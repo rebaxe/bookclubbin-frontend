@@ -1,6 +1,9 @@
 import {
-  Paper, Typography, makeStyles, Divider,
+  Paper, Typography, makeStyles, Divider, Button,
 } from '@material-ui/core'
+import { useState } from 'react'
+import BookCarousel from './BookCarousel'
+import BookList from './BookList'
 
 const useStyles = makeStyles((theme) => ({
   boldText: {
@@ -17,11 +20,19 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     width: '100%',
   },
+  coverImg: {
+    objectFit: 'contain',
+  },
 }))
 
 const BookShelf = (props) => {
   const { booksToRead, readBooks } = props
   const classes = useStyles()
+  const [openTBR, setOpenTBR] = useState(false)
+
+  const handleTBR = () => {
+    openTBR ? setOpenTBR(false) : setOpenTBR(true)
+  }
 
   return (
     <Paper>
@@ -30,11 +41,19 @@ const BookShelf = (props) => {
         <Divider className={classes.divider} />
         <Typography className={classes.boldText}>TBR (To Be Read) 💛</Typography>
         {booksToRead.length !== 0
-          ? <Typography>Books you want to read will be shown here...</Typography>
-          : <Typography>No books here yet...</Typography>}
+          ? (
+            <>
+              <BookCarousel books={booksToRead} />
+              <div>
+                <Button onClick={handleTBR}>View shelf</Button>
+                <BookList open={openTBR} books={booksToRead} handleDialog={handleTBR} header="TBR (To Be Read) 💛" />
+              </div>
+            </>
+          )
+          : (<Typography>No books here yet...</Typography>)}
         <Typography className={classes.boldText}>Read books ☑️</Typography>
         {readBooks.length !== 0
-          ? <Typography>Books you have read will be shown here...</Typography>
+          ? <BookCarousel books={readBooks} />
           : <Typography>No books here yet...</Typography>}
       </div>
     </Paper>
