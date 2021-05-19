@@ -67,10 +67,9 @@ const ClubMembers = (props) => {
         <Divider className={classes.divider} />
         <List className={classes.memberList}>
           {members.map((member) => (
-            <ListItem>
+            <ListItem key={member.id}>
               <ListItemAvatar>
                 <Avatar
-                  key={member.id}
                   src={member.image}
                   alt={member.username}
                 />

@@ -4,6 +4,7 @@ import {
 import { Favorite, FavoriteBorder } from '@material-ui/icons'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
+import { addBook, getBookclub } from '../../api/apiCalls'
 import { ClubsContext } from '../../ClubsContext'
 import { UserContext } from '../../UserContext'
 
@@ -57,13 +58,14 @@ const HandleBookshelf = (props) => {
       })
     } else {
       setCheckedRead(true)
-      const res = await axios({
-        method: 'patch',
-        url: `http://localhost:8081/api/v1/bookclubs/${selectedClubId}/books/add`,
-        data: {
-          bookRead: book,
-        },
-      })
+      addBook(selectedClubId, 'bookRead', book)
+      // const res = await axios({
+      //   method: 'patch',
+      //   url: `http://localhost:8081/api/v1/bookclubs/${selectedClubId}/books/add`,
+      //   data: {
+      //     bookRead: book,
+      //   },
+      // })
     }
     const updatedClubs = await axios({
       method: 'get',
@@ -97,15 +99,17 @@ const HandleBookshelf = (props) => {
         },
       })
     }
-    const updatedClubs = await axios({
-      method: 'get',
-      url: `${process.env.REACT_APP_GET_CLUB}/${user.id}`,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    setClubs(updatedClubs.data)
+    const clubData = await getBookclub(user)
+    setClubs(clubData)
+    // const updatedClubs = await axios({
+    //   method: 'get',
+    //   url: `${process.env.REACT_APP_GET_CLUB}/${user.id}`,
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    // })
+    // setClubs(updatedClubs.data)
   }
 
   return (

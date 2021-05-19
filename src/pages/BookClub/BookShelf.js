@@ -29,9 +29,14 @@ const BookShelf = (props) => {
   const { booksToRead, readBooks } = props
   const classes = useStyles()
   const [openTBR, setOpenTBR] = useState(false)
+  const [openRead, setOpenRead] = useState(false)
 
   const handleTBR = () => {
     openTBR ? setOpenTBR(false) : setOpenTBR(true)
+  }
+
+  const handleRead = () => {
+    openRead ? setOpenRead(false) : setOpenRead(true)
   }
 
   return (
@@ -46,15 +51,23 @@ const BookShelf = (props) => {
               <BookCarousel books={booksToRead} />
               <div>
                 <Button onClick={handleTBR}>View shelf</Button>
-                <BookList open={openTBR} books={booksToRead} handleDialog={handleTBR} header="TBR (To Be Read) 💛" />
               </div>
             </>
           )
           : (<Typography>No books here yet...</Typography>)}
         <Typography className={classes.boldText}>Read books ☑️</Typography>
         {readBooks.length !== 0
-          ? <BookCarousel books={readBooks} />
+          ? (
+            <>
+              <BookCarousel books={readBooks} />
+              <div>
+                <Button onClick={handleRead}>View shelf</Button>
+              </div>
+            </>
+          )
           : <Typography>No books here yet...</Typography>}
+        <BookList open={openTBR} shelf="0" books={booksToRead} handleDialog={handleTBR} header="TBR (To Be Read) 💛" />
+        <BookList open={openRead} shelf="1" books={readBooks} handleDialog={handleRead} header="Read books ☑️" />
       </div>
     </Paper>
   )
