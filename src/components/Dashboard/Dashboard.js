@@ -7,7 +7,6 @@ import {
 import {
   React, useContext, useEffect, useState,
 } from 'react'
-import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../UserContext'
 import Invitation from './Invitation'
@@ -58,14 +57,12 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
   const [user] = useContext(UserContext)
   const classes = useStyles()
-  const [bookClubs, setBookClubs] = useState(null)
   const [clubs, setClubs] = useContext(ClubsContext)
   const [invites, setInvites] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const history = useHistory()
 
   useEffect(() => {
-    console.log(user.id)
     getBookclubs(user).then((res) => {
       setClubs(res)
       setIsLoading(false)
@@ -99,9 +96,6 @@ const Dashboard = () => {
         <Box width={0.5}>
           {invites && !isLoading && (
             invites.map((invite) => <Invitation key={invite.id} invite={invite} />)
-            // <div>
-            //   <Invitation invitingUser={invitingUser} invites={invites} />
-            // </div>
           )}
           {isLoading && (
             <Paper className={classes.club}>

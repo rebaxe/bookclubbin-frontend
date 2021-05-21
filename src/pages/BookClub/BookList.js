@@ -1,5 +1,5 @@
 import {
-  AppBar, Button, Dialog, IconButton, List, ListItem, ListItemText, makeStyles, Tooltip, Typography,
+  AppBar, Dialog, IconButton, List, ListItem, ListItemText, makeStyles, Tooltip, Typography,
 } from '@material-ui/core'
 import { Check, Close, Delete } from '@material-ui/icons'
 import { useContext, useState } from 'react'
@@ -41,23 +41,18 @@ const BookList = (props) => {
 
   const handleMark = async (e) => {
     e.preventDefault()
-    console.log('Mark as read')
     const bookGoogleId = e.currentTarget.value
-    console.log(bookGoogleId)
     const bookToMark = books.filter((book) => book.googleId === bookGoogleId)
 
     await addBook(id, 'bookRead', bookToMark[0])
     await removeBook(id, 'bookSaved', bookToMark[0])
     const clubData = await getBookclubs(user)
-    console.log(clubData)
     setClubs(clubData)
   }
 
   const handleRemove = async (e) => {
     e.preventDefault()
-    console.log('Remove from saved')
     const bookGoogleId = e.currentTarget.value
-    console.log(bookGoogleId)
     const bookToMark = books.filter((book) => book.googleId === bookGoogleId)
     let shelfToEdit = ''
     if (shelf === '0') {
@@ -68,7 +63,6 @@ const BookList = (props) => {
 
     await removeBook(id, shelfToEdit, bookToMark[0])
     const clubData = await getBookclubs(user)
-    console.log(clubData)
     setClubs(clubData)
   }
 

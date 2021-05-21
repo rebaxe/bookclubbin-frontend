@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
   Dashboard, Delete, Group, GroupAdd, Search,
 } from '@material-ui/icons'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ClubsContext } from '../../ClubsContext'
 import { UserContext } from '../../UserContext'
@@ -52,10 +52,6 @@ const Menu = (props) => {
   const [clubs] = useContext(ClubsContext)
   const history = useHistory()
   const { open, toggleMenu } = props
-
-  useEffect(() => {
-    console.log(clubs)
-  }, [])
 
   return (
     <div>

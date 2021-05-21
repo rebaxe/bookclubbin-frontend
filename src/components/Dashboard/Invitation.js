@@ -88,17 +88,6 @@ const Invitation = (props) => {
 
   const handleAccept = async () => {
     await acceptInvite(invite.id, user.id)
-    // console.log(invite)
-    // console.log(user)
-    // const URL = 'http://localhost:8081/api/v1/bookclubs/accept'
-    // const res = await axios({
-    //   method: 'patch',
-    //   url: URL,
-    //   data: {
-    //     clubId: invite.id,
-    //     userId: user.id,
-    //   },
-    // })
     const clubsData = await getBookclubs(user)
     setClubs(clubsData)
     history.push(`/bookclubs/${invite.id}`)

@@ -64,7 +64,7 @@ const BookPreview = (props) => {
           <Typography variant="h6">{ book.title }</Typography>
           { book.authors !== undefined && (
           <Typography variant="h6">
-            by
+            by{' '}
             { book.authors }
           </Typography>
           ) }
