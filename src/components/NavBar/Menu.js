@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   },
   clubname: {
     textTransform: 'capitalize',
+    '.MuiTypography-body1': {
+      overflowWrap: 'break-word',
+    },
   },
   clubsHeader: {
     backgroundColor: '#f4f4f4',
@@ -89,7 +92,7 @@ const Menu = (props) => {
                   <ListItemIcon>
                     <Group />
                   </ListItemIcon>
-                  <ListItemText className={classes.clubname} primary={club.clubname} />
+                  <ListItemText className={classes.clubname} primary={club.clubname} style={{ overflowWrap: 'break-word' }} />
                 </ListItem>
               ))
             )}

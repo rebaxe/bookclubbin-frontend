@@ -24,6 +24,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     margin: '10px 0px',
   },
+  paper: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: '10px 0px',
+  },
   flexRow: {
     display: 'flex',
     flexDirection: 'row',
@@ -32,9 +40,11 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(1),
   },
   clubname: {
+    maxWidth: '100%',
     fontFamily: 'Orelega One',
     textTransform: 'capitalize',
     padding: theme.spacing(1),
+    overflowWrap: 'break-word',
   },
 }))
 
@@ -55,7 +65,7 @@ const BookClub = () => {
       {club ? (
         <Box className={classes.container} width={1}>
           <Box width={0.5}>
-            <Paper className={classes.flexCol}>
+            <Paper className={classes.paper}>
               <Typography variant="h3" className={classes.clubname}>{club.clubname}</Typography>
             </Paper>
             <Box className={classes.flexRow} width={1}>
