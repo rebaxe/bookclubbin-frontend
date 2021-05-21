@@ -2,6 +2,7 @@ import {
   Paper, Typography, makeStyles, Divider, Button,
 } from '@material-ui/core'
 import { useState } from 'react'
+import { Link, useHistory } from 'react-router-dom'
 import BookCarousel from './BookCarousel'
 import BookList from './BookList'
 
@@ -38,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
 const BookShelf = (props) => {
   const { booksToRead, readBooks } = props
   const classes = useStyles()
+  const history = useHistory()
   const [openTBR, setOpenTBR] = useState(false)
   const [openRead, setOpenRead] = useState(false)
 
@@ -47,6 +49,10 @@ const BookShelf = (props) => {
 
   const handleRead = () => {
     openRead ? setOpenRead(false) : setOpenRead(true)
+  }
+
+  const handleSearch = () => {
+    history.push('/search')
   }
 
   return (
@@ -64,7 +70,12 @@ const BookShelf = (props) => {
               </div>
             </>
           )
-          : (<Typography>No books here yet...</Typography>)}
+          : (
+            <>
+              <Typography>No books here yet...</Typography>
+              <Button className={classes.btn} onClick={handleSearch}>Search books</Button>
+            </>
+          )}
         <Typography className={classes.boldText}>Read books ☑️</Typography>
         {readBooks.length !== 0
           ? (
@@ -75,7 +86,12 @@ const BookShelf = (props) => {
               </div>
             </>
           )
-          : <Typography>No books here yet...</Typography>}
+          : (
+            <>
+              <Typography>No books here yet...</Typography>
+              <Button className={classes.btn} onClick={handleSearch}>Search books</Button>
+            </>
+          )}
         <BookList open={openTBR} shelf="0" books={booksToRead} handleDialog={handleTBR} header="TBR (To Be Read) 💛" />
         <BookList open={openRead} shelf="1" books={readBooks} handleDialog={handleRead} header="Read books ☑️" />
       </div>

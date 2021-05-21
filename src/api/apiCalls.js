@@ -26,7 +26,6 @@ export async function addBook(clubId, shelfToUpdate, book) {
   await axios({
     method: 'PATCH',
     url: `http://localhost:8081/api/v1/bookclubs/${clubId}/books/add`,
-    // headers: myHeaders,
     data: {
       [shelfToUpdate]: book,
     },
@@ -34,9 +33,6 @@ export async function addBook(clubId, shelfToUpdate, book) {
 }
 
 export async function removeBook(clubId, shelfToUpdate, book) {
-  console.log(clubId)
-  console.log(shelfToUpdate)
-  console.log(book)
   await axios({
     method: 'PATCH',
     // headers: myHeaders,

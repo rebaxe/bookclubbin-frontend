@@ -1,6 +1,6 @@
 import {
-  AppBar, Box, Button, Dialog, IconButton, Typography, Tooltip,
-  makeStyles, List, ListItem, ListItemAvatar, Avatar, ListItemText, ListItemIcon,
+  AppBar, Button, Dialog, IconButton, Typography, Tooltip,
+  makeStyles, List, ListItem, ListItemAvatar, Avatar, ListItemText,
 } from '@material-ui/core'
 import {
   AddCircle, Cancel, Close, RemoveCircle,
@@ -79,7 +79,6 @@ const EditMembers = (props) => {
   useEffect(() => {
     getBookclub(clubId).then((res) => {
       if (res.invitations) {
-        console.log(res.invitations)
         const promises = res.invitations.map((invite) => getUserById(invite.invitedUser))
         Promise.all(promises)
           .then((result) => setInvitedMembers(result))

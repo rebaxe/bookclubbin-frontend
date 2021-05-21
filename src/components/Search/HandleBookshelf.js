@@ -2,9 +2,9 @@ import {
   FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox,
 } from '@material-ui/core'
 import { Favorite, FavoriteBorder } from '@material-ui/icons'
-import axios from 'axios'
+// import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
-import { addBook, getBookclubs } from '../../api/apiCalls'
+import { addBook, getBookclubs, removeBook } from '../../api/apiCalls'
 import { ClubsContext } from '../../ClubsContext'
 import { UserContext } from '../../UserContext'
 
@@ -49,23 +49,17 @@ const HandleBookshelf = (props) => {
 
     if (checkedRead) {
       setCheckedRead(false)
-      const res = await axios({
-        method: 'patch',
-        url: `http://localhost:8081/api/v1/bookclubs/${selectedClubId}/books/remove`,
-        data: {
-          bookRead: book,
-        },
-      })
-    } else {
-      setCheckedRead(true)
-      addBook(selectedClubId, 'bookRead', book)
+      await removeBook(selectedClubId, 'bookRead', book)
       // const res = await axios({
       //   method: 'patch',
-      //   url: `http://localhost:8081/api/v1/bookclubs/${selectedClubId}/books/add`,
+      //   url: `http://localhost:8081/api/v1/bookclubs/${selectedClubId}/books/remove`,
       //   data: {
       //     bookRead: book,
       //   },
       // })
+    } else {
+      setCheckedRead(true)
+      addBook(selectedClubId, 'bookRead', book)
     }
     const clubData = await getBookclubs(user)
     setClubs(clubData)
@@ -74,34 +68,27 @@ const HandleBookshelf = (props) => {
   const handleCheckTBR = async () => {
     if (checkedTBR) {
       setCheckedTBR(false)
-      const res = await axios({
-        method: 'patch',
-        url: `http://localhost:8081/api/v1/bookclubs/${selectedClubId}/books/remove`,
-        data: {
-          bookSaved: book,
-        },
-      })
+      await removeBook(selectedClubId, 'bookSaved', book)
+      // const res = await axios({
+      //   method: 'patch',
+      //   url: `http://localhost:8081/api/v1/bookclubs/${selectedClubId}/books/remove`,
+      //   data: {
+      //     bookSaved: book,
+      //   },
+      // })
     } else {
       setCheckedTBR(true)
-      const res = await axios({
-        method: 'patch',
-        url: `http://localhost:8081/api/v1/bookclubs/${selectedClubId}/books/add`,
-        data: {
-          bookSaved: book,
-        },
-      })
+      addBook(selectedClubId, 'bookSaved', book)
+      // const res = await axios({
+      //   method: 'patch',
+      //   url: `http://localhost:8081/api/v1/bookclubs/${selectedClubId}/books/add`,
+      //   data: {
+      //     bookSaved: book,
+      //   },
+      // })
     }
     const clubData = await getBookclubs(user)
     setClubs(clubData)
-    // const updatedClubs = await axios({
-    //   method: 'get',
-    //   url: `${process.env.REACT_APP_GET_CLUB}/${user.id}`,
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    // })
-    // setClubs(updatedClubs.data)
   }
 
   return (

@@ -81,9 +81,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const BookModal = (props) => {
-  const { open: view } = props
-  const { book } = props
-  const { handleClose } = props
+  const {
+    open: view, book, editable, handleClose,
+  } = props
+  // const { book, editable } = props
+  // const { handleClose } = props
   const classes = useStyles()
   return (
     <Modal
@@ -148,7 +150,7 @@ const BookModal = (props) => {
               </Box>
               )}
             </div>
-            <HandleBookshelf book={book} />
+            {editable && <HandleBookshelf book={book} />}
           </div>
         </div>
       </Fade>

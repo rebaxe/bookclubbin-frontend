@@ -2,11 +2,12 @@ import {
   AppBar, Button, Dialog, IconButton, List, ListItem, ListItemText, makeStyles, Tooltip, Typography,
 } from '@material-ui/core'
 import { Check, Close, Delete } from '@material-ui/icons'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { addBook, getBookclubs, removeBook } from '../../api/apiCalls'
 import { ClubsContext } from '../../ClubsContext'
 import { UserContext } from '../../UserContext'
+import BookModal from '../../components/Search/BookModal'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -20,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
   boldText: {
     fontWeight: theme.typography.fontWeightBold,
   },
+  book: {
+    '&:hover': {
+      color: '#D8A31A',
+      cursor: 'pointer',
+    },
+  },
 }))
 
 const BookList = (props) => {
@@ -30,6 +37,7 @@ const BookList = (props) => {
     books, shelf, open, handleDialog, header,
   } = props
   const classes = useStyles()
+  const [openModal, setOpenModal] = useState(false)
 
   const handleMark = async (e) => {
     e.preventDefault()
@@ -64,6 +72,14 @@ const BookList = (props) => {
     setClubs(clubData)
   }
 
+  const handleOpenModal = () => {
+    setOpenModal(true)
+  }
+
+  const handleCloseModal = () => {
+    setOpenModal(false)
+  }
+
   return (
     <Dialog fullScreen open={open}>
       <AppBar className={classes.appBar}>
@@ -74,21 +90,31 @@ const BookList = (props) => {
         : (
           <List>
             {books.map((book) => (
-              <ListItem key={book.googleId}>
-                <ListItemText>{book.title} by {book.authors}</ListItemText>
-                {shelf === '0' && (
-                <Tooltip title="Mark as read">
-                  <IconButton value={book.googleId} onClick={(e) => handleMark(e)}>
-                    <Check />
-                  </IconButton>
-                </Tooltip>
-                )}
-                <Tooltip title="Remove from shelf">
-                  <IconButton value={book.googleId} onClick={(e) => handleRemove(e)}>
-                    <Delete />
-                  </IconButton>
-                </Tooltip>
-              </ListItem>
+              <>
+                <ListItem key={book.googleId}>
+                  <ListItemText className={classes.book} onClick={handleOpenModal}>
+                    {book.title} by {book.authors}
+                  </ListItemText>
+                  {shelf === '0' && (
+                  <Tooltip title="Mark as read">
+                    <IconButton value={book.googleId} onClick={(e) => handleMark(e)}>
+                      <Check />
+                    </IconButton>
+                  </Tooltip>
+                  )}
+                  <Tooltip title="Remove from shelf">
+                    <IconButton value={book.googleId} onClick={(e) => handleRemove(e)}>
+                      <Delete />
+                    </IconButton>
+                  </Tooltip>
+                </ListItem>
+                <BookModal
+                  open={openModal}
+                  handleClose={handleCloseModal}
+                  book={book}
+                  editable={false}
+                />
+              </>
             ))}
           </List>
         )}

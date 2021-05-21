@@ -1,5 +1,5 @@
 import {
-  TextField, Avatar, Button, Typography, makeStyles, IconButton,
+  TextField, Avatar, makeStyles, IconButton,
 } from '@material-ui/core'
 import { PersonAdd } from '@material-ui/icons'
 import { Autocomplete } from '@material-ui/lab'

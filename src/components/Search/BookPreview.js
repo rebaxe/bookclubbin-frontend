@@ -82,13 +82,12 @@ const BookPreview = (props) => {
           />
           <div className={classes.view}>
             <IconButton className={classes.btn} onClick={handleViewBook}>
-              {/* <Visibility /> */}
               <ArrowForwardIcon />
             </IconButton>
           </div>
         </CardContent>
       </Card>
-      <BookModal open={openView} book={book} handleClose={handleClose} />
+      <BookModal open={openView} book={book} handleClose={handleClose} editable />
     </div>
   )
 }
