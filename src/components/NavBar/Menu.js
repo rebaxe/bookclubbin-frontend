@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
   Dashboard, Delete, Group, GroupAdd, Search,
 } from '@material-ui/icons'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ClubsContext } from '../../ClubsContext'
 import { UserContext } from '../../UserContext'
@@ -29,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
   },
   clubname: {
     textTransform: 'capitalize',
+    '.MuiTypography-body1': {
+      overflowWrap: 'break-word',
+    },
   },
   clubsHeader: {
     backgroundColor: '#f4f4f4',
@@ -49,10 +52,6 @@ const Menu = (props) => {
   const [clubs] = useContext(ClubsContext)
   const history = useHistory()
   const { open, toggleMenu } = props
-
-  useEffect(() => {
-    console.log(clubs)
-  }, [])
 
   return (
     <div>
@@ -89,7 +88,7 @@ const Menu = (props) => {
                   <ListItemIcon>
                     <Group />
                   </ListItemIcon>
-                  <ListItemText className={classes.clubname} primary={club.clubname} />
+                  <ListItemText className={classes.clubname} primary={club.clubname} style={{ overflowWrap: 'break-word' }} />
                 </ListItem>
               ))
             )}

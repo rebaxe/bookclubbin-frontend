@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import CloseIcon from '@material-ui/icons/Close'
 import { React } from 'react'
 import googleImg from './images/google-attribution.png'
+import HandleBookshelf from './HandleBookshelf'
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -80,9 +81,11 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const BookModal = (props) => {
-  const { open: view } = props
-  const { book } = props
-  const { handleClose } = props
+  const {
+    open: view, book, editable, handleClose,
+  } = props
+  // const { book, editable } = props
+  // const { handleClose } = props
   const classes = useStyles()
   return (
     <Modal
@@ -101,6 +104,7 @@ const BookModal = (props) => {
           >
             <CloseIcon />
           </Button>
+          <img className={classes.googleImage} src={googleImg} alt="Google Attribution" />
           {book.image && (
           <img
             className={classes.image}
@@ -133,6 +137,7 @@ const BookModal = (props) => {
               {book.pages && (
               <Typography variant="subtitle2">
                 Pages:
+                {' '}
                 {book.pages}
               </Typography>
               )}
@@ -145,8 +150,8 @@ const BookModal = (props) => {
               </Box>
               )}
             </div>
+            {editable && <HandleBookshelf book={book} />}
           </div>
-          <img className={classes.googleImage} src={googleImg} alt="Google Attribution" />
         </div>
       </Fade>
     </Modal>

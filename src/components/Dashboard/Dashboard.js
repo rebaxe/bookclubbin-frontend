@@ -7,7 +7,6 @@ import {
 import {
   React, useContext, useEffect, useState,
 } from 'react'
-import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../UserContext'
 import Invitation from './Invitation'
@@ -15,6 +14,7 @@ import ClubContainer from './ClubContainer'
 import UserContainer from './UserContainer'
 import NoClubContainer from './NoClubContainer'
 import { ClubsContext } from '../../ClubsContext'
+import { getBookclubs, getInvites } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -57,54 +57,23 @@ const useStyles = makeStyles((theme) => ({
 const Dashboard = () => {
   const [user] = useContext(UserContext)
   const classes = useStyles()
-  const [bookClubs, setBookClubs] = useState(null)
   const [clubs, setClubs] = useContext(ClubsContext)
   const [invites, setInvites] = useState(null)
-  const [invitingUser, setInvitingUser] = useState(null)
   const [isLoading, setIsLoading] = useState(true)
   const history = useHistory()
 
   useEffect(() => {
-    axios
-      .get(
-        `${process.env.REACT_APP_GET_CLUB}/${user.id}`,
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        },
-      )
+    getBookclubs(user).then((res) => {
+      setClubs(res)
+      setIsLoading(false)
+    })
+  }, [])
+
+  useEffect(() => {
+    setIsLoading(true)
+    getInvites(user.id)
       .then((res) => {
         if (res.status === 200) {
-          setBookClubs(res.data)
-          const clubData = res.data.map((r) => ({ id: r.id, clubname: r.clubname }))
-          setClubs(clubData)
-        } else if (res.status === 204) {
-          setBookClubs(null)
-        }
-        setIsLoading(false)
-      })
-      .catch((error) => {
-        console.log(error.message)
-      })
-    axios
-      .get(
-        process.env.REACT_APP_GET_INVITE,
-        {
-          params: { id: user.id },
-        },
-        {
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-          },
-        },
-      )
-      .then((res) => {
-        if (res.status === 200) {
-          console.log(res.data)
-          // getInvitingUser(res.data.firstMember)
           setInvites(res.data)
         } else if (res.status === 204) {
           setInvites(null)
@@ -114,17 +83,11 @@ const Dashboard = () => {
       .catch((error) => {
         console.log(error.message)
       })
-  }, [])
+  }, [clubs])
 
   const handleCreateClub = () => {
     history.push('/create-club')
   }
-
-  // const getInvitingUser = async (userId) => {
-  //   const URL = process.env.REACT_APP_GET_USER
-  //   const res = await axios.get(`${URL}/${userId}`)
-  //   setInvitingUser(res.data)
-  // }
 
   return (
     <div>
@@ -133,20 +96,17 @@ const Dashboard = () => {
         <Box width={0.5}>
           {invites && !isLoading && (
             invites.map((invite) => <Invitation key={invite.id} invite={invite} />)
-            // <div>
-            //   <Invitation invitingUser={invitingUser} invites={invites} />
-            // </div>
           )}
           {isLoading && (
             <Paper className={classes.club}>
               <CircularProgress />
             </Paper>
           )}
-          {!bookClubs && !invites && !isLoading && (
+          {!clubs && !invites && !isLoading && (
             <NoClubContainer handleCreateClub={handleCreateClub} />
           )}
-          { bookClubs && !isLoading && (
-            bookClubs.map((bookClub) => (
+          { clubs && !isLoading && (
+            clubs.map((bookClub) => (
               <ClubContainer key={bookClub.id} club={bookClub} />
             ))
           )}
