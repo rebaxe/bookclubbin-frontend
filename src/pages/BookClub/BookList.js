@@ -4,7 +4,7 @@ import {
 import { Check, Close, Delete } from '@material-ui/icons'
 import { useContext } from 'react'
 import { useParams } from 'react-router-dom'
-import { addBook, getBookclub, removeBook } from '../../api/apiCalls'
+import { addBook, getBookclubs, removeBook } from '../../api/apiCalls'
 import { ClubsContext } from '../../ClubsContext'
 import { UserContext } from '../../UserContext'
 
@@ -40,7 +40,7 @@ const BookList = (props) => {
 
     await addBook(id, 'bookRead', bookToMark[0])
     await removeBook(id, 'bookSaved', bookToMark[0])
-    const clubData = await getBookclub(user)
+    const clubData = await getBookclubs(user)
     console.log(clubData)
     setClubs(clubData)
   }
@@ -48,8 +48,6 @@ const BookList = (props) => {
   const handleRemove = async (e) => {
     e.preventDefault()
     console.log('Remove from saved')
-    // const element = e.currentTarget.parentNode
-    // const bookGoogleId = element.parentNode.value
     const bookGoogleId = e.currentTarget.value
     console.log(bookGoogleId)
     const bookToMark = books.filter((book) => book.googleId === bookGoogleId)
@@ -61,7 +59,7 @@ const BookList = (props) => {
     }
 
     await removeBook(id, shelfToEdit, bookToMark[0])
-    const clubData = await getBookclub(user)
+    const clubData = await getBookclubs(user)
     console.log(clubData)
     setClubs(clubData)
   }

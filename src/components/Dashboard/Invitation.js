@@ -10,9 +10,12 @@ import {
 import {
   React, useContext, useEffect, useState,
 } from 'react'
-import axios from 'axios'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../UserContext'
+import {
+  acceptInvite, getBookclubs, getUserById, removeInvite,
+} from '../../api/apiCalls'
+import { ClubsContext } from '../../ClubsContext'
 
 const useStyles = makeStyles((theme) => ({
   club: {
@@ -71,39 +74,40 @@ const Invitation = (props) => {
   const [invitingUser, setInvitingUser] = useState(null)
   const classes = useStyles()
   const history = useHistory()
+  const [clubs, setClubs] = useContext(ClubsContext)
 
   useEffect(() => {
-    const URL = process.env.REACT_APP_GET_USER
-    axios.get(`${URL}/${invite.firstMember}`).then((res) => setInvitingUser(res.data))
-  }, [])
+    let invitingUserId = ''
+    invite.invitations.forEach((invitation) => {
+      if (invitation.invitedUser === user.id) {
+        invitingUserId = invitation.invitingUser
+      }
+    })
+    getUserById(invitingUserId).then((res) => setInvitingUser(res))
+  }, [invite])
 
   const handleAccept = async () => {
-    console.log(invite)
-    console.log(user)
-    const URL = 'http://localhost:8081/api/v1/bookclubs/accept'
-    const res = await axios({
-      method: 'patch',
-      url: URL,
-      data: {
-        clubId: invite.id,
-        userId: user.id,
-      },
-    })
+    await acceptInvite(invite.id, user.id)
+    // console.log(invite)
+    // console.log(user)
+    // const URL = 'http://localhost:8081/api/v1/bookclubs/accept'
+    // const res = await axios({
+    //   method: 'patch',
+    //   url: URL,
+    //   data: {
+    //     clubId: invite.id,
+    //     userId: user.id,
+    //   },
+    // })
+    const clubsData = await getBookclubs(user)
+    setClubs(clubsData)
     history.push(`/bookclubs/${invite.id}`)
   }
 
   const handleReject = async () => {
-    const URL = 'http://localhost:8081/api/v1/bookclubs/reject'
-    const res = await axios({
-      method: 'patch',
-      url: URL,
-      data: {
-        clubId: invite.id,
-        userId: user.id,
-      },
-    })
-    history.push('/')
-    history.push('/dashboard')
+    await removeInvite(invite.id, user.id)
+    const clubsData = await getBookclubs(user)
+    setClubs(clubsData)
   }
 
   return (

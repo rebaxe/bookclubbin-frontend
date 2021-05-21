@@ -4,7 +4,7 @@ import {
 import { Favorite, FavoriteBorder } from '@material-ui/icons'
 import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
-import { addBook, getBookclub } from '../../api/apiCalls'
+import { addBook, getBookclubs } from '../../api/apiCalls'
 import { ClubsContext } from '../../ClubsContext'
 import { UserContext } from '../../UserContext'
 
@@ -67,16 +67,8 @@ const HandleBookshelf = (props) => {
       //   },
       // })
     }
-    const updatedClubs = await axios({
-      method: 'get',
-      url: `${process.env.REACT_APP_GET_CLUB}/${user.id}`,
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-
-    setClubs(updatedClubs.data)
+    const clubData = await getBookclubs(user)
+    setClubs(clubData)
   }
 
   const handleCheckTBR = async () => {
@@ -99,7 +91,7 @@ const HandleBookshelf = (props) => {
         },
       })
     }
-    const clubData = await getBookclub(user)
+    const clubData = await getBookclubs(user)
     setClubs(clubData)
     // const updatedClubs = await axios({
     //   method: 'get',

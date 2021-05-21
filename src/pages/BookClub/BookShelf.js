@@ -23,6 +23,16 @@ const useStyles = makeStyles((theme) => ({
   coverImg: {
     objectFit: 'contain',
   },
+  btn: {
+    backgroundColor: '#D8A31A',
+    color: 'white',
+    padding: theme.spacing(1, 2),
+    borderRadius: 20,
+    transition: '0.3s ease-in-out',
+    '&:hover': {
+      color: '#D8A31A',
+    },
+  },
 }))
 
 const BookShelf = (props) => {
@@ -50,7 +60,7 @@ const BookShelf = (props) => {
             <>
               <BookCarousel books={booksToRead} />
               <div>
-                <Button onClick={handleTBR}>View shelf</Button>
+                <Button className={classes.btn} onClick={handleTBR}>Edit</Button>
               </div>
             </>
           )
@@ -61,7 +71,7 @@ const BookShelf = (props) => {
             <>
               <BookCarousel books={readBooks} />
               <div>
-                <Button onClick={handleRead}>View shelf</Button>
+                <Button className={classes.btn} onClick={handleRead}>Edit</Button>
               </div>
             </>
           )

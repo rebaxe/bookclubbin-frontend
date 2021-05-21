@@ -92,16 +92,18 @@ const CreateClub = () => {
   const createClub = async () => {
     setIsLoading(true)
     const URL = process.env.REACT_APP_REGISTER_CLUB
-    const invitedMemberIDs = []
+    const invitationsArray = []
     const invitedMembers = members.filter((member) => member.id !== user.id)
-    invitedMembers.forEach((member) => invitedMemberIDs.push(member.id))
+    invitedMembers.forEach((member) => invitationsArray.push(
+      { invitingUser: user.id, invitedUser: member.id },
+    ))
+    console.log(invitationsArray)
     const res = await axios({
       method: 'post',
       url: URL,
       data: {
         clubname: clubName,
-        firstMember: user.id,
-        invitedMembers: invitedMemberIDs,
+        invitations: invitationsArray,
         members: user.id,
       },
     })

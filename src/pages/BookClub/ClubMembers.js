@@ -4,6 +4,7 @@ import {
 } from '@material-ui/core'
 import axios from 'axios'
 import { useEffect, useState } from 'react'
+import EditMembers from './EditMembers'
 
 const useStyles = makeStyles((theme) => ({
   boldText: {
@@ -41,6 +42,11 @@ const ClubMembers = (props) => {
   const [members, setMembers] = useState([])
   const [error, setError] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [openDialog, setOpenDialog] = useState(false)
+
+  const handleDialog = () => {
+    openDialog ? setOpenDialog(false) : setOpenDialog(true)
+  }
 
   useEffect(() => {
     setIsLoading(true)
@@ -53,35 +59,38 @@ const ClubMembers = (props) => {
   }, [memberIds])
 
   return (
-    <Paper>
-      {error && (
-      <div>
-        <Typography variant="h6">Sorry!</Typography>
-        <Typography>Something went wrong... &#128546;</Typography>
-      </div>
-      )}
-      {(isLoading || (!members.length && !error)) && <CircularProgress /> }
-      {members.length !== 0 && !error && !isLoading && (
-      <div className={classes.membersContainer}>
-        <Typography variant="h6" className={classes.boldText}>The Bookworms 🐛</Typography>
-        <Divider className={classes.divider} />
-        <List className={classes.memberList}>
-          {members.map((member) => (
-            <ListItem key={member.id}>
-              <ListItemAvatar>
-                <Avatar
-                  src={member.image}
-                  alt={member.username}
-                />
-              </ListItemAvatar>
-              <ListItemText>{member.username}</ListItemText>
-            </ListItem>
-          ))}
-        </List>
-        <Button className={classes.btn}>Edit members</Button>
-      </div>
-      )}
-    </Paper>
+    <>
+      <Paper>
+        {error && (
+        <div>
+          <Typography variant="h6">Sorry!</Typography>
+          <Typography>Something went wrong... &#128546;</Typography>
+        </div>
+        )}
+        {(isLoading || (!members.length && !error)) && <CircularProgress /> }
+        {members.length !== 0 && !error && !isLoading && (
+        <div className={classes.membersContainer}>
+          <Typography variant="h6" className={classes.boldText}>The Bookworms 🐛</Typography>
+          <Divider className={classes.divider} />
+          <List className={classes.memberList}>
+            {members.map((member) => (
+              <ListItem key={member.id}>
+                <ListItemAvatar>
+                  <Avatar
+                    src={member.image}
+                    alt={member.username}
+                  />
+                </ListItemAvatar>
+                <ListItemText>{member.username}</ListItemText>
+              </ListItem>
+            ))}
+          </List>
+          <Button className={classes.btn} onClick={handleDialog}>Edit members</Button>
+        </div>
+        )}
+      </Paper>
+      <EditMembers open={openDialog} members={members} handleDialog={handleDialog} />
+    </>
   )
 }
 

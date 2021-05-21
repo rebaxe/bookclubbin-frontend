@@ -1,16 +1,19 @@
 import {
   Avatar,
   CircularProgress,
+  IconButton,
   makeStyles,
   Paper,
   Tooltip,
   Typography,
 } from '@material-ui/core'
+import { useHistory } from 'react-router-dom'
 import {
   React, useState, useEffect,
 } from 'react'
 import axios from 'axios'
 import { AvatarGroup } from '@material-ui/lab'
+import { ArrowForward } from '@material-ui/icons'
 
 const useStyles = makeStyles((theme) => ({
   club: {
@@ -21,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
     padding: 10,
     margin: 10,
     gap: theme.spacing(2),
+    border: '1px solid white',
   },
   clubInfo: {
     display: 'flex',
@@ -68,6 +72,12 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: theme.typography.fontWeightBold,
     textTransform: 'capitalize',
   },
+  goToPage: {
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+  },
 }))
 
 const ClubContainer = (props) => {
@@ -76,6 +86,7 @@ const ClubContainer = (props) => {
   const [members, setMembers] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
     setIsLoading(true)
@@ -88,6 +99,11 @@ const ClubContainer = (props) => {
     setIsLoading(false)
   }, [club.members])
 
+  const handleGoToClub = (e) => {
+    const clubId = e.currentTarget.value
+    history.push(`/bookclubs/${clubId}`)
+  }
+
   return (
     <Paper className={classes.club}>
       {error && (
@@ -98,20 +114,27 @@ const ClubContainer = (props) => {
       )}
       {(isLoading || (!members.length && !error)) && <CircularProgress /> }
       {members.length !== 0 && !error && !isLoading && (
-      <div className={classes.clubInfo}>
-        <Typography className={classes.boldText}>{club.clubname}</Typography>
-        <AvatarGroup>
-          {members.map((member) => (
-            <Tooltip key={member.id} title={member.username} arrow>
-              <Avatar
-                key={member.id}
-                src={member.image}
-                alt={member.username}
-              />
-            </Tooltip>
-          ))}
-        </AvatarGroup>
-      </div>
+      <>
+        <div className={classes.clubInfo}>
+          <Typography className={classes.boldText}>{club.clubname}</Typography>
+          <AvatarGroup>
+            {members.map((member) => (
+              <Tooltip key={member.id} title={member.username} arrow>
+                <Avatar
+                  key={member.id}
+                  src={member.image}
+                  alt={member.username}
+                />
+              </Tooltip>
+            ))}
+          </AvatarGroup>
+        </div>
+        <div className={classes.goToPage}>
+          <IconButton value={club.id} onClick={(e) => handleGoToClub(e)}>
+            <ArrowForward />
+          </IconButton>
+        </div>
+      </>
       )}
     </Paper>
   )
