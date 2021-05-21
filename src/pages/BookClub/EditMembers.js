@@ -123,8 +123,15 @@ const EditMembers = (props) => {
               </ListItemAvatar>
               <ListItemText>{member.username}</ListItemText>
               {user.id === member.id
-                ? <Button className={classes.warningBtn}>Leave bookclub</Button>
-                : (
+                ? (
+                  <Button
+                    className={classes.warningBtn}
+                    value={member.id}
+                    onClick={(e) => handleRemove(e)}
+                  >
+                    Leave bookclub
+                  </Button>
+                ) : (
                   <Tooltip title="Remove from bookclub">
                     <IconButton value={member.id} onClick={(e) => handleRemove(e)}>
                       <RemoveCircle />
@@ -155,8 +162,8 @@ const EditMembers = (props) => {
         ))}
         <ListItem>
           <Tooltip title="Add member">
-            <IconButton>
-              <AddCircle onClick={toggleAddMember} />
+            <IconButton onClick={toggleAddMember}>
+              <AddCircle />
             </IconButton>
           </Tooltip>
           {openAddMember && <InviteMember />}

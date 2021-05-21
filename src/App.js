@@ -28,9 +28,7 @@ function App() {
               <Route exact path="/login">
                 <Login />
               </Route>
-              <Route exact path="/logout">
-                <Logout />
-              </Route>
+              <ProtectedRoute exact path="/logout" component={Logout} />
               <ProtectedRoute exact path="/dashboard" component={Dashboard} />
               <ProtectedRoute exact path="/create-club" component={CreateClub} />
               <ProtectedRoute exact path="/bookclubs/:id" component={BookClub} />
