@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   paper: {
+    // backgroundColor: 'rgba(39, 40, 44, 0.5)',
     color: '#D8A327',
     padding: theme.spacing(2),
     paddingTop: theme.spacing(6),
