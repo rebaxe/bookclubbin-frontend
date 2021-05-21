@@ -20,5 +20,7 @@ Code linting:
 
 Testing: 
   stage: test
+  before_script: 
+    - npm install
   script: 
     - npx react-scripts test
