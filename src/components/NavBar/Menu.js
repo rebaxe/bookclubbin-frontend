@@ -5,10 +5,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
   Dashboard, Delete, Group, GroupAdd, Search,
 } from '@material-ui/icons'
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
 import { ClubsContext } from '../../ClubsContext'
 import { UserContext } from '../../UserContext'
+import DeleteAccount from '../DeleteAccount/DeleteAccount'
 
 const useStyles = makeStyles((theme) => ({
   list: {
@@ -52,6 +53,15 @@ const Menu = (props) => {
   const [clubs] = useContext(ClubsContext)
   const history = useHistory()
   const { open, toggleMenu } = props
+  const [openDelete, setOpenDelete] = useState(false)
+
+  const handleOpenDelete = () => {
+    setOpenDelete(true)
+  }
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false)
+  }
 
   return (
     <div>
@@ -133,10 +143,7 @@ const Menu = (props) => {
             <ListItem
               className={classes.delete}
               button
-              onClick={() => {
-                history.push('/user/delete')
-                toggleMenu()
-              }}
+              onClick={handleOpenDelete}
             >
               <ListItemIcon>
                 <Delete />
@@ -147,6 +154,7 @@ const Menu = (props) => {
           )}
         </List>
       </Drawer>
+      <DeleteAccount open={openDelete} handleClose={handleCloseDelete} />
     </div>
   )
 }
