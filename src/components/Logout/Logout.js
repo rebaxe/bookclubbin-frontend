@@ -1,6 +1,7 @@
 import { React, useContext } from 'react'
 import { GoogleLogout } from 'react-google-login'
 import { useHistory } from 'react-router-dom'
+import axios from 'axios'
 import { Paper, makeStyles, Typography } from '@material-ui/core'
 import { UserContext } from '../../UserContext'
 
@@ -32,8 +33,12 @@ const Logout = () => {
   const [user, setUser] = useContext(UserContext)
   const history = useHistory()
 
-  const handleLogout = () => {
-    // localStorage.removeItem('accessToken')
+  const handleLogout = async () => {
+    const res = await axios({
+      method: 'get',
+      url: 'http://localhost:8080/api/v1/auth/google/logout',
+      withCredentials: true,
+    })
     setUser(null)
     history.push('/')
   }
