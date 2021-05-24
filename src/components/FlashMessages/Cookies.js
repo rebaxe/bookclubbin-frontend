@@ -4,17 +4,7 @@ import { useState } from 'react'
 import { Snackbar } from '@material-ui/core'
 import { GroupWorkTwoTone } from '@material-ui/icons'
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%',
-    '& > * + *': {
-      // marginBottom: theme.spacing(2),
-    },
-  },
-}))
-
 const Cookies = (props) => {
-  const classes = useStyles()
   const [open, setOpen] = useState(true)
 
   const handleClose = () => {
