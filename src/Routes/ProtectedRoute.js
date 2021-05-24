@@ -1,10 +1,11 @@
 import { CircularProgress } from '@material-ui/core'
-import React, { useContext } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { UserContext } from '../UserContext'
+import { UserContext, UserProvider } from '../UserContext'
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const [user, setUser] = useContext(UserContext)
+
   return (
     <Route
       {...rest}

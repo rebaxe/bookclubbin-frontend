@@ -38,6 +38,7 @@ if (false) {
     }
 
     useEffect(() => {
+      console.log('Context called')
       getUser()
     }, [])
 
