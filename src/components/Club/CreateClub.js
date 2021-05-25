@@ -10,6 +10,7 @@ import {
 import axios from 'axios'
 import { Autocomplete } from '@material-ui/lab'
 import { UserContext } from '../../UserContext'
+import { getUserByName, registerClub } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -91,22 +92,12 @@ const CreateClub = () => {
 
   const createClub = async () => {
     setIsLoading(true)
-    const URL = process.env.REACT_APP_REGISTER_CLUB
     const invitationsArray = []
     const invitedMembers = members.filter((member) => member.id !== user.id)
     invitedMembers.forEach((member) => invitationsArray.push(
       { invitingUser: user.id, invitedUser: member.id },
     ))
-    console.log(invitationsArray)
-    const res = await axios({
-      method: 'post',
-      url: URL,
-      data: {
-        clubname: clubName,
-        invitations: invitationsArray,
-        members: user.id,
-      },
-    })
+    const res = await registerClub(clubName, invitationsArray, user.id)
     console.log(res.status)
     setIsLoading(false)
   }
@@ -117,10 +108,7 @@ const CreateClub = () => {
 
   const searchForMatchingUsers = async (string) => {
     if (string !== '' || !string) {
-      const URL = process.env.REACT_APP_SEARCH_USERS
-      const response = await axios.get(URL, {
-        params: { searchString: string },
-      })
+      const response = await getUserByName(string)
       const users = []
       let isMember = false
       response.data.forEach((resUser) => {

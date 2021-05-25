@@ -51,7 +51,7 @@ const InviteMember = () => {
       const res = await getUserByName(string)
       const users = []
       let isMember = false
-      res.forEach((resUser) => {
+      res.data.forEach((resUser) => {
         isMember = false
         if (resUser.id === user.id) {
           isMember = true
