@@ -132,3 +132,39 @@ export async function registerClub(clubName, invitationsArray, userId) {
   })
   return res
 }
+
+// Login and logout.
+export async function verifyGoogleLogin(googleToken) {
+  const res = await axios({
+    method: 'post',
+    url: `${authUrl}/auth/google`,
+    data: {
+      token: googleToken,
+    },
+    withCredentials: true,
+  })
+  return res
+}
+
+export async function googleLogout() {
+  const res = await axios({
+    method: 'get',
+    url: `${authUrl}/auth/google/logout`,
+    withCredentials: true,
+  })
+}
+
+// Search for books.
+export async function searchBooks(queryString, searchPreferences) {
+  const res = await axios({
+    method: 'GET',
+    params: {
+      query: `${queryString}+${searchPreferences}:${queryString}`,
+    },
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+  })
+  return res
+}

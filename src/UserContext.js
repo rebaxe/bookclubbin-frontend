@@ -11,7 +11,6 @@ if (false) {
     const [user, setUser] = useState({
       id: 'xxx',
       username: 'Test Test',
-      firstName: 'Test',
       image: '',
     })
     return (
@@ -38,7 +37,6 @@ if (false) {
     }
 
     useEffect(() => {
-      console.log('Context called')
       getUser()
     }, [])
 

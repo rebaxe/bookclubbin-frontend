@@ -26,14 +26,13 @@ function App() {
                 <Home />
               </Route>
               <ProtectedRoute exact path="/search" component={Search} />
-              <Route exact path="/login">
-                <Login />
-              </Route>
               <ProtectedRoute exact path="/logout" component={Logout} />
               <ProtectedRoute exact path="/dashboard" component={Dashboard} />
               <ProtectedRoute exact path="/create-club" component={CreateClub} />
               <ProtectedRoute exact path="/bookclubs/:id" component={BookClub} />
-              <ProtectedRoute exact path="/user/delete" />
+              <Route exact path="/login">
+                <Login />
+              </Route>
               <Route component={NotFound} />
             </Switch>
             <Cookies />

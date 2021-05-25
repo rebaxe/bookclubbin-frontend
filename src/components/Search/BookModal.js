@@ -6,6 +6,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import CloseIcon from '@material-ui/icons/Close'
 import { React } from 'react'
 import googleImg from './images/google-attribution.png'
+
 import HandleBookshelf from './HandleBookshelf'
 
 const useStyles = makeStyles((theme) => ({
@@ -13,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
+    maxHeight: '80%',
   },
   italic: {
     fontStyle: 'italic',
@@ -25,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: theme.shadows[5],
     padding: theme.spacing(3, 4),
     margin: theme.spacing(2),
-    position: 'relative',
+    position: 'absolute',
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'center',
@@ -84,14 +86,11 @@ const BookModal = (props) => {
   const {
     open: view, book, editable, handleClose,
   } = props
-  // const { book, editable } = props
-  // const { handleClose } = props
   const classes = useStyles()
+
   return (
     <Modal
       open={view}
-      aria-labelledby="simple-modal-title"
-      aria-describedby="simple-modal-description"
       className={classes.modal}
     >
       <Fade in={view}>
@@ -106,11 +105,11 @@ const BookModal = (props) => {
           </Button>
           <img className={classes.googleImage} src={googleImg} alt="Google Attribution" />
           {book.image && (
-          <img
-            className={classes.image}
-            src={book.image}
-            alt={`Cover for ${book.title}`}
-          />
+            <img
+              className={classes.image}
+              src={book.image}
+              alt={`Cover for ${book.title}`}
+            />
           )}
           <div className={classes.book}>
             <Typography variant="h4">{book.title}</Typography>

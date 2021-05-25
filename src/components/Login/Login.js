@@ -1,13 +1,13 @@
 import {
   CircularProgress, Grid, Paper, Typography,
 } from '@material-ui/core'
-import axios from 'axios'
 import { useContext, useEffect, useState } from 'react'
 import GoogleLogin from 'react-google-login'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { UserContext } from '../../UserContext'
 import Error from '../FlashMessages/Error'
+import { verifyGoogleLogin } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,18 +42,11 @@ const Login = () => {
   const [user, setUser] = useContext(UserContext)
   const history = useHistory()
   const [openError, setOpenError] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleLogin = async (googleData) => {
     try {
-      const res = await axios({
-        method: 'post',
-        url: process.env.REACT_APP_AUTH_GOOGLE_URL,
-        data: {
-          token: googleData.tokenId,
-        },
-        withCredentials: true,
-      })
+      const res = await verifyGoogleLogin(googleData.tokenId)
       const data = await res.data
       setUser(data)
       history.push('/dashboard')

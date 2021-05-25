@@ -1,9 +1,9 @@
 import { React, useContext } from 'react'
 import { GoogleLogout } from 'react-google-login'
 import { useHistory } from 'react-router-dom'
-import axios from 'axios'
 import { Paper, makeStyles, Typography } from '@material-ui/core'
 import { UserContext } from '../../UserContext'
+import { googleLogout } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,11 +34,7 @@ const Logout = () => {
   const history = useHistory()
 
   const handleLogout = async () => {
-    const res = await axios({
-      method: 'get',
-      url: 'http://localhost:8080/api/v1/auth/google/logout',
-      withCredentials: true,
-    })
+    await googleLogout()
     setUser(null)
     history.push('/')
   }

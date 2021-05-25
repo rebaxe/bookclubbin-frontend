@@ -23,12 +23,6 @@ const useStyles = makeStyles((theme) => ({
   boldText: {
     fontWeight: theme.typography.fontWeightBold,
   },
-  book: {
-    '&:hover': {
-      color: '#D8A31A',
-      cursor: 'pointer',
-    },
-  },
 }))
 
 const BookList = (props) => {
@@ -70,8 +64,8 @@ const BookList = (props) => {
   }
 
   const handleOpenModal = (e) => {
-    console.log(e.currentTarget.value)
     const bookGoogleId = e.currentTarget.value
+    // Find book object with matching id.
     const matchingBook = books.filter((book) => book.googleId === bookGoogleId)
     setBookToOpen(matchingBook[0])
     setOpenModal(true)
@@ -94,10 +88,7 @@ const BookList = (props) => {
             {books.map((book) => (
               <>
                 <ListItem key={book.googleId}>
-                  <ListItemText
-                    className={classes.book}
-                    onClick={(e) => handleOpenModal(e)}
-                  >
+                  <ListItemText>
                     {book.title} by {book.authors}
                   </ListItemText>
                   <Tooltip title="About this book">
