@@ -81,7 +81,7 @@ const EditMembers = (props) => {
       if (res.invitations) {
         const promises = res.invitations.map((invite) => getUserById(invite.invitedUser))
         Promise.all(promises)
-          .then((result) => setInvitedMembers(result))
+          .then((response) => setInvitedMembers(response.map((resp) => resp.data)))
           .catch(() => console.log('Something went wrong'))
       }
     })

@@ -7,7 +7,6 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
   ArrowForward, ArrowBack, PersonAdd,
 } from '@material-ui/icons'
-import axios from 'axios'
 import { Autocomplete } from '@material-ui/lab'
 import { UserContext } from '../../UserContext'
 import { getUserByName, registerClub } from '../../api/apiCalls'
@@ -98,7 +97,6 @@ const CreateClub = () => {
       { invitingUser: user.id, invitedUser: member.id },
     ))
     const res = await registerClub(clubName, invitationsArray, user.id)
-    console.log(res.status)
     setIsLoading(false)
   }
 

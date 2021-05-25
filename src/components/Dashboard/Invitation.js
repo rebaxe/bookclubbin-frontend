@@ -83,7 +83,7 @@ const Invitation = (props) => {
         invitingUserId = invitation.invitingUser
       }
     })
-    getUserById(invitingUserId).then((res) => setInvitingUser(res))
+    getUserById(invitingUserId).then((res) => setInvitingUser(res.data))
   }, [invite])
 
   const handleAccept = async () => {

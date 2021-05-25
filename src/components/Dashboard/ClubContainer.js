@@ -14,6 +14,7 @@ import {
 import axios from 'axios'
 import { AvatarGroup } from '@material-ui/lab'
 import { ArrowForward } from '@material-ui/icons'
+import { getUserById } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({
   club: {
@@ -92,7 +93,8 @@ const ClubContainer = (props) => {
     setIsLoading(true)
     const memberIds = club.members
     const URL = process.env.REACT_APP_GET_USER
-    const memberPromises = memberIds.map((memberId) => axios.get(`${URL}/${memberId}`))
+    const memberPromises = memberIds.map((memberId) => getUserById(memberId))
+    // const memberPromises = memberIds.map((memberId) => axios.get(`${URL}/${memberId}`))
     Promise.all(memberPromises)
       .then((result) => setMembers(result.map((res) => res.data)))
       .catch(() => setError(true))
