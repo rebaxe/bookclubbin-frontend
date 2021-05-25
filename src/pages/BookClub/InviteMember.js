@@ -43,7 +43,7 @@ const InviteMember = () => {
   const [club, setClub] = useState(null)
 
   useEffect(() => {
-    getBookclub(clubId).then((res) => setClub(res))
+    getBookclub(clubId).then((res) => setClub(res.data))
   }, [clubs])
 
   const searchForMatchingUsers = async (string) => {
@@ -84,7 +84,7 @@ const InviteMember = () => {
     const updatedClubs = await getBookclubs(user)
     setClubs(updatedClubs)
     const updatedClub = await getBookclub(clubId)
-    setClub(updatedClub)
+    setClub(updatedClub.data)
   }
 
   return (

@@ -23,7 +23,7 @@ export async function getBookclub(id) {
     method: 'GET',
     url: `${resourceUrl}/bookclubs/${id}/`,
   })
-  return club.data
+  return club
 }
 
 // Handle books in shelves.
@@ -158,6 +158,7 @@ export async function googleLogout() {
 export async function searchBooks(queryString, searchPreferences) {
   const res = await axios({
     method: 'GET',
+    url: 'http://localhost:8081/api/v1/search',
     params: {
       query: `${queryString}+${searchPreferences}:${queryString}`,
     },

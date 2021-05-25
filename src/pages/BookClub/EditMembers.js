@@ -78,8 +78,8 @@ const EditMembers = (props) => {
 
   useEffect(() => {
     getBookclub(clubId).then((res) => {
-      if (res.invitations) {
-        const promises = res.invitations.map((invite) => getUserById(invite.invitedUser))
+      if (res.data.invitations) {
+        const promises = res.data.invitations.map((invite) => getUserById(invite.invitedUser))
         Promise.all(promises)
           .then((response) => setInvitedMembers(response.map((resp) => resp.data)))
           .catch(() => console.log('Something went wrong'))

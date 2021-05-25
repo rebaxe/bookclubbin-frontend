@@ -1,12 +1,12 @@
 import { useEffect, useState, useContext } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import axios from 'axios'
 import {
   Box, CircularProgress, makeStyles, Paper, Typography,
 } from '@material-ui/core'
 import ClubMembers from './ClubMembers'
 import BookShelf from './BookShelf'
 import { ClubsContext } from '../../ClubsContext'
+import { getBookclub } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -56,8 +56,7 @@ const BookClub = () => {
   const [club, setClub] = useState(null)
 
   useEffect(() => {
-    const URL = process.env.REACT_APP_BOOKCLUBS
-    axios.get(`${URL}/${id}`).then((res) => { res.status === 200 ? setClub(res.data) : history.push('/notfound') })
+    getBookclub(id).then((res) => { res.status === 200 ? setClub(res.data) : history.push('/notfound') })
   }, [id, clubs])
 
   return (

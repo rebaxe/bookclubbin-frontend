@@ -2,8 +2,8 @@ import {
   Avatar, Button, CircularProgress, Divider, List, ListItem,
   ListItemAvatar, ListItemText, makeStyles, Paper, Typography,
 } from '@material-ui/core'
-import axios from 'axios'
 import { useEffect, useState } from 'react'
+import { getUserById } from '../../api/apiCalls'
 import EditMembers from './EditMembers'
 
 const useStyles = makeStyles((theme) => ({
@@ -50,11 +50,12 @@ const ClubMembers = (props) => {
 
   useEffect(() => {
     setIsLoading(true)
-    const membersURL = process.env.REACT_APP_GET_USER
-    const memberPromises = memberIds.map((memberId) => axios.get(`${membersURL}/${memberId}`))
+
+    const memberPromises = memberIds.map((memberId) => getUserById(memberId))
     Promise.all(memberPromises)
       .then((result) => setMembers(result.map((res) => res.data)))
       .catch(() => setError(true))
+
     setIsLoading(false)
   }, [memberIds])
 
