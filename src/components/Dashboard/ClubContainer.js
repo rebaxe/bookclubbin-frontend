@@ -11,7 +11,6 @@ import { useHistory } from 'react-router-dom'
 import {
   React, useState, useEffect,
 } from 'react'
-import axios from 'axios'
 import { AvatarGroup } from '@material-ui/lab'
 import { ArrowForward } from '@material-ui/icons'
 import { getUserById } from '../../api/apiCalls'
@@ -92,7 +91,6 @@ const ClubContainer = (props) => {
   useEffect(() => {
     setIsLoading(true)
     const memberIds = club.members
-    const URL = process.env.REACT_APP_GET_USER
     const memberPromises = memberIds.map((memberId) => getUserById(memberId))
     // const memberPromises = memberIds.map((memberId) => axios.get(`${URL}/${memberId}`))
     Promise.all(memberPromises)

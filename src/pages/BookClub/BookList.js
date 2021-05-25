@@ -1,7 +1,9 @@
 import {
   AppBar, Dialog, IconButton, List, ListItem, ListItemText, makeStyles, Tooltip, Typography,
 } from '@material-ui/core'
-import { Check, Close, Delete } from '@material-ui/icons'
+import {
+  Check, Close, Delete, Info,
+} from '@material-ui/icons'
 import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { addBook, getBookclubs, removeBook } from '../../api/apiCalls'
@@ -38,6 +40,7 @@ const BookList = (props) => {
   } = props
   const classes = useStyles()
   const [openModal, setOpenModal] = useState(false)
+  const [bookToOpen, setBookToOpen] = useState(null)
 
   const handleMark = async (e) => {
     e.preventDefault()
@@ -66,12 +69,17 @@ const BookList = (props) => {
     setClubs(clubData)
   }
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (e) => {
+    console.log(e.currentTarget.value)
+    const bookGoogleId = e.currentTarget.value
+    const matchingBook = books.filter((book) => book.googleId === bookGoogleId)
+    setBookToOpen(matchingBook[0])
     setOpenModal(true)
   }
 
   const handleCloseModal = () => {
     setOpenModal(false)
+    setBookToOpen(null)
   }
 
   return (
@@ -86,9 +94,17 @@ const BookList = (props) => {
             {books.map((book) => (
               <>
                 <ListItem key={book.googleId}>
-                  <ListItemText className={classes.book} onClick={handleOpenModal}>
+                  <ListItemText
+                    className={classes.book}
+                    onClick={(e) => handleOpenModal(e)}
+                  >
                     {book.title} by {book.authors}
                   </ListItemText>
+                  <Tooltip title="About this book">
+                    <IconButton value={book.googleId} onClick={(e) => handleOpenModal(e)}>
+                      <Info />
+                    </IconButton>
+                  </Tooltip>
                   {shelf === '0' && (
                   <Tooltip title="Mark as read">
                     <IconButton value={book.googleId} onClick={(e) => handleMark(e)}>
@@ -102,16 +118,19 @@ const BookList = (props) => {
                     </IconButton>
                   </Tooltip>
                 </ListItem>
-                <BookModal
-                  open={openModal}
-                  handleClose={handleCloseModal}
-                  book={book}
-                  editable={false}
-                />
+
               </>
             ))}
           </List>
         )}
+      {bookToOpen && (
+        <BookModal
+          open={openModal}
+          handleClose={handleCloseModal}
+          book={bookToOpen}
+          editable={false}
+        />
+      )}
     </Dialog>
   )
 }
