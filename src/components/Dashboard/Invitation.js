@@ -11,11 +11,11 @@ import {
   React, useContext, useEffect, useState,
 } from 'react'
 import { useHistory } from 'react-router-dom'
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../contexts/UserContext'
 import {
   acceptInvite, getBookclubs, getUserById, removeInvite,
 } from '../../api/apiCalls'
-import { ClubsContext } from '../../ClubsContext'
+import { ClubsContext } from '../../contexts/ClubsContext'
 
 const useStyles = makeStyles((theme) => ({
   club: {

@@ -8,12 +8,12 @@ import {
   React, useContext, useEffect, useState,
 } from 'react'
 import { useHistory } from 'react-router-dom'
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../contexts/UserContext'
 import Invitation from './Invitation'
 import ClubContainer from './ClubContainer'
 import UserContainer from './UserContainer'
 import NoClubContainer from './NoClubContainer'
-import { ClubsContext } from '../../ClubsContext'
+import { ClubsContext } from '../../contexts/ClubsContext'
 import { getBookclubs, getInvites } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({

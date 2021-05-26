@@ -92,7 +92,6 @@ const ClubContainer = (props) => {
     setIsLoading(true)
     const memberIds = club.members
     const memberPromises = memberIds.map((memberId) => getUserById(memberId))
-    // const memberPromises = memberIds.map((memberId) => axios.get(`${URL}/${memberId}`))
     Promise.all(memberPromises)
       .then((result) => setMembers(result.map((res) => res.data)))
       .catch(() => setError(true))

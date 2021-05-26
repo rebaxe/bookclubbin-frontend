@@ -8,7 +8,7 @@ import {
   ArrowForward, ArrowBack, PersonAdd,
 } from '@material-ui/icons'
 import { Autocomplete } from '@material-ui/lab'
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../contexts/UserContext'
 import { getUserByName, registerClub } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({

@@ -2,7 +2,7 @@ import { React, useContext } from 'react'
 import { GoogleLogout } from 'react-google-login'
 import { useHistory } from 'react-router-dom'
 import { Paper, makeStyles, Typography } from '@material-ui/core'
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../contexts/UserContext'
 import { googleLogout } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({

@@ -5,7 +5,7 @@ import { useContext, useEffect, useState } from 'react'
 import GoogleLogin from 'react-google-login'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../contexts/UserContext'
 import Error from '../FlashMessages/Error'
 import { verifyGoogleLogin } from '../../api/apiCalls'
 

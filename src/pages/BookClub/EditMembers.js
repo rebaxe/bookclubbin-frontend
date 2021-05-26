@@ -10,8 +10,8 @@ import { useParams } from 'react-router-dom'
 import {
   getBookclub, getBookclubs, getUserById, removeInvite, removeMember,
 } from '../../api/apiCalls'
-import { ClubsContext } from '../../ClubsContext'
-import { UserContext } from '../../UserContext'
+import { ClubsContext } from '../../contexts/ClubsContext'
+import { UserContext } from '../../contexts/UserContext'
 import InviteMember from './InviteMember'
 
 const useStyles = makeStyles((theme) => ({

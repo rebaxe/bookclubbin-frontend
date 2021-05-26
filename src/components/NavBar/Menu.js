@@ -7,9 +7,9 @@ import {
 } from '@material-ui/icons'
 import { useContext, useState } from 'react'
 import { useHistory } from 'react-router-dom'
-import { ClubsContext } from '../../ClubsContext'
-import { UserContext } from '../../UserContext'
-import DeleteAccount from '../DeleteAccount/DeleteAccount'
+import { ClubsContext } from '../../contexts/ClubsContext'
+import { UserContext } from '../../contexts/UserContext'
+import DeleteAccount from '../DeletePopUps/DeleteAccount'
 
 const useStyles = makeStyles((theme) => ({
   list: {

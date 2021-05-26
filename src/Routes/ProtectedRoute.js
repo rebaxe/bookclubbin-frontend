@@ -1,7 +1,6 @@
-import { CircularProgress } from '@material-ui/core'
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import { Route, Redirect } from 'react-router-dom'
-import { UserContext } from '../UserContext'
+import { UserContext } from '../contexts/UserContext'
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
   const [user, setUser] = useContext(UserContext)
@@ -22,29 +21,5 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
     />
   )
 }
-//   return (
-//     <Route
-//       {...rest}
-//       render={
-//       (props) => {
-//         // if (user) {
-//         //   return <Component {...rest} {...props} />
-//         // }
-//         // return (
-//         //   <Redirect to={
-//         //     {
-//         //       pathname: '/login',
-//         //       state: {
-//         //         from: props.location,
-//         //       },
-//         //     }
-//         //   }
-//         //   />
-//         // )
-//       }
-//     }
-//     />
-//   )
-// }
 
 export default ProtectedRoute

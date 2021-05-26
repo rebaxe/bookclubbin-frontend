@@ -4,8 +4,8 @@ import {
 import { Favorite, FavoriteBorder } from '@material-ui/icons'
 import { useContext, useEffect, useState } from 'react'
 import { addBook, getBookclubs, removeBook } from '../../api/apiCalls'
-import { ClubsContext } from '../../ClubsContext'
-import { UserContext } from '../../UserContext'
+import { ClubsContext } from '../../contexts/ClubsContext'
+import { UserContext } from '../../contexts/UserContext'
 
 const HandleBookshelf = (props) => {
   const { book } = props

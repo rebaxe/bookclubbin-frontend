@@ -22,6 +22,7 @@ export async function getBookclub(id) {
   const club = await axios({
     method: 'GET',
     url: `${resourceUrl}/bookclubs/${id}/`,
+    withCredentials: true,
   })
   return club
 }
@@ -129,6 +130,15 @@ export async function registerClub(clubName, invitationsArray, userId) {
       invitations: invitationsArray,
       members: userId,
     },
+  })
+  return res
+}
+
+// Delete a bookclub.
+export async function deleteClub(clubId) {
+  const res = await axios({
+    method: 'post',
+    url: `${resourceUrl}/bookclubs/${clubId}/delete`,
   })
   return res
 }

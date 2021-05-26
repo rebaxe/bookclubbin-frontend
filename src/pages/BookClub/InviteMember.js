@@ -8,8 +8,8 @@ import { useParams } from 'react-router-dom'
 import {
   getUserByName, getBookclub, sendInvite, getBookclubs,
 } from '../../api/apiCalls'
-import { ClubsContext } from '../../ClubsContext'
-import { UserContext } from '../../UserContext'
+import { ClubsContext } from '../../contexts/ClubsContext'
+import { UserContext } from '../../contexts/UserContext'
 
 const useStyles = makeStyles((theme) => ({
   formContainer: {

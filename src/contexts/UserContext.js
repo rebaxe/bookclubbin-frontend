@@ -26,7 +26,7 @@ if (false) {
 
     async function getUser() {
       const res = await axios({
-        url: 'http://localhost:8080/api/v1/auth/google/auth',
+        url: 'http://localhost:8081/api/v1/auth/google/auth',
         withCredentials: true,
       })
       if (res.status === 200) {

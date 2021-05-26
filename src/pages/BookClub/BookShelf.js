@@ -2,7 +2,7 @@ import {
   Paper, Typography, makeStyles, Divider, Button,
 } from '@material-ui/core'
 import { useState } from 'react'
-import { Link, useHistory } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import BookCarousel from './BookCarousel'
 import BookList from './BookList'
 
