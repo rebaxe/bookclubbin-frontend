@@ -43,8 +43,8 @@ const BookList = (props) => {
 
     await addBook(id, 'bookRead', bookToMark[0])
     await removeBook(id, 'bookSaved', bookToMark[0])
-    const clubData = await getBookclubs(user)
-    setClubs(clubData)
+    const res = await getBookclubs(user)
+    setClubs(res.data)
   }
 
   const handleRemove = async (e) => {

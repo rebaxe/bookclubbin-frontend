@@ -8,6 +8,7 @@ import {
   ArrowForward, ArrowBack, PersonAdd,
 } from '@material-ui/icons'
 import { Autocomplete } from '@material-ui/lab'
+import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../contexts/UserContext'
 import { getUserByName, registerClub } from '../../api/apiCalls'
 
@@ -53,6 +54,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     gap: theme.spacing(1),
   },
+  flexColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: '1',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+  },
   optionContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -60,6 +69,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     gap: theme.spacing(1),
+  },
+  btn: {
+    backgroundColor: '#D8A31A',
+    color: 'white',
+    padding: theme.spacing(1, 2),
+    borderRadius: 20,
+    transition: '0.3s ease-in-out',
+    '&:hover': {
+      color: '#D8A31A',
+    },
   },
 }))
 
@@ -77,6 +96,8 @@ const CreateClub = () => {
   const [matchingUsers, setMatchingUsers] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const steps = getSteps()
+  const history = useHistory()
+  const [newClub, setNewClub] = useState(null)
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
@@ -97,6 +118,7 @@ const CreateClub = () => {
       { invitingUser: user.id, invitedUser: member.id },
     ))
     const res = await registerClub(clubName, invitationsArray, user.id)
+    setNewClub(res.data.id)
     setIsLoading(false)
   }
 
@@ -227,7 +249,6 @@ const CreateClub = () => {
                         key={member.id}
                         avatar={<Avatar src={member.image} />}
                         label="You"
-                        // label={member.username}
                         variant="outlined"
                       />
                     ) : (
@@ -260,11 +281,13 @@ const CreateClub = () => {
                 {isLoading
                   ? <CircularProgress color="primary" />
                   : (
-                    <Typography className={classes.instructions}>
-                      You&apos;ve just started a book club!
-                    </Typography>
+                    <div className={classes.flexColumn}>
+                      <Typography className={classes.instructions}>
+                        You&apos;ve just started a book club!
+                      </Typography>
+                      <Button className={classes.btn} onClick={() => history.push(`bookclubs/${newClub}`)}>Go to club</Button>
+                    </div>
                   )}
-                {/* <Button onClick={handleReset}>Reset</Button> */}
               </div>
             ) : (
               <div className={classes.formContainer}>

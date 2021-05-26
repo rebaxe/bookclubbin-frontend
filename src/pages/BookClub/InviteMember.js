@@ -82,7 +82,7 @@ const InviteMember = () => {
     setNewMember('')
     setMatchingUsers([])
     const updatedClubs = await getBookclubs(user)
-    setClubs(updatedClubs)
+    setClubs(updatedClubs.data)
     const updatedClub = await getBookclub(clubId)
     setClub(updatedClub.data)
   }

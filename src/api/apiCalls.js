@@ -15,13 +15,13 @@ export async function getBookclubs(user) {
     url: `${resourceUrl}/bookclubs/user/${user.id}`,
     headers: myHeaders,
   })
-  return clubs.data
+  return clubs
 }
 
 export async function getBookclub(id) {
   const club = await axios({
     method: 'GET',
-    url: `${resourceUrl}/bookclubs/${id}/`,
+    url: `${resourceUrl}/bookclubs/${id}`,
     withCredentials: true,
   })
   return club

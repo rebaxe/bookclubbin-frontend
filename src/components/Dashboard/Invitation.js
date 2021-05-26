@@ -88,15 +88,15 @@ const Invitation = (props) => {
 
   const handleAccept = async () => {
     await acceptInvite(invite.id, user.id)
-    const clubsData = await getBookclubs(user)
-    setClubs(clubsData)
+    const res = await getBookclubs(user)
+    setClubs(res.data)
     history.push(`/bookclubs/${invite.id}`)
   }
 
   const handleReject = async () => {
     await removeInvite(invite.id, user.id)
-    const clubsData = await getBookclubs(user)
-    setClubs(clubsData)
+    const res = await getBookclubs(user)
+    setClubs(res.data)
   }
 
   return (

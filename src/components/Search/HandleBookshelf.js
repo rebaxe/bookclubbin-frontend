@@ -50,8 +50,8 @@ const HandleBookshelf = (props) => {
       setCheckedRead(true)
       addBook(selectedClubId, 'bookRead', book)
     }
-    const clubData = await getBookclubs(user)
-    setClubs(clubData)
+    const res = await getBookclubs(user)
+    setClubs(res.data)
   }
 
   const handleCheckTBR = async () => {
@@ -62,8 +62,8 @@ const HandleBookshelf = (props) => {
       setCheckedTBR(true)
       addBook(selectedClubId, 'bookSaved', book)
     }
-    const clubData = await getBookclubs(user)
-    setClubs(clubData)
+    const res = await getBookclubs(user)
+    setClubs(res.data)
   }
 
   return (

@@ -69,7 +69,6 @@ const BookClub = () => {
   const [openDelete, setOpenDelete] = useState(false)
 
   const handleOpenDelete = () => {
-    console.log('Open')
     setOpenDelete(true)
   }
 

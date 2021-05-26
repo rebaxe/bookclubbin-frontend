@@ -64,7 +64,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getBookclubs(user).then((res) => {
-      setClubs(res)
+      setClubs(res.data)
       setIsLoading(false)
     })
   }, [])
@@ -73,6 +73,7 @@ const Dashboard = () => {
     setIsLoading(true)
     getInvites(user.id)
       .then((res) => {
+        console.log(res)
         if (res.status === 200) {
           setInvites(res.data)
         } else if (res.status === 204) {
@@ -102,7 +103,7 @@ const Dashboard = () => {
               <CircularProgress />
             </Paper>
           )}
-          {!clubs && !invites && !isLoading && (
+          {!(clubs.length !== 0) && !invites && !isLoading && (
             <NoClubContainer handleCreateClub={handleCreateClub} />
           )}
           { clubs && !isLoading && (
