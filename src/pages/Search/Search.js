@@ -9,7 +9,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useState } from 'react'
 import googleImg from './images/google-attribution.png'
 import SearchResult from './SearchResult'
-import Error from '../FlashMessages/Error'
+import Error from '../../components/FlashMessages/Error'
 import { searchBooks } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({

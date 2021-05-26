@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import { useState } from 'react'
 import defaultCover from './images/defaultbookcover.png'
-import BookModal from './BookModal'
+import BookModal from '../../components/BookModal/BookModal'
 
 const useStyles = makeStyles((theme) => ({
   root: {

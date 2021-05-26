@@ -77,7 +77,14 @@ const BookClub = () => {
   }
 
   useEffect(() => {
-    getBookclub(id).then((res) => { res.status === 200 ? setClub(res.data) : history.push('/notfound') })
+    getBookclub(id)
+      .then((res) => {
+        if (res.status === 200) {
+          setClub(res.data)
+        } else {
+          history.push('/notfound')
+        }
+      }).catch(() => history.push('/notfound'))
   }, [id, clubs])
 
   return (

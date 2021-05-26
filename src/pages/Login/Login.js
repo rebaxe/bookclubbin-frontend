@@ -6,7 +6,7 @@ import GoogleLogin from 'react-google-login'
 import { useHistory } from 'react-router-dom'
 import { makeStyles } from '@material-ui/core/styles'
 import { UserContext } from '../../contexts/UserContext'
-import Error from '../FlashMessages/Error'
+import Error from '../../components/FlashMessages/Error'
 import { verifyGoogleLogin } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({

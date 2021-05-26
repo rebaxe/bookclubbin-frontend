@@ -24,21 +24,21 @@ if (false) {
   UserProvider = ({ children }) => {
     const [user, setUser] = useState(null)
 
-    async function getUser() {
-      const res = await axios({
-        url: 'http://localhost:8081/api/v1/auth/google/auth',
-        withCredentials: true,
-      })
-      if (res.status === 200) {
-        setUser(res.data)
-      } else {
-        setUser(null)
-      }
-    }
+    // async function getUser() {
+    // const res = await axios({
+    // url: 'http://localhost:8081/api/v1/auth/google/auth',
+    // withCredentials: true,
+    // })
+    // if (res.status === 200) {
+    // setUser(res.data)
+    // } else {
+    // setUser(null)
+    // }
+    // }
 
-    useEffect(() => {
-      getUser()
-    }, [])
+    // useEffect(() => {
+    // getUser()
+    // }, [])
 
     return (
       <UserContext.Provider value={[user, setUser]}>

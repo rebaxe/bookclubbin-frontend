@@ -1,12 +1,14 @@
 import {
-  Avatar, Divider, Drawer, List, ListItem, ListItemAvatar, ListItemIcon, ListItemText,
+  Avatar, CircularProgress, Divider, Drawer, List,
+  ListItem, ListItemAvatar, ListItemIcon, ListItemText,
 } from '@material-ui/core'
 import { makeStyles } from '@material-ui/core/styles'
 import {
   Dashboard, Delete, Group, GroupAdd, Search,
 } from '@material-ui/icons'
-import { useContext, useState } from 'react'
-import { useHistory } from 'react-router-dom'
+import { useContext, useEffect, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
+import { getBookclubs } from '../../api/apiCalls'
 import { ClubsContext } from '../../contexts/ClubsContext'
 import { UserContext } from '../../contexts/UserContext'
 import DeleteAccount from '../DeletePopUps/DeleteAccount'
@@ -50,10 +52,11 @@ const useStyles = makeStyles((theme) => ({
 const Menu = (props) => {
   const classes = useStyles()
   const [user] = useContext(UserContext)
-  const [clubs] = useContext(ClubsContext)
+  const [clubs, setClubs] = useContext(ClubsContext)
   const history = useHistory()
   const { open, toggleMenu } = props
   const [openDelete, setOpenDelete] = useState(false)
+  const location = useLocation()
 
   const handleOpenDelete = () => {
     setOpenDelete(true)
@@ -62,6 +65,12 @@ const Menu = (props) => {
   const handleCloseDelete = () => {
     setOpenDelete(false)
   }
+
+  useEffect(() => {
+    if (user) {
+      getBookclubs(user).then((res) => setClubs(res.data))
+    }
+  }, [location])
 
   return (
     <div>
@@ -73,85 +82,85 @@ const Menu = (props) => {
       >
         <List className={classes.list}>
           { user
-          && (
-          <div className="loggedInList">
-            <ListItem className={classes.userInfo}>
-              <div className={classes.userInfo}>
-                <ListItemAvatar>
-                  <Avatar src={user.image} />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={user.username}
-                />
-              </div>
-            </ListItem>
-            {clubs && (
-              clubs.map((club) => (
+            ? (
+              <div className="loggedInList">
+                <ListItem className={classes.userInfo}>
+                  <div className={classes.userInfo}>
+                    <ListItemAvatar>
+                      <Avatar src={user.image} />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={user.username}
+                    />
+                  </div>
+                </ListItem>
+                {clubs && (
+                  clubs.map((club) => (
+                    <ListItem
+                      key={club.id}
+                      button
+                      onClick={() => {
+                        history.push(`/bookclubs/${club.id}`)
+                        toggleMenu()
+                      }}
+                    >
+                      <ListItemIcon>
+                        <Group />
+                      </ListItemIcon>
+                      <ListItemText className={classes.clubname} primary={club.clubname} style={{ overflowWrap: 'break-word' }} />
+                    </ListItem>
+                  ))
+                )}
+                <Divider />
                 <ListItem
-                  key={club.id}
                   button
                   onClick={() => {
-                    history.push(`/bookclubs/${club.id}`)
+                    history.push('/dashboard')
                     toggleMenu()
                   }}
                 >
                   <ListItemIcon>
-                    <Group />
+                    <Dashboard />
                   </ListItemIcon>
-                  <ListItemText className={classes.clubname} primary={club.clubname} style={{ overflowWrap: 'break-word' }} />
+                  <ListItemText primary="Dashboard" />
                 </ListItem>
-              ))
-            )}
-            <Divider />
-            <ListItem
-              button
-              onClick={() => {
-                history.push('/dashboard')
-                toggleMenu()
-              }}
-            >
-              <ListItemIcon>
-                <Dashboard />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => {
-                history.push('/search')
-                toggleMenu()
-              }}
-            >
-              <ListItemIcon>
-                <Search />
-              </ListItemIcon>
-              <ListItemText primary="Search books" />
-            </ListItem>
-            <ListItem
-              button
-              onClick={() => {
-                history.push('/create-club')
-                toggleMenu()
-              }}
-            >
-              <ListItemIcon>
-                <GroupAdd />
-              </ListItemIcon>
-              <ListItemText primary="Start book club" />
-            </ListItem>
-            <Divider />
-            <ListItem
-              className={classes.delete}
-              button
-              onClick={handleOpenDelete}
-            >
-              <ListItemIcon>
-                <Delete />
-              </ListItemIcon>
-              <ListItemText primary="Delete account" />
-            </ListItem>
-          </div>
-          )}
+                <ListItem
+                  button
+                  onClick={() => {
+                    history.push('/search')
+                    toggleMenu()
+                  }}
+                >
+                  <ListItemIcon>
+                    <Search />
+                  </ListItemIcon>
+                  <ListItemText primary="Search books" />
+                </ListItem>
+                <ListItem
+                  button
+                  onClick={() => {
+                    history.push('/create-club')
+                    toggleMenu()
+                  }}
+                >
+                  <ListItemIcon>
+                    <GroupAdd />
+                  </ListItemIcon>
+                  <ListItemText primary="Start book club" />
+                </ListItem>
+                <Divider />
+                <ListItem
+                  className={classes.delete}
+                  button
+                  onClick={handleOpenDelete}
+                >
+                  <ListItemIcon>
+                    <Delete />
+                  </ListItemIcon>
+                  <ListItemText primary="Delete account" />
+                </ListItem>
+              </div>
+            ) : <CircularProgress />}
         </List>
       </Drawer>
       <DeleteAccount open={openDelete} handleClose={handleCloseDelete} toggleMenu={toggleMenu} />

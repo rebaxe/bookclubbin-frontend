@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom'
 import { addBook, getBookclubs, removeBook } from '../../api/apiCalls'
 import { ClubsContext } from '../../contexts/ClubsContext'
 import { UserContext } from '../../contexts/UserContext'
-import BookModal from '../../components/Search/BookModal'
+import BookModal from '../../components/BookModal/BookModal'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {

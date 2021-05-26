@@ -10,7 +10,8 @@ import {
 import { Autocomplete } from '@material-ui/lab'
 import { useHistory } from 'react-router-dom'
 import { UserContext } from '../../contexts/UserContext'
-import { getUserByName, registerClub } from '../../api/apiCalls'
+import { getBookclubs, getUserByName, registerClub } from '../../api/apiCalls'
+import { ClubsContext } from '../../contexts/ClubsContext'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -98,11 +99,14 @@ const CreateClub = () => {
   const steps = getSteps()
   const history = useHistory()
   const [newClub, setNewClub] = useState(null)
+  const [clubs, setClubs] = useContext(ClubsContext)
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
     if (activeStep === 2) {
-      createClub()
+      await createClub()
+      const res = await getBookclubs(user)
+      setClubs(res.data)
     }
   }
 

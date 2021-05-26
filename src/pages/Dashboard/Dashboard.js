@@ -73,16 +73,12 @@ const Dashboard = () => {
     setIsLoading(true)
     getInvites(user.id)
       .then((res) => {
-        console.log(res)
         if (res.status === 200) {
           setInvites(res.data)
         } else if (res.status === 204) {
           setInvites(null)
         }
         setIsLoading(false)
-      })
-      .catch((error) => {
-        console.log(error.message)
       })
   }, [clubs])
 

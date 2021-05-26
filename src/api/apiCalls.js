@@ -106,7 +106,6 @@ export async function getUserById(id) {
     url: `${authUrl}/users/${id}`,
   })
   return response
-  // return response.data
 }
 
 export async function getUserByName(string) {
