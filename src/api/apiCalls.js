@@ -164,6 +164,18 @@ export async function googleLogout() {
   })
 }
 
+// Delete account.
+export async function deleteAccount(userId) {
+  const res = await axios({
+    method: 'post',
+    url: `${authUrl}/users/${userId}/delete`,
+  })
+  if (res.status === 204) {
+    await googleLogout()
+  }
+  return res
+}
+
 // Search for books.
 export async function searchBooks(queryString, searchPreferences) {
   const res = await axios({

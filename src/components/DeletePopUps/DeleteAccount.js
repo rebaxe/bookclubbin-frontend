@@ -3,6 +3,8 @@ import {
   DialogTitle, makeStyles,
 } from '@material-ui/core'
 import { useContext, useState } from 'react'
+import { useHistory } from 'react-router-dom'
+import { deleteAccount } from '../../api/apiCalls'
 import { UserContext } from '../../contexts/UserContext'
 import Error from '../FlashMessages/Error'
 
@@ -20,13 +22,20 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 const DeleteAccount = (props) => {
-  const { open, handleClose } = props
+  const { open, handleClose, toggleMenu } = props
   const classes = useStyles()
   const [user, setUser] = useContext(UserContext)
   const [openError, setOpenError] = useState(false)
+  const history = useHistory()
 
-  const handleDelete = () => {
-    console.log(`Delete user: ${user.id}`)
+  const handleDelete = async () => {
+    const res = await deleteAccount(user.id)
+    if (res.status === 204) {
+      setUser(null)
+      handleClose()
+      toggleMenu()
+      history.push('/')
+    }
   }
 
   const toggleError = () => {

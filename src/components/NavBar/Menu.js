@@ -154,7 +154,7 @@ const Menu = (props) => {
           )}
         </List>
       </Drawer>
-      <DeleteAccount open={openDelete} handleClose={handleCloseDelete} />
+      <DeleteAccount open={openDelete} handleClose={handleCloseDelete} toggleMenu={toggleMenu} />
     </div>
   )
 }
