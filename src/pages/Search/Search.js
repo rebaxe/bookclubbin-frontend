@@ -6,11 +6,11 @@ import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup'
 import SearchIcon from '@material-ui/icons/Search'
 import CloseIcon from '@material-ui/icons/Close'
 import { makeStyles } from '@material-ui/core/styles'
-import axios from 'axios'
 import { useState } from 'react'
 import googleImg from './images/google-attribution.png'
 import SearchResult from './SearchResult'
-import Error from '../FlashMessages/Error'
+import Error from '../../components/FlashMessages/Error'
+import { searchBooks } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -81,29 +81,18 @@ const Search = () => {
     setSearchPreferences(newSearchPreferences)
   }
 
-  const handleSearch = (e) => {
+  const handleSearch = async (e) => {
     setIsLoading(true)
     setOpenError(false)
     e.preventDefault()
     if (query) {
-      const URL = process.env.REACT_APP_SEARCH_URL
-      axios.get(URL, {
-        params: { query: `${query}+${searchPreferences}:${query}` },
-      }, {
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-      }).then((res) => {
-        const books = res.data
-        if (JSON.stringify(books) === '{}') {
-          toggleError()
-        }
-        setSearchResult(books)
-        setIsLoading(false)
-      }).catch((error) => {
+      const result = await searchBooks(query, searchPreferences)
+      const books = result.data
+      if (result.status !== 200 || JSON.stringify(books) === '{}') {
         toggleError()
-      })
+      }
+      setSearchResult(books)
+      setIsLoading(false)
     }
   }
 

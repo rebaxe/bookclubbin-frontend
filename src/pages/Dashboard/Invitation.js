@@ -11,11 +11,11 @@ import {
   React, useContext, useEffect, useState,
 } from 'react'
 import { useHistory } from 'react-router-dom'
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../contexts/UserContext'
 import {
   acceptInvite, getBookclubs, getUserById, removeInvite,
 } from '../../api/apiCalls'
-import { ClubsContext } from '../../ClubsContext'
+import { ClubsContext } from '../../contexts/ClubsContext'
 
 const useStyles = makeStyles((theme) => ({
   club: {
@@ -83,20 +83,20 @@ const Invitation = (props) => {
         invitingUserId = invitation.invitingUser
       }
     })
-    getUserById(invitingUserId).then((res) => setInvitingUser(res))
+    getUserById(invitingUserId).then((res) => setInvitingUser(res.data))
   }, [invite])
 
   const handleAccept = async () => {
     await acceptInvite(invite.id, user.id)
-    const clubsData = await getBookclubs(user)
-    setClubs(clubsData)
+    const res = await getBookclubs(user)
+    setClubs(res.data)
     history.push(`/bookclubs/${invite.id}`)
   }
 
   const handleReject = async () => {
     await removeInvite(invite.id, user.id)
-    const clubsData = await getBookclubs(user)
-    setClubs(clubsData)
+    const res = await getBookclubs(user)
+    setClubs(res.data)
   }
 
   return (

@@ -8,8 +8,8 @@ import { useParams } from 'react-router-dom'
 import {
   getUserByName, getBookclub, sendInvite, getBookclubs,
 } from '../../api/apiCalls'
-import { ClubsContext } from '../../ClubsContext'
-import { UserContext } from '../../UserContext'
+import { ClubsContext } from '../../contexts/ClubsContext'
+import { UserContext } from '../../contexts/UserContext'
 
 const useStyles = makeStyles((theme) => ({
   formContainer: {
@@ -43,7 +43,7 @@ const InviteMember = () => {
   const [club, setClub] = useState(null)
 
   useEffect(() => {
-    getBookclub(clubId).then((res) => setClub(res))
+    getBookclub(clubId).then((res) => setClub(res.data))
   }, [clubs])
 
   const searchForMatchingUsers = async (string) => {
@@ -51,7 +51,7 @@ const InviteMember = () => {
       const res = await getUserByName(string)
       const users = []
       let isMember = false
-      res.forEach((resUser) => {
+      res.data.forEach((resUser) => {
         isMember = false
         if (resUser.id === user.id) {
           isMember = true
@@ -82,9 +82,9 @@ const InviteMember = () => {
     setNewMember('')
     setMatchingUsers([])
     const updatedClubs = await getBookclubs(user)
-    setClubs(updatedClubs)
+    setClubs(updatedClubs.data)
     const updatedClub = await getBookclub(clubId)
-    setClub(updatedClub)
+    setClub(updatedClub.data)
   }
 
   return (

@@ -4,7 +4,8 @@ import {
 import { makeStyles } from '@material-ui/core/styles'
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward'
 import { useState } from 'react'
-import BookModal from './BookModal'
+import defaultCover from './images/defaultbookcover.png'
+import BookModal from '../../components/BookModal/BookModal'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,15 +51,27 @@ const BookPreview = (props) => {
             justifyContent: 'center',
           }}
         >
-          <CardMedia
-            style={{
-              width: 'auto',
-              height: '200px',
-              margin: '10px',
-            }}
-            component="img"
-            image={book.image}
-          />
+          {book.image ? (
+            <CardMedia
+              style={{
+                width: 'auto',
+                height: '200px',
+                margin: '10px',
+              }}
+              component="img"
+              image={book.image}
+            />
+          ) : (
+            <CardMedia
+              style={{
+                width: 'auto',
+                height: '200px',
+                margin: '10px',
+              }}
+              component="img"
+              image={defaultCover}
+            />
+          )}
         </div>
         <CardContent>
           <Typography variant="h6">{ book.title }</Typography>

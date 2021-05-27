@@ -1,12 +1,13 @@
 import { useEffect, useState, useContext } from 'react'
 import { useHistory, useParams } from 'react-router-dom'
-import axios from 'axios'
 import {
-  Box, CircularProgress, makeStyles, Paper, Typography,
+  Box, Button, CircularProgress, makeStyles, Paper, Typography,
 } from '@material-ui/core'
 import ClubMembers from './ClubMembers'
 import BookShelf from './BookShelf'
-import { ClubsContext } from '../../ClubsContext'
+import { ClubsContext } from '../../contexts/ClubsContext'
+import { getBookclub } from '../../api/apiCalls'
+import DeleteClub from '../../components/DeletePopUps/DeleteClub'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -46,6 +47,17 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1),
     overflowWrap: 'break-word',
   },
+  warningBtn: {
+    backgroundColor: '#611a15',
+    color: 'white',
+    padding: theme.spacing(1, 2),
+    border: '1px solid #611a15',
+    borderRadius: 20,
+    transition: '0.3s ease-in-out',
+    '&:hover': {
+      color: '#611a15',
+    },
+  },
 }))
 
 const BookClub = () => {
@@ -54,10 +66,25 @@ const BookClub = () => {
   const classes = useStyles()
   const { id } = useParams()
   const [club, setClub] = useState(null)
+  const [openDelete, setOpenDelete] = useState(false)
+
+  const handleOpenDelete = () => {
+    setOpenDelete(true)
+  }
+
+  const handleCloseDelete = () => {
+    setOpenDelete(false)
+  }
 
   useEffect(() => {
-    const URL = process.env.REACT_APP_BOOKCLUBS
-    axios.get(`${URL}/${id}`).then((res) => { res.status === 200 ? setClub(res.data) : history.push('/notfound') })
+    getBookclub(id)
+      .then((res) => {
+        if (res.status === 200) {
+          setClub(res.data)
+        } else {
+          history.push('/notfound')
+        }
+      }).catch(() => history.push('/notfound'))
   }, [id, clubs])
 
   return (
@@ -77,6 +104,13 @@ const BookClub = () => {
               </Box>
             </Box>
           </Box>
+          <Button
+            className={classes.warningBtn}
+            onClick={handleOpenDelete}
+          >
+            Delete
+          </Button>
+          <DeleteClub open={openDelete} handleClose={handleCloseDelete} />
         </Box>
       ) : <CircularProgress />}
     </div>

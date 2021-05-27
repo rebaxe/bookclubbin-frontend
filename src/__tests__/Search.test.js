@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme'
-import Search from '../components/Search/Search'
+import Search from '../pages/Search/Search'
 
 describe('<Search />', () => {
   const search = shallow(<Search />)

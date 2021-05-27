@@ -2,6 +2,7 @@ import {
   GridList, GridListTile, makeStyles,
   Tooltip, Zoom,
 } from '@material-ui/core'
+import defaultCover from './images/defaultbookcover.png'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -42,7 +43,11 @@ const BookCarousel = (props) => {
           {books.map((tile) => (
             <Tooltip TransitionComponent={Zoom} title={tile.title}>
               <GridListTile className={classes.tile} key={tile.googleId}>
-                <img className={classes.tile} src={tile.image} alt={tile.title} />
+                {tile.image ? (
+                  <img className={classes.tile} src={tile.image} alt={tile.title} />
+                ) : (
+                  <img className={classes.tile} src={defaultCover} alt="Book cover" />
+                )}
               </GridListTile>
             </Tooltip>
           ))}

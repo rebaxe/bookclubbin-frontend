@@ -6,12 +6,12 @@ import {
   AddCircle, Cancel, Close, RemoveCircle,
 } from '@material-ui/icons'
 import { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useHistory, useParams } from 'react-router-dom'
 import {
   getBookclub, getBookclubs, getUserById, removeInvite, removeMember,
 } from '../../api/apiCalls'
-import { ClubsContext } from '../../ClubsContext'
-import { UserContext } from '../../UserContext'
+import { ClubsContext } from '../../contexts/ClubsContext'
+import { UserContext } from '../../contexts/UserContext'
 import InviteMember from './InviteMember'
 
 const useStyles = makeStyles((theme) => ({
@@ -75,23 +75,31 @@ const EditMembers = (props) => {
   const [clubs, setClubs] = useContext(ClubsContext)
   const [invitedMembers, setInvitedMembers] = useState([])
   const [openAddMember, setOpenAddMember] = useState(false)
+  const history = useHistory()
 
   useEffect(() => {
     getBookclub(clubId).then((res) => {
-      if (res.invitations) {
-        const promises = res.invitations.map((invite) => getUserById(invite.invitedUser))
+      if (res.data.invitations) {
+        const promises = res.data.invitations.map((invite) => getUserById(invite.invitedUser))
         Promise.all(promises)
-          .then((result) => setInvitedMembers(result))
+          .then((response) => setInvitedMembers(response.map((resp) => resp.data)))
           .catch(() => console.log('Something went wrong'))
       }
     })
   }, [clubs])
 
   const handleRemove = async (e) => {
-    const memberId = e.currentTarget.value
-    await removeMember(clubId, memberId)
-    const clubData = await getBookclubs(user)
-    setClubs(clubData)
+    try {
+      const memberId = e.currentTarget.value
+      await removeMember(clubId, memberId)
+      const res = await getBookclubs(user)
+      setClubs(res.data)
+      if (memberId === user.id) {
+        history.push('/dashboard')
+      }
+    } catch {
+      history.push('/dashboard')
+    }
   }
 
   const handleRemoveInvite = async (e) => {

@@ -6,7 +6,7 @@ import {
   Typography,
 } from '@material-ui/core'
 import { useContext } from 'react'
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../contexts/UserContext'
 
 const useStyles = makeStyles((theme) => ({
   userInfo: {

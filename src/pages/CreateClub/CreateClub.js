@@ -7,9 +7,11 @@ import { makeStyles } from '@material-ui/core/styles'
 import {
   ArrowForward, ArrowBack, PersonAdd,
 } from '@material-ui/icons'
-import axios from 'axios'
 import { Autocomplete } from '@material-ui/lab'
-import { UserContext } from '../../UserContext'
+import { useHistory } from 'react-router-dom'
+import { UserContext } from '../../contexts/UserContext'
+import { getBookclubs, getUserByName, registerClub } from '../../api/apiCalls'
+import { ClubsContext } from '../../contexts/ClubsContext'
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,6 +55,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     gap: theme.spacing(1),
   },
+  flexColumn: {
+    display: 'flex',
+    flexDirection: 'column',
+    flexWrap: '1',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: theme.spacing(1),
+  },
   optionContainer: {
     display: 'flex',
     flexDirection: 'row',
@@ -60,6 +70,16 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     gap: theme.spacing(1),
+  },
+  btn: {
+    backgroundColor: '#D8A31A',
+    color: 'white',
+    padding: theme.spacing(1, 2),
+    borderRadius: 20,
+    transition: '0.3s ease-in-out',
+    '&:hover': {
+      color: '#D8A31A',
+    },
   },
 }))
 
@@ -77,11 +97,16 @@ const CreateClub = () => {
   const [matchingUsers, setMatchingUsers] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const steps = getSteps()
+  const history = useHistory()
+  const [newClub, setNewClub] = useState(null)
+  const [clubs, setClubs] = useContext(ClubsContext)
 
-  const handleNext = () => {
+  const handleNext = async () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1)
     if (activeStep === 2) {
-      createClub()
+      await createClub()
+      const res = await getBookclubs(user)
+      setClubs(res.data)
     }
   }
 
@@ -91,23 +116,13 @@ const CreateClub = () => {
 
   const createClub = async () => {
     setIsLoading(true)
-    const URL = process.env.REACT_APP_REGISTER_CLUB
     const invitationsArray = []
     const invitedMembers = members.filter((member) => member.id !== user.id)
     invitedMembers.forEach((member) => invitationsArray.push(
       { invitingUser: user.id, invitedUser: member.id },
     ))
-    console.log(invitationsArray)
-    const res = await axios({
-      method: 'post',
-      url: URL,
-      data: {
-        clubname: clubName,
-        invitations: invitationsArray,
-        members: user.id,
-      },
-    })
-    console.log(res.status)
+    const res = await registerClub(clubName, invitationsArray, user.id)
+    setNewClub(res.data.id)
     setIsLoading(false)
   }
 
@@ -117,10 +132,7 @@ const CreateClub = () => {
 
   const searchForMatchingUsers = async (string) => {
     if (string !== '' || !string) {
-      const URL = process.env.REACT_APP_SEARCH_USERS
-      const response = await axios.get(URL, {
-        params: { searchString: string },
-      })
+      const response = await getUserByName(string)
       const users = []
       let isMember = false
       response.data.forEach((resUser) => {
@@ -241,7 +253,6 @@ const CreateClub = () => {
                         key={member.id}
                         avatar={<Avatar src={member.image} />}
                         label="You"
-                        // label={member.username}
                         variant="outlined"
                       />
                     ) : (
@@ -274,11 +285,13 @@ const CreateClub = () => {
                 {isLoading
                   ? <CircularProgress color="primary" />
                   : (
-                    <Typography className={classes.instructions}>
-                      You&apos;ve just started a book club!
-                    </Typography>
+                    <div className={classes.flexColumn}>
+                      <Typography className={classes.instructions}>
+                        You&apos;ve just started a book club!
+                      </Typography>
+                      <Button className={classes.btn} onClick={() => history.push(`bookclubs/${newClub}`)}>Go to club</Button>
+                    </div>
                   )}
-                {/* <Button onClick={handleReset}>Reset</Button> */}
               </div>
             ) : (
               <div className={classes.formContainer}>

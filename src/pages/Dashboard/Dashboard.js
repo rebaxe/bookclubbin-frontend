@@ -8,12 +8,12 @@ import {
   React, useContext, useEffect, useState,
 } from 'react'
 import { useHistory } from 'react-router-dom'
-import { UserContext } from '../../UserContext'
+import { UserContext } from '../../contexts/UserContext'
 import Invitation from './Invitation'
 import ClubContainer from './ClubContainer'
 import UserContainer from './UserContainer'
 import NoClubContainer from './NoClubContainer'
-import { ClubsContext } from '../../ClubsContext'
+import { ClubsContext } from '../../contexts/ClubsContext'
 import { getBookclubs, getInvites } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({
@@ -64,7 +64,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     getBookclubs(user).then((res) => {
-      setClubs(res)
+      setClubs(res.data)
       setIsLoading(false)
     })
   }, [])
@@ -79,9 +79,6 @@ const Dashboard = () => {
           setInvites(null)
         }
         setIsLoading(false)
-      })
-      .catch((error) => {
-        console.log(error.message)
       })
   }, [clubs])
 
@@ -102,7 +99,7 @@ const Dashboard = () => {
               <CircularProgress />
             </Paper>
           )}
-          {!clubs && !invites && !isLoading && (
+          {!(clubs.length !== 0) && !invites && !isLoading && (
             <NoClubContainer handleCreateClub={handleCreateClub} />
           )}
           { clubs && !isLoading && (

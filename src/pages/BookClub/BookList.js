@@ -1,13 +1,15 @@
 import {
   AppBar, Dialog, IconButton, List, ListItem, ListItemText, makeStyles, Tooltip, Typography,
 } from '@material-ui/core'
-import { Check, Close, Delete } from '@material-ui/icons'
+import {
+  Check, Close, Delete, Info,
+} from '@material-ui/icons'
 import { useContext, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { addBook, getBookclubs, removeBook } from '../../api/apiCalls'
-import { ClubsContext } from '../../ClubsContext'
-import { UserContext } from '../../UserContext'
-import BookModal from '../../components/Search/BookModal'
+import { ClubsContext } from '../../contexts/ClubsContext'
+import { UserContext } from '../../contexts/UserContext'
+import BookModal from '../../components/BookModal/BookModal'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -21,12 +23,6 @@ const useStyles = makeStyles((theme) => ({
   boldText: {
     fontWeight: theme.typography.fontWeightBold,
   },
-  book: {
-    '&:hover': {
-      color: '#D8A31A',
-      cursor: 'pointer',
-    },
-  },
 }))
 
 const BookList = (props) => {
@@ -38,6 +34,7 @@ const BookList = (props) => {
   } = props
   const classes = useStyles()
   const [openModal, setOpenModal] = useState(false)
+  const [bookToOpen, setBookToOpen] = useState(null)
 
   const handleMark = async (e) => {
     e.preventDefault()
@@ -46,8 +43,8 @@ const BookList = (props) => {
 
     await addBook(id, 'bookRead', bookToMark[0])
     await removeBook(id, 'bookSaved', bookToMark[0])
-    const clubData = await getBookclubs(user)
-    setClubs(clubData)
+    const res = await getBookclubs(user)
+    setClubs(res.data)
   }
 
   const handleRemove = async (e) => {
@@ -66,12 +63,17 @@ const BookList = (props) => {
     setClubs(clubData)
   }
 
-  const handleOpenModal = () => {
+  const handleOpenModal = (e) => {
+    const bookGoogleId = e.currentTarget.value
+    // Find book object with matching id.
+    const matchingBook = books.filter((book) => book.googleId === bookGoogleId)
+    setBookToOpen(matchingBook[0])
     setOpenModal(true)
   }
 
   const handleCloseModal = () => {
     setOpenModal(false)
+    setBookToOpen(null)
   }
 
   return (
@@ -86,9 +88,14 @@ const BookList = (props) => {
             {books.map((book) => (
               <>
                 <ListItem key={book.googleId}>
-                  <ListItemText className={classes.book} onClick={handleOpenModal}>
+                  <ListItemText>
                     {book.title} by {book.authors}
                   </ListItemText>
+                  <Tooltip title="About this book">
+                    <IconButton value={book.googleId} onClick={(e) => handleOpenModal(e)}>
+                      <Info />
+                    </IconButton>
+                  </Tooltip>
                   {shelf === '0' && (
                   <Tooltip title="Mark as read">
                     <IconButton value={book.googleId} onClick={(e) => handleMark(e)}>
@@ -102,16 +109,19 @@ const BookList = (props) => {
                     </IconButton>
                   </Tooltip>
                 </ListItem>
-                <BookModal
-                  open={openModal}
-                  handleClose={handleCloseModal}
-                  book={book}
-                  editable={false}
-                />
+
               </>
             ))}
           </List>
         )}
+      {bookToOpen && (
+        <BookModal
+          open={openModal}
+          handleClose={handleCloseModal}
+          book={bookToOpen}
+          editable={false}
+        />
+      )}
     </Dialog>
   )
 }
