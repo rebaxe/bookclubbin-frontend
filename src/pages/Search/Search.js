@@ -87,11 +87,11 @@ const Search = () => {
     e.preventDefault()
     if (query) {
       const result = await searchBooks(query, searchPreferences)
-      const books = result.data
-      if (result.status !== 200 || JSON.stringify(books) === '{}') {
+
+      if (result.status !== 200) {
         toggleError()
       }
-      setSearchResult(books)
+      setSearchResult(result.data)
       setIsLoading(false)
     }
   }
