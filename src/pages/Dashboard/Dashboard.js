@@ -64,7 +64,12 @@ const Dashboard = () => {
 
   useEffect(() => {
     getBookclubs(user).then((res) => {
-      setClubs(res.data)
+      if (res.status === 200) {
+        console.log(res.data)
+        setClubs(res.data)
+      } else if (res.status === 204) {
+        setClubs([])
+      }
       setIsLoading(false)
     })
   }, [])
@@ -103,8 +108,8 @@ const Dashboard = () => {
             <NoClubContainer handleCreateClub={handleCreateClub} />
           )}
           { clubs && !isLoading && (
-            clubs.map((bookClub) => (
-              <ClubContainer key={bookClub.id} club={bookClub} />
+            clubs?.map((bookClub) => (
+              <ClubContainer id={bookClub.id} key={bookClub.id} club={bookClub} />
             ))
           )}
         </Box>

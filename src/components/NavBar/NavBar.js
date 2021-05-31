@@ -55,7 +55,7 @@ const NavBar = () => {
         <Toolbar>
           { user
             && (
-            <IconButton onClick={toggleMenu} edge="start" className={classes.menuButton}>
+            <IconButton id="menuBtn" onClick={toggleMenu} edge="start" className={classes.menuButton}>
               <MenuIcon />
             </IconButton>
             )}

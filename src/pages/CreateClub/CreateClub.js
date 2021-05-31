@@ -170,7 +170,7 @@ const CreateClub = () => {
         return (
           <Box className={classes.formContainer}>
             <Typography variant="body1">First - what&apos;s the name of your brand new amazingly cool club?</Typography>
-            <TextField variant="outlined" size="small" fullWidth value={clubName} onChange={((e) => { setClubName(e.target.value) })} />
+            <TextField id="clubnameField" variant="outlined" size="small" fullWidth value={clubName} onChange={((e) => { setClubName(e.target.value) })} />
           </Box>
         )
       case 1:
@@ -179,6 +179,7 @@ const CreateClub = () => {
             <Typography variant="body1">Now - invite some booklovin&apos; friends to join the club.</Typography>
             <Box className={classes.flexRow} width={1}>
               <Autocomplete
+                id="searchUserField"
                 fullWidth
                 freeSolo
                 autoComplete
@@ -209,11 +210,11 @@ const CreateClub = () => {
                   setNewMember(value)
                 })}
               />
-              <Button variant="contained" color="primary" disabled={!newMember} onClick={addNewMember}>
+              <Button id="addMemberBtn" variant="contained" color="primary" disabled={!newMember} onClick={addNewMember}>
                 <PersonAdd />
               </Button>
             </Box>
-            <Box className={classes.flexRow}>
+            <Box className={classes.flexRow} id="memberContainer">
               {members.map((member) => (
                 (member.id === user.id
                   ? (
@@ -242,7 +243,7 @@ const CreateClub = () => {
         return (
           <Box className={classes.formContainer}>
             <Typography variant="body1">Just a double check - is this the right name and the friends you want to invite?</Typography>
-            <Box className={classes.clubContainer} width={1}>
+            <Box className={classes.clubContainer} width={1} id="clubContainer">
               <Typography variant="h6">{clubName}</Typography>
               <Typography variant="body2">with</Typography>
               <Box className={classes.flexRow}>
@@ -300,13 +301,14 @@ const CreateClub = () => {
                 </Typography>
                 <div className={classes.flexRow}>
                   <Button
+                    id="goBackBtn"
                     disabled={activeStep === 0}
                     onClick={handleBack}
                     className={classes.backButton}
                   >
                     <ArrowBack />
                   </Button>
-                  <Button variant="contained" color="primary" onClick={handleNext} disabled={(activeStep === 1 && members.length === 0) || (activeStep === 0 && clubName === '')}>
+                  <Button id="nextBtn" variant="contained" color="primary" onClick={handleNext} disabled={(activeStep === 1 && members.length === 0) || (activeStep === 0 && clubName === '')}>
                     {activeStep === steps.length - 1 ? 'Submit' : <ArrowForward />}
                   </Button>
                 </div>

@@ -100,7 +100,7 @@ const Invitation = (props) => {
   }
 
   return (
-    <Paper className={classes.club}>
+    <Paper className={classes.club} id="invitationContainer">
       {invitingUser ? (
         <div className={classes.inviteContainer}>
           <Typography variant="h6">You&apos;ve been invited to a book club!</Typography>
@@ -110,12 +110,12 @@ const Invitation = (props) => {
               avatar={<Avatar src={invitingUser.image} />}
             />
             <Typography>invites you to join
-              <span className={classes.boldText}> {invite.clubname}</span>.
+              <span id="invitationClubName" className={classes.boldText}> {invite.clubname}</span>.
             </Typography>
           </div>
           <div className={classes.flexRow}>
-            <Button className={classes.btn} onClick={handleAccept}>Accept</Button>
-            <Button className={classes.lighterBtn} onClick={handleReject}>Reject</Button>
+            <Button id="acceptBtn" className={classes.btn} onClick={handleAccept}>Accept</Button>
+            <Button id="rejectBtn" className={classes.lighterBtn} onClick={handleReject}>Reject</Button>
           </div>
         </div>
       ) : <CircularProgress />}
