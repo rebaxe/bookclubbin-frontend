@@ -3,7 +3,7 @@ image: node:latest
 stages:
   - build
   - lint
-  - test
+  # - test
 
 Building: 
   stage: build
@@ -18,9 +18,9 @@ Code linting:
   script:
       npx eslint .
 
-Testing: 
-  stage: test
-  before_script: 
-    - npm install
-  script: 
-    - npx react-scripts test
+# Testing: 
+#   stage: test
+#   before_script: 
+#     - npm install
+#   script: 
+#     - npx react-scripts test
