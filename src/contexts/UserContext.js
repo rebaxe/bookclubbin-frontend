@@ -9,9 +9,9 @@ if (false) {
   UserContext = createContext(null)
   UserProvider = ({ children }) => {
     const [user, setUser] = useState({
-      id: 'xxx',
-      username: 'Test Test',
-      image: '',
+      username: 'Kalle Svensson',
+      image: 'https://randomuser.me/api/portraits/men/84.jpg',
+      id: 123,
     })
     return (
       <UserContext.Provider value={[user, setUser]}>

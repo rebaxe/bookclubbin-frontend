@@ -1,0 +1,20 @@
+[
+  {
+    "title": "A book",
+    "authors": "A. Writer",
+    "description": "This is a book written by someone.",
+    "publishedDate": "2021-05-31",
+    "pages": 40,
+    "googleRating": 3,
+    "googleId": 1
+  },
+  {
+    "username": "Some literature",
+    "authors": "I. Write",
+    "description": "This is a book written by another writer.",
+    "publishedDate": "2021-05-31",
+    "pages": 60,
+    "googleRating": 4,
+    "googleId": 2
+  }
+]

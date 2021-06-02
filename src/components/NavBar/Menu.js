@@ -75,6 +75,7 @@ const Menu = (props) => {
   return (
     <div>
       <Drawer
+        id="menu"
         className={classes.menu}
         open={open}
         onClose={toggleMenu}
@@ -85,7 +86,7 @@ const Menu = (props) => {
             ? (
               <div className="loggedInList">
                 <ListItem className={classes.userInfo}>
-                  <div className={classes.userInfo}>
+                  <div id="userInfo" className={classes.userInfo}>
                     <ListItemAvatar>
                       <Avatar src={user.image} />
                     </ListItemAvatar>
@@ -94,7 +95,7 @@ const Menu = (props) => {
                     />
                   </div>
                 </ListItem>
-                {clubs && (
+                {clubs?.length !== 0 && (
                   clubs.map((club) => (
                     <ListItem
                       key={club.id}
@@ -107,12 +108,13 @@ const Menu = (props) => {
                       <ListItemIcon>
                         <Group />
                       </ListItemIcon>
-                      <ListItemText className={classes.clubname} primary={club.clubname} style={{ overflowWrap: 'break-word' }} />
+                      <ListItemText id="clubItemText" className={classes.clubname} primary={club.clubname} style={{ overflowWrap: 'break-word' }} />
                     </ListItem>
                   ))
                 )}
                 <Divider />
                 <ListItem
+                  id="dashboardItem"
                   button
                   onClick={() => {
                     history.push('/dashboard')
@@ -125,6 +127,7 @@ const Menu = (props) => {
                   <ListItemText primary="Dashboard" />
                 </ListItem>
                 <ListItem
+                  id="searchItem"
                   button
                   onClick={() => {
                     history.push('/search')
@@ -137,6 +140,7 @@ const Menu = (props) => {
                   <ListItemText primary="Search books" />
                 </ListItem>
                 <ListItem
+                  id="startClubItem"
                   button
                   onClick={() => {
                     history.push('/create-club')
@@ -150,6 +154,7 @@ const Menu = (props) => {
                 </ListItem>
                 <Divider />
                 <ListItem
+                  id="deleteAccountItem"
                   className={classes.delete}
                   button
                   onClick={handleOpenDelete}

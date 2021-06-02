@@ -115,7 +115,7 @@ const ClubContainer = (props) => {
       {members.length !== 0 && !error && !isLoading && (
       <>
         <div className={classes.clubInfo}>
-          <Typography className={classes.boldText}>{club.clubname}</Typography>
+          <Typography id="clubnameText" className={classes.boldText}>{club.clubname}</Typography>
           <AvatarGroup>
             {members.map((member) => (
               <Tooltip key={member.id} title={member.username} arrow>

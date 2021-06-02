@@ -21,7 +21,7 @@ const NotFound = () => {
   const classes = useStyles()
 
   return (
-    <div width={1} className={classes.container}>
+    <div id="notFoundContainer" width={1} className={classes.container}>
       <NotFoundImg />
       <Typography className={classes.text}>404 - Not Found</Typography>
     </div>

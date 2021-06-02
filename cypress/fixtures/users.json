@@ -1,0 +1,22 @@
+[
+  {
+    "username": "Kalle Svensson",
+    "image": "https://randomuser.me/api/portraits/men/84.jpg",
+    "id": 123
+  },
+  {
+    "username": "Greta Andersson",
+    "image": "https://randomuser.me/api/portraits/women/68.jpg",
+    "id": 124
+  },
+  {
+    "username": "Pelle Persson",
+    "image": "https://randomuser.me/api/portraits/men/3.jpg",
+    "id": 125
+  },
+  {
+    "username": "Petronella Jonsson",
+    "image": "https://randomuser.me/api/portraits/women/76.jpg",
+    "id": 126
+  }
+]

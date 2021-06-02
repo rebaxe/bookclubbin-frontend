@@ -11,21 +11,31 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   const location = useLocation()
 
   useEffect(() => {
-    axios({
-      url: 'http://localhost:8081/api/v1/auth/google/auth',
-      withCredentials: true,
-    }).then((res) => {
-      if (res.status === 200) {
-        setUser(res.data)
-      } else {
+    if (false) {
+      setUser({
+        username: 'Kalle Svensson',
+        image: 'https://randomuser.me/api/portraits/men/84.jpg',
+        id: 123,
+      })
+      setIsLoading(false)
+    } else {
+      // Check if user is logged in and update context.
+      axios({
+        url: 'http://localhost:8081/api/v1/auth/google/auth',
+        withCredentials: true,
+      }).then((res) => {
+        if (res.status === 200) {
+          setUser(res.data)
+        } else {
+          setUser(null)
+        }
+        setIsLoading(false)
+      }).catch((error) => {
+        console.log(error)
         setUser(null)
-      }
-      setIsLoading(false)
-    }).catch((error) => {
-      console.log(error)
-      setUser(null)
-      setIsLoading(false)
-    })
+        setIsLoading(false)
+      })
+    }
   }, [location])
 
   return (

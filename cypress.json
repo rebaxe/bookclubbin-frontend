@@ -1,10 +1,5 @@
 {
   "pluginsFile": false,
   "baseUrl": "http://localhost:3000",
-  "env": {
-    "cypress-react-selector": {
-      "root": "#root"
-    }
-  },
   "projectId": "j2umjv"
 }

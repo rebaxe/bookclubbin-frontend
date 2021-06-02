@@ -45,6 +45,7 @@ const DeleteAccount = (props) => {
   return (
     <>
       <Dialog
+        id="deleteAccountDialog"
         open={open}
         onClose={handleClose}
       >
@@ -58,10 +59,10 @@ const DeleteAccount = (props) => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button className={classes.btn} onClick={handleClose}>
+          <Button id="cancelBtn" className={classes.btn} onClick={handleClose}>
             Cancel
           </Button>
-          <Button className={classes.btn} onClick={handleDelete}>
+          <Button id="deleteAccountBtn" className={classes.btn} onClick={handleDelete}>
             Delete
           </Button>
         </DialogActions>

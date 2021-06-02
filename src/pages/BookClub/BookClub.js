@@ -93,7 +93,7 @@ const BookClub = () => {
         <Box className={classes.container} width={1}>
           <Box width={0.5}>
             <Paper className={classes.paper}>
-              <Typography variant="h3" className={classes.clubname}>{club.clubname}</Typography>
+              <Typography id="clubnameText" variant="h3" className={classes.clubname}>{club.clubname}</Typography>
             </Paper>
             <Box className={classes.flexRow} width={1}>
               <Box width={0.5}>
@@ -105,6 +105,7 @@ const BookClub = () => {
             </Box>
           </Box>
           <Button
+            id="deleteClubBtn"
             className={classes.warningBtn}
             onClick={handleOpenDelete}
           >
