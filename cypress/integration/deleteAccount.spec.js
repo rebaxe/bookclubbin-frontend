@@ -9,7 +9,7 @@ describe('Check menu component', () => {
     cy.get('#menuBtn').click()
     cy.get('#deleteAccountDialog').should('not.to.exist')
   })
-  it('delete account popup to confirm action', () => {
+  it('delete account popup should appear to confirm action before delete', () => {
     cy.get('#deleteAccountItem').click()
     cy.get('#deleteAccountDialog').should('exist').should('contain', 'delete your account')
     cy.get('#cancelBtn')

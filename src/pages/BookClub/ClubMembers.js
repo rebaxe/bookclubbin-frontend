@@ -70,10 +70,10 @@ const ClubMembers = (props) => {
         )}
         {(isLoading || (!members.length && !error)) && <CircularProgress /> }
         {members.length !== 0 && !error && !isLoading && (
-        <div className={classes.membersContainer}>
+        <div className={classes.membersContainer} id="clubMembersComponent">
           <Typography variant="h6" className={classes.boldText}>The Bookworms 🐛</Typography>
           <Divider className={classes.divider} />
-          <List className={classes.memberList}>
+          <List id="membersList" className={classes.memberList}>
             {members.map((member) => (
               <ListItem key={member.id}>
                 <ListItemAvatar>
@@ -86,7 +86,7 @@ const ClubMembers = (props) => {
               </ListItem>
             ))}
           </List>
-          <Button className={classes.btn} onClick={handleDialog}>Edit members</Button>
+          <Button id="editMembersBtn" className={classes.btn} onClick={handleDialog}>Edit members</Button>
         </div>
         )}
       </Paper>

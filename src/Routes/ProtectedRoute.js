@@ -11,7 +11,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   const location = useLocation()
 
   useEffect(() => {
-    if (true) {
+    if (false) {
       setUser({
         username: 'Kalle Svensson',
         image: 'https://randomuser.me/api/portraits/men/84.jpg',

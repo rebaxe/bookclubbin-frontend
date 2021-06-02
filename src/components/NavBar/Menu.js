@@ -95,7 +95,7 @@ const Menu = (props) => {
                     />
                   </div>
                 </ListItem>
-                {clubs.length !== 0 && (
+                {clubs?.length !== 0 && (
                   clubs.map((club) => (
                     <ListItem
                       key={club.id}

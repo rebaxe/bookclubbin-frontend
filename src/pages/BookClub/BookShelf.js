@@ -57,7 +57,7 @@ const BookShelf = (props) => {
 
   return (
     <Paper>
-      <div className={classes.container}>
+      <div id="bookshelfComponent" className={classes.container}>
         <Typography variant="h6" className={classes.boldText}>Bookshelf 📚</Typography>
         <Divider className={classes.divider} />
         <Typography className={classes.boldText}>TBR (To Be Read) 💛</Typography>

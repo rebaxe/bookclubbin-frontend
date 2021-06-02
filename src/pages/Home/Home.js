@@ -26,7 +26,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    if (true) {
+    if (false) {
       setUser({
         username: 'Kalle Svensson',
         image: 'https://randomuser.me/api/portraits/men/84.jpg',
@@ -54,7 +54,7 @@ const Home = () => {
   }, [])
 
   return (
-    <div className={classes.container}>
+    <div id="home" className={classes.container}>
       <Reader />
     </div>
   )

@@ -82,7 +82,7 @@ const Login = () => {
             align="center"
           >
             <Grid item xs={12} sm={8} md={6}>
-              <Paper className={classes.paper} variant="outlined">
+              <Paper id="loginBox" className={classes.paper} variant="outlined">
                 <Typography className={classes.title} variant="h4">
                   Let&apos;s go Clubbin&apos;!
                 </Typography>

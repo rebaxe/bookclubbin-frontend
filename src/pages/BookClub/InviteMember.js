@@ -90,6 +90,7 @@ const InviteMember = () => {
   return (
     <div className={classes.formContainer}>
       <Autocomplete
+        id="addMemberField"
         fullWidth
         freeSolo
         autoComplete

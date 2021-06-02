@@ -1,0 +1,8 @@
+{
+  "id": 9,
+  "clubname": "The club",
+  "invitations": [{"invitingUser": 123, "invitedUser": 124}],
+  "members": [123],
+  "booksRead": [],
+  "booksSaved": []
+}

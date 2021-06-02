@@ -105,8 +105,8 @@ const EditMembers = (props) => {
   const handleRemoveInvite = async (e) => {
     const memberId = e.currentTarget.value
     await removeInvite(clubId, memberId)
-    const clubData = await getBookclubs(user)
-    setClubs(clubData)
+    const res = await getBookclubs(user)
+    setClubs(res.data)
   }
 
   const toggleAddMember = () => {
@@ -170,7 +170,7 @@ const EditMembers = (props) => {
         ))}
         <ListItem>
           <Tooltip title="Add member">
-            <IconButton onClick={toggleAddMember}>
+            <IconButton id="addMemberToggleBtn" onClick={toggleAddMember}>
               <AddCircle />
             </IconButton>
           </Tooltip>
