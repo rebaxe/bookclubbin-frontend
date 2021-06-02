@@ -21,7 +21,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
     } else {
       // Check if user is logged in and update context.
       axios({
-        url: 'http://localhost:8081/api/v1/auth/google/auth',
+        url: `${process.env.REACT_APP_AUTH_BASE_URL}/auth/google/auth`,
         withCredentials: true,
       }).then((res) => {
         if (res.status === 200) {

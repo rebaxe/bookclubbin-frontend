@@ -179,7 +179,7 @@ export async function deleteAccount(userId) {
 export async function searchBooks(queryString, searchPreferences) {
   const res = await axios({
     method: 'GET',
-    url: 'http://localhost:8081/api/v1/search',
+    url: `${resourceUrl}/search`,
     params: {
       query: `${queryString}+${searchPreferences}:${queryString}`,
     },
