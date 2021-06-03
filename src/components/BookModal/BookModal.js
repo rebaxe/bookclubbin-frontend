@@ -69,13 +69,6 @@ const useStyles = makeStyles((theme) => ({
   image: {
     minHeight: '100%',
   },
-  googleImage: {
-    height: '10px',
-    padding: '10px',
-    position: 'absolute',
-    bottom: 10,
-    right: 10,
-  },
   rating: {
     color: '#333',
     fontSize: '0.8rem',
@@ -103,7 +96,6 @@ const BookModal = (props) => {
           >
             <CloseIcon />
           </Button>
-          <img className={classes.googleImage} src={googleImg} alt="Google Attribution" />
           {book.image && (
             <img
               className={classes.image}
@@ -148,6 +140,7 @@ const BookModal = (props) => {
                 <Rating name="disabled" value={book.googleRating} disabled />
               </Box>
               )}
+              <img src={googleImg} alt="Google Attribution" />
             </div>
             {editable && <HandleBookshelf book={book} />}
           </div>

@@ -10,6 +10,7 @@ import { addBook, getBookclubs, removeBook } from '../../api/apiCalls'
 import { ClubsContext } from '../../contexts/ClubsContext'
 import { UserContext } from '../../contexts/UserContext'
 import BookModal from '../../components/BookModal/BookModal'
+import googleImage from './images/google-attribution.png'
 
 const useStyles = makeStyles((theme) => ({
   appBar: {
@@ -22,6 +23,12 @@ const useStyles = makeStyles((theme) => ({
   },
   boldText: {
     fontWeight: theme.typography.fontWeightBold,
+  },
+  googleImgContainer: {
+    width: '100%',
+    display: 'flex',
+    justifyContent: 'flex-end',
+    padding: theme.spacing(1),
   },
 }))
 
@@ -109,7 +116,6 @@ const BookList = (props) => {
                     </IconButton>
                   </Tooltip>
                 </ListItem>
-
               </>
             ))}
           </List>
@@ -122,6 +128,9 @@ const BookList = (props) => {
           editable={false}
         />
       )}
+      <div className={classes.googleImgContainer}>
+        <img src={googleImage} alt="Google attribution" />
+      </div>
     </Dialog>
   )
 }

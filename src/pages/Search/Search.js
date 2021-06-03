@@ -24,7 +24,6 @@ const useStyles = makeStyles((theme) => ({
     gap: theme.spacing(2),
   },
   image: {
-    height: '10px',
     padding: '3px 0px',
   },
   container: {
