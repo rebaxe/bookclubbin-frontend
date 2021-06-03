@@ -22,20 +22,22 @@ const HandleBookshelf = (props) => {
   useEffect(() => {
     setCheckedRead(false)
     setCheckedTBR(false)
-    clubs.forEach((club) => {
-      if (club.id === selectedClubId) {
-        club.booksSaved.forEach((savedBook) => {
-          if (savedBook.googleId === book.googleId) {
-            setCheckedTBR(true)
-          }
-        })
-        club.booksRead.forEach((readBook) => {
-          if (readBook.googleId === book.googleId) {
-            setCheckedRead(true)
-          }
-        })
-      }
-    })
+    if (clubs.length !== 0) {
+      clubs.forEach((club) => {
+        if (club.id === selectedClubId) {
+          club.booksSaved.forEach((savedBook) => {
+            if (savedBook.googleId === book.googleId) {
+              setCheckedTBR(true)
+            }
+          })
+          club.booksRead.forEach((readBook) => {
+            if (readBook.googleId === book.googleId) {
+              setCheckedRead(true)
+            }
+          })
+        }
+      })
+    }
   }, [selectedClubId])
 
   const handleCheckRead = async () => {
@@ -67,52 +69,49 @@ const HandleBookshelf = (props) => {
   }
 
   return (
-    <FormControl variant="outlined">
-      <InputLabel id="demo-simple-select-outlined-label">Bookclub</InputLabel>
-      <Select
-        labelId="demo-simple-select-outlined-label"
-        id="demo-simple-select-outlined"
-        value={selectedClubId}
-        onChange={(e) => handleChange(e)}
-        label="Bookclub"
-      >
-        {clubs.length !== 0
-          ? (
-            clubs.map((club) => (
-              <MenuItem value={club.id}>{club.clubname}</MenuItem>
-            ))
-          ) : (
-            <MenuItem value="">
-              <em>You&apos;re not in a bookclub yet.</em>
-            </MenuItem>
-          )}
-      </Select>
-      <FormControlLabel
-        control={(
-          <Checkbox
-            disabled={checkedRead === true || selectedClubId === null}
-            icon={<FavoriteBorder />}
-            checkedIcon={<Favorite />}
-            name="checkedH"
-            checked={checkedTBR}
-            onChange={handleCheckTBR}
-          />
+    <>
+      {clubs.length !== 0 && (
+      <FormControl variant="outlined">
+        <InputLabel id="demo-simple-select-outlined-label">Bookclub</InputLabel>
+        <Select
+          labelId="demo-simple-select-outlined-label"
+          id="demo-simple-select-outlined"
+          value={selectedClubId}
+          onChange={(e) => handleChange(e)}
+          label="Bookclub"
+        >
+          {clubs.map((club) => (
+            <MenuItem value={club.id}>{club.clubname}</MenuItem>
+          ))}
+        </Select>
+        <FormControlLabel
+          control={(
+            <Checkbox
+              disabled={checkedRead === true || selectedClubId === null}
+              icon={<FavoriteBorder />}
+              checkedIcon={<Favorite />}
+              name="checkedH"
+              checked={checkedTBR}
+              onChange={handleCheckTBR}
+            />
         )}
-        label="To Be Read"
-      />
-      <FormControlLabel
-        control={(
-          <Checkbox
-            disabled={selectedClubId === null}
-            checked={checkedRead}
-            onChange={handleCheckRead}
-            name="checkedB"
-            color="primary"
-          />
+          label="To Be Read"
+        />
+        <FormControlLabel
+          control={(
+            <Checkbox
+              disabled={selectedClubId === null}
+              checked={checkedRead}
+              onChange={handleCheckRead}
+              name="checkedB"
+              color="primary"
+            />
           )}
-        label="Read"
-      />
-    </FormControl>
+          label="Read"
+        />
+      </FormControl>
+      )}
+    </>
   )
 }
 
