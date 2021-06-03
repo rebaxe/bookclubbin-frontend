@@ -131,28 +131,32 @@ const CreateClub = () => {
   }
 
   const searchForMatchingUsers = async (string) => {
-    if (string !== '' || !string) {
+    if (string !== '') {
       const response = await getUserByName(string)
       const users = []
       let isMember = false
-      response.data.forEach((resUser) => {
-        isMember = false
-        if (resUser.id === user.id) {
-          isMember = true
-        } else if (members.length < 1) {
-          users.push(resUser)
-        } else {
-          members.forEach((member) => {
-            if (member.id === resUser.id) {
-              isMember = true
-            }
-          })
-          if (!isMember) {
+      try {
+        response.data.forEach((resUser) => {
+          isMember = false
+          if (resUser.id === user.id) {
+            isMember = true
+          } else if (members.length < 1) {
             users.push(resUser)
+          } else {
+            members.forEach((member) => {
+              if (member.id === resUser.id) {
+                isMember = true
+              }
+            })
+            if (!isMember) {
+              users.push(resUser)
+            }
           }
-        }
-      })
-      setMatchingUsers(users)
+        })
+        setMatchingUsers(users)
+      } catch (error) {
+        setMatchingUsers([])
+      }
     } else {
       setMatchingUsers([])
     }

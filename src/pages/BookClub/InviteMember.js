@@ -47,7 +47,7 @@ const InviteMember = () => {
   }, [clubs])
 
   const searchForMatchingUsers = async (string) => {
-    if (string !== '' || !string) {
+    if (string !== '') {
       const res = await getUserByName(string)
       const users = []
       let isMember = false
