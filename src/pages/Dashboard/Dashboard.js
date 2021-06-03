@@ -65,7 +65,6 @@ const Dashboard = () => {
   useEffect(() => {
     getBookclubs(user).then((res) => {
       if (res.status === 200) {
-        console.log(res.data)
         setClubs(res.data)
       } else if (res.status === 204) {
         setClubs([])

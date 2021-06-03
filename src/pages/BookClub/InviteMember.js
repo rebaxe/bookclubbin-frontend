@@ -57,7 +57,7 @@ const InviteMember = () => {
           isMember = true
         } else {
           club.members.forEach((member) => {
-            if (member.id === resUser.id) {
+            if (member === resUser.id) {
               isMember = true
             }
           })
