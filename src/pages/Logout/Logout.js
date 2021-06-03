@@ -34,7 +34,8 @@ const Logout = () => {
   const history = useHistory()
 
   const handleLogout = async () => {
-    await googleLogout()
+    // await googleLogout()
+    localStorage.removeItem('accessToken')
     setUser(null)
     history.push('/')
   }

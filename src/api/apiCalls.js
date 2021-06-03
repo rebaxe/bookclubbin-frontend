@@ -22,7 +22,10 @@ export async function getBookclub(id) {
   const club = await axios({
     method: 'GET',
     url: `${resourceUrl}/bookclubs/${id}`,
-    withCredentials: true,
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+    },
+    // withCredentials: true,
   })
   return club
 }

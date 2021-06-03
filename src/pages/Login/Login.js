@@ -49,6 +49,7 @@ const Login = () => {
       const res = await verifyGoogleLogin(googleData.tokenId)
       const data = await res.data
       setUser(data)
+      localStorage.setItem('accessToken', googleData.tokenId)
       history.push('/dashboard')
     } catch (error) {
       handleFailedLogin()

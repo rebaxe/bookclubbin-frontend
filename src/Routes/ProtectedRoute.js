@@ -22,7 +22,10 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
       // Check if user is logged in and update context.
       axios({
         url: `${process.env.REACT_APP_AUTH_BASE_URL}/auth/google/auth`,
-        withCredentials: true,
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+        },
+        // withCredentials: true,
       }).then((res) => {
         if (res.status === 200) {
           setUser(res.data)
