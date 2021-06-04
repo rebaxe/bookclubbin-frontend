@@ -3,6 +3,9 @@
     "browser": true,
     "node": true
   },
+  "globals": {
+    "cy": true
+  },
   "extends": [
     "airbnb",
     "airbnb/hooks",
@@ -22,7 +25,8 @@
       "no-unused-vars": "warn",
       "no-unused-expressions": [2, { "allowTernary": true }],
       "no-use-before-define": "off",
-      "react/jsx-one-expression-per-line": "off"
+      "react/jsx-one-expression-per-line": "off",
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}]
   },
   "parserOptions": {
     "sourceType": "module",

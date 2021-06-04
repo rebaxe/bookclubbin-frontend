@@ -1,14 +1,29 @@
-import { CircularProgress } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core'
+import { useContext, useEffect, useState } from 'react'
 import axios from 'axios'
-import React, { useContext, useEffect, useState } from 'react'
-import { Route, Redirect, useLocation } from 'react-router-dom'
-import { UserContext } from '../contexts/UserContext'
+import { UserContext } from '../../contexts/UserContext'
+import { ReactComponent as Reader } from './images/reader.svg'
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
+const useStyles = makeStyles((theme) => ({
+  container: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: '20px',
+    height: '90%',
+  },
+  text: {
+    fontFamily: 'Orelega One',
+    color: 'white',
+    fontSize: '2.5rem',
+  },
+}))
+
+const Home = () => {
+  const classes = useStyles()
   const [user, setUser] = useContext(UserContext)
   const [isLoading, setIsLoading] = useState(true)
-
-  const location = useLocation()
 
   useEffect(() => {
     if (false) {
@@ -39,26 +54,13 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         setIsLoading(false)
       })
     }
-  }, [location])
+  }, [])
 
   return (
-    isLoading ? <CircularProgress />
-      : (
-        <Route
-          {...rest}
-          render={(props) => (user ? (
-            <Component {...props} />
-          ) : (
-            <Redirect
-              to={{
-                pathname: '/login',
-                state: { from: props.location },
-              }}
-            />
-          ))}
-        />
-      )
+    <div id="home" className={classes.container}>
+      <Reader />
+    </div>
   )
 }
 
-export default ProtectedRoute
+export default Home

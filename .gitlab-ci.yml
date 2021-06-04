@@ -1,0 +1,26 @@
+image: node:latest 
+
+stages:
+  - build
+  - lint
+  # - test
+
+Building: 
+  stage: build
+  before_script:
+    - npm install 
+  script: CI=false npx react-scripts build
+
+Code linting:
+  stage: lint
+  before_script:
+    - npm install eslint eslint-config-airbnb eslint-plugin-import eslint-plugin-jsx-a11y eslint-plugin-react eslint-plugin-react-hooks
+  script:
+      npx eslint .
+
+# Testing: 
+#   stage: test
+#   before_script: 
+#     - npm install
+#   script: 
+#     - npx react-scripts test
