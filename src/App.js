@@ -12,7 +12,6 @@ import CreateClub from './pages/CreateClub/CreateClub'
 import { ClubsProvider } from './contexts/ClubsContext'
 import NotFound from './pages/NotFound/NotFound'
 import BookClub from './pages/BookClub/BookClub'
-import Cookies from './components/FlashMessages/Cookies'
 
 function App() {
   return (
@@ -35,7 +34,6 @@ function App() {
               </Route>
               <Route component={NotFound} />
             </Switch>
-            <Cookies />
           </div>
         </ClubsProvider>
       </UserProvider>
