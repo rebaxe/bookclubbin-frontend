@@ -66,8 +66,8 @@ const BookList = (props) => {
     }
 
     await removeBook(id, shelfToEdit, bookToMark[0])
-    const clubData = await getBookclubs(user)
-    setClubs(clubData)
+    const res = await getBookclubs(user)
+    setClubs(res.data)
   }
 
   const handleOpenModal = (e) => {
