@@ -97,6 +97,12 @@ const Login = () => {
                   onFailure={handleFailedLogin}
                   cookiePolicy="single_host_origin"
                 />
+                <Typography>
+                  If you log in you give your consent to BookClubbin&apos;
+                  to store information about you.
+                  <br />
+                  You can delete your account at any time.
+                </Typography>
               </Paper>
             </Grid>
           </Grid>
