@@ -11,7 +11,7 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
   const location = useLocation()
 
   useEffect(() => {
-    if (false) {
+    if (true) {
       setUser({
         username: 'Kalle Svensson',
         image: 'https://randomuser.me/api/portraits/men/84.jpg',
@@ -24,8 +24,9 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         url: `${process.env.REACT_APP_AUTH_BASE_URL}/auth/google/auth`,
         headers: {
           Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
         },
-        // withCredentials: true,
       }).then((res) => {
         if (res.status === 200) {
           setUser(res.data)
@@ -34,7 +35,6 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         }
         setIsLoading(false)
       }).catch((error) => {
-        console.log(error)
         setUser(null)
         setIsLoading(false)
       })

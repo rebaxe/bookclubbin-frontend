@@ -1,10 +1,5 @@
 import axios from 'axios'
 
-const myHeaders = {
-  Accept: 'application/json',
-  'Content-Type': 'application/json',
-}
-
 const resourceUrl = process.env.REACT_APP_RESOURCE_BASE_URL
 const authUrl = process.env.REACT_APP_AUTH_BASE_URL
 
@@ -13,7 +8,6 @@ export async function getBookclubs(user) {
   const clubs = await axios({
     method: 'get',
     url: `${resourceUrl}/bookclubs/user/${user.id}`,
-    headers: myHeaders,
   })
   return clubs
 }
@@ -25,7 +19,6 @@ export async function getBookclub(id) {
     headers: {
       Authorization: `Bearer ${localStorage.getItem('accessToken')}`,
     },
-    // withCredentials: true,
   })
   return club
 }
@@ -44,7 +37,6 @@ export async function addBook(clubId, shelfToUpdate, book) {
 export async function removeBook(clubId, shelfToUpdate, book) {
   await axios({
     method: 'PATCH',
-    // headers: myHeaders,
     url: `${resourceUrl}/bookclubs/${clubId}/books/remove`,
     data: {
       [shelfToUpdate]: book,
@@ -56,7 +48,6 @@ export async function removeBook(clubId, shelfToUpdate, book) {
 export async function removeMember(clubId, memberId) {
   await axios({
     method: 'PATCH',
-    // headers: myHeaders,
     url: `${resourceUrl}/bookclubs/${clubId}/members/remove`,
     data: {
       member: memberId,
@@ -153,7 +144,6 @@ export async function verifyGoogleLogin(googleToken) {
     data: {
       token: googleToken,
     },
-    withCredentials: true,
   })
   return res
 }
@@ -177,10 +167,6 @@ export async function searchBooks(queryString, searchPreferences) {
     url: `${resourceUrl}/search`,
     params: {
       query: `${queryString}+${searchPreferences}:${queryString}`,
-    },
-    headers: {
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
     },
   })
   return res

@@ -1,9 +1,9 @@
 describe('Book club page', () => {
   beforeEach(() => {
     cy.server()
-    cy.route('GET', 'http://localhost:8081/api/v1/users/123', 'fixture:user.json')
-    cy.route('GET', 'http://localhost:8081/api/v1/users/124', 'fixture:invitingUser.json')
-    cy.route('GET', 'http://localhost:8081/api/v1/bookclubs/9', 'fixture:bookclub.json')
+    cy.route('GET', '**/api/v1/users/123', 'fixture:user.json')
+    cy.route('GET', '**/api/v1/users/124', 'fixture:invitingUser.json')
+    cy.route('GET', '**/api/v1/bookclubs/9', 'fixture:bookclub.json')
   })
   it('check if route exists', () => {
     cy.visit('/bookclubs/9')

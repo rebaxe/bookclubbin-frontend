@@ -1,8 +1,8 @@
 describe('Create club page page', () => {
   beforeEach(() => {
     cy.server()
-    cy.route('GET', 'http://localhost:8081/api/v1/users/123', 'fixture:user.json')
-    cy.route('GET', 'http://localhost:8081/api/v1/users?searchString=*', 'fixture:users.json')
+    cy.route('GET', '**/api/v1/users/123', 'fixture:user.json')
+    cy.route('GET', '**/api/v1/users?searchString=*', 'fixture:users.json')
   })
 
   it('check if route exists', () => {

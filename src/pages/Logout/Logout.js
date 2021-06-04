@@ -3,7 +3,6 @@ import { GoogleLogout } from 'react-google-login'
 import { useHistory } from 'react-router-dom'
 import { Paper, makeStyles, Typography } from '@material-ui/core'
 import { UserContext } from '../../contexts/UserContext'
-import { googleLogout } from '../../api/apiCalls'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,7 +33,6 @@ const Logout = () => {
   const history = useHistory()
 
   const handleLogout = async () => {
-    // await googleLogout()
     localStorage.removeItem('accessToken')
     setUser(null)
     history.push('/')
