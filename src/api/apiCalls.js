@@ -158,14 +158,6 @@ export async function verifyGoogleLogin(googleToken) {
   return res
 }
 
-export async function googleLogout() {
-  const res = await axios({
-    method: 'get',
-    url: `${authUrl}/auth/google/logout`,
-    withCredentials: true,
-  })
-}
-
 // Delete account.
 export async function deleteAccount(userId) {
   const res = await axios({
@@ -173,7 +165,7 @@ export async function deleteAccount(userId) {
     url: `${authUrl}/users/${userId}/delete`,
   })
   if (res.status === 204) {
-    await googleLogout()
+    localStorage.removeItem('accessToken')
   }
   return res
 }

@@ -1,5 +1,5 @@
 import {
-  Modal, Fade, Button, Box, Typography,
+  Modal, Fade, Button, Box, Typography, Paper,
 } from '@material-ui/core'
 import Rating from '@material-ui/lab/Rating'
 import { makeStyles } from '@material-ui/core/styles'
@@ -14,16 +14,19 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    maxHeight: '80%',
+    maxHeight: '100%',
   },
-  italic: {
-    fontStyle: 'italic',
+  title: {
+    [theme.breakpoints.down('sm')]: {
+      fontSize: theme.spacing(3),
+      margin: theme.spacing(0),
+    },
   },
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: '1px solid #000',
     borderRadius: 5,
-    maxHeight: '80%',
+    maxHeight: '100%',
     boxShadow: theme.shadows[5],
     padding: theme.spacing(3, 4),
     margin: theme.spacing(2),
@@ -33,10 +36,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
     justifyContent: 'center',
     gap: theme.spacing(2),
-    // overflow: 'scroll',
     [theme.breakpoints.down('sm')]: {
       flexDirection: 'column',
-      maxHeight: '90%',
+      maxHeight: '100%',
+      margin: theme.spacing(2),
+      gap: theme.spacing(1),
     },
   },
   closeBtn: {
@@ -51,11 +55,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     gap: theme.spacing(2),
     flexShrink: 1,
+    [theme.breakpoints.down('sm')]: {
+      gap: theme.spacing(1),
+    },
   },
   description: {
     maxHeight: '20rem',
     overflow: 'scroll',
-    flexShrink: 1,
+    flexShrink: 2,
   },
   bookInfoContainer: {
     display: 'flex',
@@ -68,6 +75,10 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     minHeight: '100%',
+    flexShrink: 1,
+  },
+  ratingContainer: {
+    margin: 0,
   },
   rating: {
     color: '#333',
@@ -87,7 +98,7 @@ const BookModal = (props) => {
       className={classes.modal}
     >
       <Fade in={view}>
-        <div className={classes.paper}>
+        <Paper className={classes.paper}>
           <Button
             className={classes.closeBtn}
             onClick={() => {
@@ -104,9 +115,9 @@ const BookModal = (props) => {
             />
           )}
           <div className={classes.book}>
-            <Typography variant="h4">{book.title}</Typography>
+            <Typography className={classes.title} variant="h5">{book.title}</Typography>
             {book.authors && (
-            <Typography className={classes.italic} variant="h4">
+            <Typography className={classes.title} variant="h5">
               {' '}
               by
               {' '}
@@ -133,7 +144,7 @@ const BookModal = (props) => {
               </Typography>
               )}
               {book.googleRating && (
-              <Box component="fieldset" mb={3} borderColor="transparent">
+              <Box className={classes.ratingContainer} component="fieldset" mb={3} borderColor="transparent">
                 <Typography className={classes.rating} component="legend">
                   Google Rating
                 </Typography>
@@ -144,7 +155,7 @@ const BookModal = (props) => {
             </div>
             {editable && <HandleBookshelf book={book} />}
           </div>
-        </div>
+        </Paper>
       </Fade>
     </Modal>
   )
